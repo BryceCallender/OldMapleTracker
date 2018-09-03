@@ -8,6 +8,20 @@ DailyTrackerWindow::DailyTrackerWindow(QWidget *parent) :
     ui->setupUi(this);
     QTabWidget::setWindowTitle("Maple Daily/Weekly Tracker");
     dateChecker = new DateChecker();
+
+    //Making a save file when u open up the window or at least make an object
+    //of this tracker window so u can open it and have save data written to it
+    //when the oncloseevent is called for this window
+    QFile file("SaveData.txt");
+
+    if(file.open(QIODevice::ReadWrite))
+    {
+        qDebug() << "Made save file for u bb";
+    }
+    else
+    {
+        qDebug() << file.errorString();
+    }
 }
 
 DailyTrackerWindow::~DailyTrackerWindow()
@@ -17,10 +31,12 @@ DailyTrackerWindow::~DailyTrackerWindow()
 
 void DailyTrackerWindow::loadTabs()
 {
+    qDebug() << "Loading tabs....";
     QVector<QString> names = getNamesForTabs();
     qDebug() << "How many names? " << names.size();
     for(int i = 0; i < names.size(); i++)
     {
+        qDebug() << names.at(i);
         MapleTabWidget* newTab = new MapleTabWidget();
         this->addTab(newTab,names.at(i));
         tabs.push_back(newTab);
@@ -37,11 +53,11 @@ QVector<QString> DailyTrackerWindow::getNamesForTabs()
     {
         return names;
     }
-
+    //This will be the full path to the file
     pathOfFile = file.readLine();
 
-
     QStringList path = pathOfFile.split('/');
+    //The filename we want is at the end with the actual name of the file you chose
     QString fileName = path.at(path.length() - 1);
     qDebug() << "File name" << fileName;
     QFile nameFile(fileName);
@@ -57,6 +73,8 @@ QVector<QString> DailyTrackerWindow::getNamesForTabs()
         qDebug() << nameFile.errorString();
     }
 
+    nameFile.close();
+    file.close();
     return names;
 }
 
@@ -98,7 +116,6 @@ bool DailyTrackerWindow::saveData()
 
     if(file.open(QIODevice::WriteOnly))
     {
-       qDebug() << "Could i reset this? " << dateChecker->isDailyReset();
        dateChecker->writeToFile();
        QTextStream fileStream(&file);
        foreach (MapleTabWidget* tab, tabs)
@@ -139,8 +156,10 @@ bool DailyTrackerWindow::loadData()
     if(file.open(QIODevice::ReadOnly))
     {    
         QTextStream fileStream(&file);
+        //At the beginning it should be at end since its a new file
         while(!fileStream.atEnd())
         {
+            //Find out how many times to check for dailies
             int dailyCount = fileStream.readLine().toInt();
             qDebug() << "Daily Count " << dailyCount;
             for(int j = 0; j < dailyCount; j++)
@@ -150,7 +169,7 @@ bool DailyTrackerWindow::loadData()
                 dailyBox->setChecked(fileStream.readLine().toInt());
                 tabs.at(i)->addDailyCheckBox(dailyBox);
             }
-
+            //Find out how many times to check for weeklies
             int weeklyCount = fileStream.readLine().toInt();
             qDebug() << "Weekly Count " << weeklyCount;
             for(int j = 0; j < weeklyCount; j++)

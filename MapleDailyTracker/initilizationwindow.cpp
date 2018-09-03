@@ -10,6 +10,7 @@ InitilizationWindow::InitilizationWindow(QWidget *parent) :
     ui->playerTrackerTable->setColumnCount(1);
     ui->playerTrackerTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->playerTrackerTable->setHorizontalHeaderItem(0,new QTableWidgetItem("Character Name"));
+    trackerWindow = new DailyTrackerWindow();
 }
 
 InitilizationWindow::~InitilizationWindow()
@@ -37,6 +38,12 @@ void InitilizationWindow::on_submitButton_clicked()
     writeToFile(charactersToTrack);
     readFile();
     QMessageBox::information(this,"Characters saved to file","Your characters have been recorded",QMessageBox::Ok);
+    this->close();
+    if(trackerWindow->loadData())
+    {
+        trackerWindow->show();
+    }
+
 }
 
 void InitilizationWindow::writeToFile(QVector<QString> characters)
@@ -59,7 +66,7 @@ void InitilizationWindow::writeToFile(QVector<QString> characters)
         if (!file.open(QIODevice::WriteOnly) || !saveFileName.open(QIODevice::WriteOnly))
         {
             QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
+                                     file.errorString());
             return;
         }
 
@@ -67,6 +74,8 @@ void InitilizationWindow::writeToFile(QVector<QString> characters)
         QTextStream save(&saveFileName);
         save << fileName;
         out << characters;
+        file.close();
+        saveFileName.close();
     }
 }
 
@@ -88,12 +97,14 @@ void InitilizationWindow::readFile()
         if (!file.open(QIODevice::ReadOnly))
         {
             QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
+                                     file.errorString());
             return;
         }
 
         QDataStream in(&file);
         characters.clear();
         in >> characters;
+        file.close();
     }
 }
+

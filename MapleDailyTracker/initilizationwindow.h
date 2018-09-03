@@ -5,7 +5,10 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
+#include <QTableWidget>
 #include <QFileDialog>
+
+#include "dailytrackerwindow.h"
 
 namespace Ui {
 class InitilizationWindow;
@@ -29,6 +32,7 @@ private:
     void readFile();
     QVector<QString> characters;
     Ui::InitilizationWindow *ui;
+    DailyTrackerWindow *trackerWindow;
 };
 
 #endif // INITILIZATIONWINDOW_H

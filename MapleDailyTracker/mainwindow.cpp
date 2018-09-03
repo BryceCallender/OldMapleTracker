@@ -29,22 +29,14 @@ void MainWindow::on_beginTrackerButton_clicked()
         qDebug() << "File exists";
         if(file.open(QIODevice::ReadOnly))
         {
-            if(!file.atEnd())
+            if(trackerWindow->loadData())
             {
-                if(trackerWindow->loadData())
-                {
-                    trackerWindow->show();
-                    QMessageBox::information(this,"Welcome Back","Welcome back!",QMessageBox::Ok);
-                }
-                else
-                {
-                    QMessageBox::critical(this,"Couldn't get save information","No Save File detected or file is corrupted");
-                }
-
+                trackerWindow->show();
+                QMessageBox::information(this,"Welcome Back","Welcome back!",QMessageBox::Ok);
             }
             else
             {
-                qDebug() << "Empty file";
+                QMessageBox::critical(this,"Couldn't get save information","No Save File detected or file is corrupted");
             }
         }
     }

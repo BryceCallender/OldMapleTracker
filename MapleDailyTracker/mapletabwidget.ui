@@ -54,9 +54,23 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="dailyResetTime">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Time till weekly reset </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="weeklyResetTime">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>

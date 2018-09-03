@@ -18,10 +18,10 @@ public:
     QDateTime nextDailyReset();
     QDateTime nextWeeklyReset();
     void writeToFile();
-    void toString();
 private:
     const int thursday = 4;
     void readFromFile();
+    QDateTime calcTimeTillReset(int days = 0);
     bool hasResetDaily;
     bool hasResetWeekly;
     QDateTime lastTimeOpened;

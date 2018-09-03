@@ -47,51 +47,9 @@ bool DateChecker::isWeeklyReset()
     return hasResetDaily;
 }
 
-QDateTime DateChecker::timeTillDailyReset()
-{
-
-}
-
-QDateTime DateChecker::timeTillWeeklyReset()
-{
-
-}
-
-//TODO::COPY PASTE CODE LETS MAKE FUNCTION THAT I CAN CALL ONCE TO AVOID CHANGING
-//2 TIMES WE NEED TO MAKE IT GENERIC SO LETS GO
 QDateTime DateChecker::nextDailyReset()
 {
-    QDateTime currentTime = QDateTime::currentDateTimeUtc();
-
-    //Set time to UTC so i can be relating this for everytime
-    //zone without having to worry about DST
-    currentTime.setTimeSpec(Qt::UTC);
-
-    int milliseconds = currentTime.time().msecsSinceStartOfDay();
-    //Take what time we have since the beginning of the day and subtract it
-    //since itll make us go past reset if we do not handle it
-    QTime timeTillReset = midnight.addMSecs(-milliseconds);
-    //since i cant do 24 hrs from now OMEGALUL
-    timeTillReset = timeTillReset.addSecs(1);
-
-    //Output statement showing how long till weekly reset
-    qDebug() << "Next daily reset is in" << timeTillReset.hour()
-             << "hour(s)," << timeTillReset.minute()
-             <<  "minute(s)," << timeTillReset.second() << "second(s)";
-
-    //find how many seconds have elapsed since beginning of day for math reason
-    int seconds = QTime(0,0,0).secsTo(timeTillReset);
-
-    //update the time and date accordingly
-    QTime updatedTime = currentTime.time().addSecs(seconds);
-    QDate updatedDate = currentTime.date().addDays(1);
-
-    QDateTime nextReset(updatedDate,updatedTime);
-    nextReset.setTimeSpec(Qt::UTC);
-
-    qDebug() << nextReset.toLocalTime().toString("h:m:s AP");
-
-    return nextReset;
+    return calcTimeTillReset();
 }
 
 QDateTime DateChecker::nextWeeklyReset()
@@ -113,35 +71,7 @@ QDateTime DateChecker::nextWeeklyReset()
         newDate -= 1;
     }
 
-    //Take what time we have since the beginning of the day and subtract it
-    //since itll make us go past reset if we do not handle it
-    QTime timeTillReset = midnight.addMSecs(-milliseconds);
-    //since i cant do 24 hrs from now OMEGALUL
-    timeTillReset = timeTillReset.addSecs(1);
-
-    //Output statement showing how long till weekly reset
-    qDebug() << "Next weekly reset is in" << newDate << "day(s),"
-             << timeTillReset.hour() << "hour(s)," << timeTillReset.minute()
-             <<  "minute(s)," << timeTillReset.second() << "second(s)";
-
-    //find how many seconds have elapsed since beginning of day for math reason
-    int seconds = QTime(0,0,0).secsTo(timeTillReset);
-
-    //update the time and date accordingly
-    QTime updatedTime = currentTime.time().addSecs(seconds);
-    QDate updatedDate = currentTime.date().addDays(newDate);
-
-    QDateTime nextReset(updatedDate,updatedTime);
-    nextReset.setTimeSpec(Qt::UTC);
-
-    if(nextReset.time().second() == 59 && nextReset.time().minute() == 59)
-    {
-
-    }
-
-    qDebug() << nextReset.toLocalTime().toString("h:m:s AP");
-
-    return nextReset;
+    return calcTimeTillReset(newDate);
 }
 
 void DateChecker::readFromFile()
@@ -161,6 +91,50 @@ void DateChecker::readFromFile()
     }
 }
 
+QDateTime DateChecker::calcTimeTillReset(int days)
+{
+    QDateTime currentTime = QDateTime::currentDateTimeUtc();
+
+    //Set time to UTC so i can be relating this for everytime
+    //zone without having to worry about DST
+    currentTime.setTimeSpec(Qt::UTC);
+
+    int milliseconds = currentTime.time().msecsSinceStartOfDay();
+    //Take what time we have since the beginning of the day and subtract it
+    //since itll make us go past reset if we do not handle it
+    QTime timeTillReset = midnight.addMSecs(-milliseconds);
+    //since i cant do 24 hrs from now OMEGALUL
+    timeTillReset = timeTillReset.addSecs(1);
+
+    QString message;
+    //Output statement showing how long till reset
+    //message = "Next reset is in ";
+    //If we have some days till reset lets show them if not dont
+    if(days != 0)
+    {
+        message += QString::number(days) + " day(s) ";
+    }
+    message += QString::number(timeTillReset.hour()) + " hour(s), "
+            + QString::number(timeTillReset.minute()) + " minute(s), "
+            + QString::number(timeTillReset.second()) + " second(s)";
+
+    qDebug() << message;
+
+    //find how many seconds have elapsed since beginning of day for math reason
+    int seconds = QTime(0,0,0).secsTo(timeTillReset);
+
+    //update the time and date accordingly
+    QTime updatedTime = currentTime.time().addSecs(seconds);
+    QDate updatedDate = currentTime.date().addDays(1);
+
+    QDateTime nextReset(updatedDate,updatedTime);
+    nextReset.setTimeSpec(Qt::UTC);
+
+    qDebug() << nextReset.toLocalTime().toString("h:m:s AP");
+
+    return nextReset;
+}
+
 void DateChecker::writeToFile()
 {
     QFile file("ResetsAndTime.txt");
@@ -170,8 +144,8 @@ void DateChecker::writeToFile()
         QTextStream fileStream(&file);
 
         fileStream << QDateTime::currentDateTime().toString() << "\n";
-        fileStream << nextDailyReset().toString() << "\n";
-        fileStream << nextWeeklyReset().toString() << "\n";
+        fileStream << nextDailyReset().toLocalTime().toString() << "\n";
+        fileStream << nextWeeklyReset().toLocalTime().toString() << "\n";
         fileStream << hasResetDaily << "\n";
         fileStream << hasResetWeekly;
     }
