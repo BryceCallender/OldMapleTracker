@@ -1,4 +1,4 @@
-  #include "datechecker.h"
+#include "datechecker.h"
 
 DateChecker::DateChecker()
 {
@@ -7,52 +7,58 @@ DateChecker::DateChecker()
     midnight.setHMS(23,59,59);
 
     readFromFile();
-
-    dailyReset.setTime(resetTime);
-    weeklyReset.setTime(resetTime);
-
-    nextDailyReset();
-    nextWeeklyReset();
 }
 
 bool DateChecker::isDailyReset()
 {
-    QDateTime currentTime = QDateTime::currentDateTime();
-    dailyReset.setDate(currentTime.date());
-    dailyReset.date() = dailyReset.date().addDays(1);
+    QDateTime currentTime = QDateTime::currentDateTimeUtc();
+    QDateTime resetTime = lastTimeOpened.toUTC();
 
     //If we went pass the daily reset time and have not reset yet then
     //lets reset
-    if(currentTime.toUTC().secsTo(dailyReset) < 0 && !hasResetDaily)
+    if(currentTime.date().day() > resetTime.date().day() && !hasResetDaily)
     {
         hasResetDaily = true;
-        return hasResetDaily;
     }
-    hasResetDaily = false;
+    else
+    {
+        hasResetDaily = false;
+    }
     return hasResetDaily;
 }
 
 bool DateChecker::isWeeklyReset()
 {
-    QDateTime currentTime(QDateTime::currentDateTime());
+    QDateTime currentTime = QDateTime::currentDateTimeUtc();
+    QDateTime resetTime = lastWeeklyResetTime.toUTC();
 
-    //If we went pass the weekly reset time and have not reset yet then
-    //lets reset and make sure it is a thursday because it resets thursday at midnight UTC
-    if(currentTime.toUTC().secsTo(dailyReset) < 0 && !hasResetWeekly)
+    if(currentTime.date().day() > resetTime.date().day() && !hasResetWeekly)
     {
-        hasResetDaily = true;
-        return hasResetDaily;
+        hasResetWeekly = true;
     }
-    hasResetDaily = false;
-    return hasResetDaily;
+    else
+    {
+        hasResetWeekly = false;
+    }
+    return hasResetWeekly;
 }
 
-QDateTime DateChecker::nextDailyReset()
+QString DateChecker::timeTillDailyReset()
+{
+    return nextDailyReset().timeMessage;
+}
+
+QString DateChecker::timeTillWeeklyReset()
+{
+    return nextWeeklyReset().timeMessage;
+}
+
+ResetDate DateChecker::nextDailyReset()
 {
     return calcTimeTillReset();
 }
 
-QDateTime DateChecker::nextWeeklyReset()
+ResetDate DateChecker::nextWeeklyReset()
 {
     QDateTime currentTime = QDateTime::currentDateTimeUtc();
 
@@ -60,38 +66,12 @@ QDateTime DateChecker::nextWeeklyReset()
     //zone without having to worry about DST
     currentTime.setTimeSpec(Qt::UTC);
 
-    //Find how many days till the reset day desired which is Thursday 12 AM
-    int newDate = 7 - static_cast<int>(qFabs(currentTime.date().dayOfWeek() - 4));
+    int newDate = daysTillWeeklyReset(currentTime);
 
-    int milliseconds = currentTime.time().msecsSinceStartOfDay();
-
-    //If its past reset time so anything past 12AM
-    if(milliseconds != 0)
-    {
-        newDate -= 1;
-    }
-
-    return calcTimeTillReset(newDate);
+    return calcTimeTillReset(newDate, "Weekly");
 }
 
-void DateChecker::readFromFile()
-{
-    QFile file("ResetsAndTime.txt");
-
-    if(file.open(QIODevice::ReadOnly))
-    {
-        QTextStream fileStream(&file);
-
-        while(!fileStream.atEnd())
-        {
-            lastTimeOpened = QDateTime::fromString(fileStream.readLine());
-            hasResetDaily = fileStream.readLine().toInt();
-            hasResetWeekly = fileStream.readLine().toInt();
-        }
-    }
-}
-
-QDateTime DateChecker::calcTimeTillReset(int days)
+ResetDate DateChecker::calcTimeTillReset(int days, QString type)
 {
     QDateTime currentTime = QDateTime::currentDateTimeUtc();
 
@@ -118,21 +98,23 @@ QDateTime DateChecker::calcTimeTillReset(int days)
             + QString::number(timeTillReset.minute()) + " minute(s), "
             + QString::number(timeTillReset.second()) + " second(s)";
 
-    qDebug() << message;
-
     //find how many seconds have elapsed since beginning of day for math reason
     int seconds = QTime(0,0,0).secsTo(timeTillReset);
 
     //update the time and date accordingly
     QTime updatedTime = currentTime.time().addSecs(seconds);
-    QDate updatedDate = currentTime.date().addDays(1);
+    // was 1 for some reason but want to add the days that we pass in
+    QDate updatedDate = currentTime.date().addDays(days);
 
     QDateTime nextReset(updatedDate,updatedTime);
     nextReset.setTimeSpec(Qt::UTC);
 
-    qDebug() << nextReset.toLocalTime().toString("h:m:s AP");
+    ResetDate reset;
+    reset.timeMessage = message;
+    reset.resetType = type;
+    reset.resetTime = nextReset;
 
-    return nextReset;
+    return reset;
 }
 
 void DateChecker::writeToFile()
@@ -142,11 +124,69 @@ void DateChecker::writeToFile()
     if(file.open(QIODevice::WriteOnly))
     {
         QTextStream fileStream(&file);
-
         fileStream << QDateTime::currentDateTime().toString() << "\n";
-        fileStream << nextDailyReset().toLocalTime().toString() << "\n";
-        fileStream << nextWeeklyReset().toLocalTime().toString() << "\n";
+        fileStream << nextDailyReset().resetTime.toLocalTime().toString() << "\n";
+        fileStream << nextWeeklyReset().resetTime.toLocalTime().toString() << "\n";
         fileStream << hasResetDaily << "\n";
         fileStream << hasResetWeekly;
+    }
+}
+
+int DateChecker::daysTillWeeklyReset(QDateTime date)
+{
+    int newDate = 0;
+
+    //Find how many days till the reset day desired which is Thursday 12 AM
+    //my calculation is if we are before thursday then just find the amount
+    //of days till thursday and if not then we need use use the difference
+    //of the days and subtract by 7 leading us to the thursday in the future
+    if(date.date().dayOfWeek() > 4)
+    {
+        newDate = 7 - static_cast<int>(qFabs(date.date().dayOfWeek() - 4));
+    }
+    else
+    {
+        newDate = static_cast<int>(qFabs(date.date().dayOfWeek() - 4));
+    }
+
+    int milliseconds = date.time().msecsSinceStartOfDay();
+    //If its past reset time so anything past 12AM
+    if(milliseconds != 0)
+    {
+        newDate -= 1;
+    }
+
+    return newDate;
+}
+
+void DateChecker::readFromFile()
+{
+    QFile file("ResetsAndTime.txt");
+
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QTextStream fileStream(&file);
+
+        while(!fileStream.atEnd())
+        {
+            lastTimeOpened = QDateTime::fromString(fileStream.readLine());
+            lastDailyResetTime = QDateTime::fromString(fileStream.readLine());
+            lastWeeklyResetTime = QDateTime::fromString(fileStream.readLine());
+            hasResetDaily = fileStream.readLine().toInt();
+            hasResetWeekly = fileStream.readLine().toInt();
+        }
+    }
+
+    QDate nextDaily = lastDailyResetTime.toUTC().date().addDays(1);
+    QDate nextWeekly = lastWeeklyResetTime.toUTC().date();
+
+    if(QDate::currentDate().day() > nextDaily.day())
+    {
+        hasResetDaily = false;
+    }
+
+    if(QDate::currentDate().day() > nextWeekly.day())
+    {
+        hasResetWeekly = false;
     }
 }

@@ -16,12 +16,16 @@ DailyTrackerWindow::DailyTrackerWindow(QWidget *parent) :
 
     if(file.open(QIODevice::ReadWrite))
     {
-        qDebug() << "Made save file for u bb";
+        qDebug() << "Made save file";
     }
     else
     {
         qDebug() << file.errorString();
     }
+
+    timer = new QTimer(this);
+    timer->start(1000); //Tick every second
+    connect(timer,SIGNAL(timeout()),this,SLOT(checkResets())); //Connect the timer to a function to update contents
 }
 
 DailyTrackerWindow::~DailyTrackerWindow()
@@ -78,7 +82,7 @@ QVector<QString> DailyTrackerWindow::getNamesForTabs()
     return names;
 }
 
-void DailyTrackerWindow::resetDailies()
+bool DailyTrackerWindow::resetDailies()
 {
     if(dateChecker->isDailyReset())
     {
@@ -91,10 +95,12 @@ void DailyTrackerWindow::resetDailies()
                 checkBox->setChecked(false);
             }
         }
+        return true;
     }
+    return false;
 }
 
-void DailyTrackerWindow::resetWeeklies()
+bool DailyTrackerWindow::resetWeeklies()
 {
     if(dateChecker->isWeeklyReset())
     {
@@ -107,7 +113,15 @@ void DailyTrackerWindow::resetWeeklies()
                 checkBox->setChecked(false);
             }
         }
+        return true;
     }
+    return false;
+}
+
+void DailyTrackerWindow::checkResets()
+{
+    resetDailies();
+    resetWeeklies();
 }
 
 bool DailyTrackerWindow::saveData()

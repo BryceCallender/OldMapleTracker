@@ -1,5 +1,6 @@
 #include "mapletabwidget.h"
 #include "ui_mapletabwidget.h"
+#include "dailytrackerwindow.h"
 
 MapleTabWidget::MapleTabWidget(QWidget *parent) :
     QWidget(parent),
@@ -9,6 +10,11 @@ MapleTabWidget::MapleTabWidget(QWidget *parent) :
     ui->dateTimeEdit->setDate(QDate::currentDate());
     ui->dateTimeEdit->setTime(QTime::currentTime());
     nameWindow = new CheckBoxNameWindow();
+    dateChecker = new DateChecker();
+    timer = new QTimer(this);
+    timer->start(1000); //Tick every second
+    connect(timer,SIGNAL(timeout()),this,SLOT(updateResets())); //Connect the timer to a function to update contents
+    ui->dateTimeEdit->setReadOnly(true);
 }
 
 MapleTabWidget::~MapleTabWidget()
@@ -128,6 +134,15 @@ QList<QCheckBox*> MapleTabWidget::getDailies()
 QList<QCheckBox*> MapleTabWidget::getWeeklies()
 {
     return ui->weeklyBox->findChildren<QCheckBox*>();
+}
+
+void MapleTabWidget::updateResets()
+{
+    ui->dailyResetTime->setText(dateChecker->timeTillDailyReset());
+    ui->weeklyResetTime->setText(dateChecker->timeTillWeeklyReset());
+
+    ui->dateTimeEdit->setDate(QDate::currentDate());
+    ui->dateTimeEdit->setTime(QTime::currentTime());
 }
 
 void MapleTabWidget::addDailyCheckBox(QCheckBox *checkBox)

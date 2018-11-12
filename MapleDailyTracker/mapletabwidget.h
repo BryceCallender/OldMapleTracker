@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QCheckBox>
 #include <QDebug>
+#include <QTimer>
 #include "checkboxnamewindow.h"
+#include "datechecker.h"
 
 namespace Ui {
 class MapleTabWidget;
@@ -28,9 +30,12 @@ public:
 private slots:
     void on_addDailyButton_clicked();
     void on_addWeeklyButton_clicked();
+    void updateResets();
 
 private:
     Ui::MapleTabWidget *ui;
+    DateChecker* dateChecker;
+    QTimer* timer;
     CheckBoxNameWindow* nameWindow;
 };
 

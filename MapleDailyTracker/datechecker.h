@@ -7,28 +7,33 @@
 #include <QDebug>
 #include <QtMath>
 
+struct ResetDate
+{
+    QString timeMessage;
+    QString resetType;
+    QDateTime resetTime;
+};
+
 class DateChecker
 {
 public:
     DateChecker();
     bool isDailyReset();
     bool isWeeklyReset();
-    QDateTime timeTillDailyReset();
-    QDateTime timeTillWeeklyReset();
-    QDateTime nextDailyReset();
-    QDateTime nextWeeklyReset();
+    QString timeTillDailyReset();
+    QString timeTillWeeklyReset();
+    ResetDate nextDailyReset();
+    ResetDate nextWeeklyReset();
     void writeToFile();
+    int daysTillWeeklyReset(QDateTime date);
 private:
-    const int thursday = 4;
     void readFromFile();
-    QDateTime calcTimeTillReset(int days = 0);
+    ResetDate calcTimeTillReset(int days = 0, QString type = "Daily");
     bool hasResetDaily;
     bool hasResetWeekly;
     QDateTime lastTimeOpened;
     QDateTime lastDailyResetTime;
     QDateTime lastWeeklyResetTime;
-    QDateTime dailyReset;
-    QDateTime weeklyReset;
     QTime midnight;
 };
 

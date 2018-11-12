@@ -13,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     trackerWindow = new DailyTrackerWindow();
 }
 
+DailyTrackerWindow *MainWindow::getTrackerWindow()
+{
+    return trackerWindow;
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -32,7 +37,6 @@ void MainWindow::on_beginTrackerButton_clicked()
             if(trackerWindow->loadData())
             {
                 trackerWindow->show();
-                QMessageBox::information(this,"Welcome Back","Welcome back!",QMessageBox::Ok);
             }
             else
             {

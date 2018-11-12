@@ -10,7 +10,6 @@
 #include <QCloseEvent>
 
 #include "mapletabwidget.h"
-#include "datechecker.h"
 
 namespace Ui {
 class DailyTrackerWindow;
@@ -24,16 +23,20 @@ public:
     explicit DailyTrackerWindow(QWidget *parent = nullptr);
     void loadTabs();
     QVector<QString> getNamesForTabs();
-    void resetDailies();
-    void resetWeeklies();
+    bool resetDailies();
+    bool resetWeeklies();
     void closeEvent(QCloseEvent *event);
     bool saveData();
     bool loadData();
     ~DailyTrackerWindow();
 
+private slots:
+    void checkResets();
+
 private:
     QVector<MapleTabWidget*> tabs;
     DateChecker* dateChecker;
+    QTimer* timer;
     Ui::DailyTrackerWindow *ui;
 };
 
