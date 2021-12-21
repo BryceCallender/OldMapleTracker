@@ -1,39 +1,22 @@
 #ifndef DATECHECKER_H
 #define DATECHECKER_H
 
-#include <QDateTime>
-#include <QFile>
-#include <QTextStream>
+#include <QTime>
 #include <QDebug>
-#include <QtMath>
-
-struct ResetDate
-{
-    QString timeMessage;
-    QString resetType;
-    QDateTime resetTime;
-};
+#include "ResetData.h"
+#include "ResetType.h"
 
 class DateChecker
 {
 public:
     DateChecker();
-    bool isDailyReset();
-    bool isWeeklyReset();
-    QString timeTillDailyReset();
-    QString timeTillWeeklyReset();
-    ResetDate nextDailyReset();
-    ResetDate nextWeeklyReset();
-    void writeToFile();
-    int daysTillWeeklyReset(QDateTime date);
+    QTime timeTillDailyReset();
+    QTime timeTillWeeklyReset();
 private:
-    void readFromFile();
-    ResetDate calcTimeTillReset(int days = 0, QString type = "Daily");
-    bool hasResetDaily;
-    bool hasResetWeekly;
-    QDateTime lastTimeOpened;
-    QDateTime lastDailyResetTime;
-    QDateTime lastWeeklyResetTime;
+    int daysTillWeekly();
+    ResetData calcReset(ResetType resetType, int days = 0);
+    QDateTime lastOpened;
+    QTime resetTime;
     QTime midnight;
 };
 

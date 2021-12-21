@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-07-30T18:25:55
-#
-#-------------------------------------------------
-
 QT       += core gui widgets
 
 TARGET = MapleDailyTracker
@@ -20,33 +14,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECAbTED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++17
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    initilizationwindow.cpp \
-    dailytrackerwindow.cpp \
-    mapletabwidget.cpp \
-    checkboxnamewindow.cpp \
     datechecker.cpp
 
 HEADERS += \
+    ResetData.h \
+    ResetType.h \
         mainwindow.h \
-    initilizationwindow.h \
-    dailytrackerwindow.h \
-    mapletabwidget.h \
-    checkboxnamewindow.h \
     datechecker.h
 
 FORMS += \
-        mainwindow.ui \
-    initilizationwindow.ui \
-    dailytrackerwindow.ui \
-    mapletabwidget.ui \
-    checkboxnamewindow.ui
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    resources.qrc

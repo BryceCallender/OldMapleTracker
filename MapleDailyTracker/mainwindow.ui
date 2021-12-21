@@ -14,25 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="programTitle">
-      <property name="text">
-       <string>Maple Daily/Weekly Tracker</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="beginTrackerButton">
-      <property name="text">
-       <string>Lets Begin!</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
