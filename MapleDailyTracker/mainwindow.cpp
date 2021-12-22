@@ -10,7 +10,33 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    dateChecker.timeTillDailyReset();
+    QTime dailyResetTime = dateChecker.timeTillDailyReset();
+    QTime weeklyResetTime = dateChecker.timeTillWeeklyReset();
+
+    qDebug() << timeToLabel(dailyResetTime);
+    qDebug() << timeToLabel(weeklyResetTime);
+}
+
+QString MainWindow::timeToLabel(QTime time)
+{
+    QString label;
+
+    if (time.hour() > 0)
+    {
+        label.append(QString::number(time.hour()) + "h");
+    }
+
+    if (time.minute() > 0)
+    {
+        label.append(QString::number(time.minute()) + "m");
+    }
+
+    if (time.second() > 0)
+    {
+        label.append(QString::number(time.second()) + "s");
+    }
+
+    return label;
 }
 
 MainWindow::~MainWindow()

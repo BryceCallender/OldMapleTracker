@@ -3,8 +3,8 @@
 
 #include <QTime>
 #include <QDebug>
-#include "ResetData.h"
-#include "ResetType.h"
+#include "resetdata.h"
+#include "resettype.h"
 
 class DateChecker
 {

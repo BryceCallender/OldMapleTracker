@@ -3,8 +3,7 @@
 
 #include <QString>
 #include <QDateTime>
-#include "ResetType.h"
-#include "TimeData.h"
+#include "resettype.h"
 
 struct ResetData
 {

@@ -27,7 +27,19 @@ int DateChecker::daysTillWeekly()
     int resetDayOfWeek = Qt::Thursday;
     int dayOfWeek = currentDateTimeUTC.date().dayOfWeek();
 
-    return dayOfWeek % resetDayOfWeek;
+    int distanceFromResetDay = qAbs(resetDayOfWeek - dayOfWeek);
+
+    if (dayOfWeek > resetDayOfWeek)
+    {
+        distanceFromResetDay = Qt::Sunday - dayOfWeek;
+    }
+
+    if (currentDateTimeUTC.time().msecsSinceStartOfDay() > 0)
+    {
+        --distanceFromResetDay;
+    }
+
+    return distanceFromResetDay;
 }
 
 ResetData DateChecker::calcReset(ResetType resetType, int days)
@@ -45,6 +57,8 @@ ResetData DateChecker::calcReset(ResetType resetType, int days)
         int secondsToNextDate = timeTillReset.secsTo(tomorrow.addDays(days).time());
         timeTillReset = timeTillReset.addSecs(secondsToNextDate);
     }
+
+    qDebug() << "Reset is at" << timeTillReset;
 
     ResetData resetData;
     resetData.timeTillReset = timeTillReset;

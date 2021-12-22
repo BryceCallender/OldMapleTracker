@@ -22,8 +22,8 @@ SOURCES += \
     datechecker.cpp
 
 HEADERS += \
-    ResetData.h \
-    ResetType.h \
+    resetdata.h \
+    resettype.h \
         mainwindow.h \
     datechecker.h
 
