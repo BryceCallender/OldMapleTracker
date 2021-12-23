@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QFile>
-#include "datechecker.h"
+#include "resetchecker.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,12 +15,11 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    QString timeToLabel(QTime time);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    DateChecker dateChecker;
+    ResetChecker resetChecker;
 };
 
 #endif // MAINWINDOW_H

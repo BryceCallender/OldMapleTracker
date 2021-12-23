@@ -7,7 +7,7 @@
 
 struct ResetData
 {
-    QTime timeTillReset;
+    QDateTime timeTillReset;
     ResetType resetType;
 };
 

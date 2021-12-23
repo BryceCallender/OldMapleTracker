@@ -10,33 +10,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QTime dailyResetTime = dateChecker.timeTillDailyReset();
-    QTime weeklyResetTime = dateChecker.timeTillWeeklyReset();
+    QDateTime dailyResetTime = resetChecker.timeTillDailyReset();
+    QDateTime weeklyResetTime = resetChecker.timeTillWeeklyReset();
+    QDateTime weeklyMondayResetTime = resetChecker.timeTillWeeklyReset(Qt::Monday);
 
-    qDebug() << timeToLabel(dailyResetTime);
-    qDebug() << timeToLabel(weeklyResetTime);
-}
-
-QString MainWindow::timeToLabel(QTime time)
-{
-    QString label;
-
-    if (time.hour() > 0)
-    {
-        label.append(QString::number(time.hour()) + "h");
-    }
-
-    if (time.minute() > 0)
-    {
-        label.append(QString::number(time.minute()) + "m");
-    }
-
-    if (time.second() > 0)
-    {
-        label.append(QString::number(time.second()) + "s");
-    }
-
-    return label;
+    qDebug() << "Daily reset is in:" << ResetChecker::resetToLabel(dailyResetTime);
+    qDebug() << "Weekly reset is in:" << ResetChecker::resetToLabel(weeklyResetTime);
+    qDebug() << "Monday Weekly reset is in:" << ResetChecker::resetToLabel(weeklyMondayResetTime);
 }
 
 MainWindow::~MainWindow()

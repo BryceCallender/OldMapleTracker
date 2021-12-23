@@ -19,13 +19,13 @@ CONFIG += c++17
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    datechecker.cpp
+        resetchecker.cpp
 
 HEADERS += \
+    resetchecker.h \
     resetdata.h \
     resettype.h \
-        mainwindow.h \
-    datechecker.h
+        mainwindow.h
 
 FORMS += \
         mainwindow.ui
