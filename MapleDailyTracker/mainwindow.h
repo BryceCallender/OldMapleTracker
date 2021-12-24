@@ -3,7 +3,12 @@
 
 #include <QMainWindow>
 #include <QFile>
+#include <QTimer>
+
+#include "filemanager.h"
 #include "resetchecker.h"
+#include "newcharacterdialog.h"
+#include "trackertabwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,11 +20,20 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void calculateResets();
+    void closeEvent(QCloseEvent* event);
     ~MainWindow();
+
+private slots:
+    void on_actionAdd_Character_triggered();
 
 private:
     Ui::MainWindow *ui;
     ResetChecker resetChecker;
+    QTimer* timer;
+
+    TrackerTabWidget* trackerTabWidget;
+    NewCharacterDialog* newCharDialog;
 };
 
 #endif // MAINWINDOW_H

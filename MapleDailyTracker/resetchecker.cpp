@@ -18,6 +18,21 @@ QDateTime ResetChecker::timeTillWeeklyReset(int resetDay)
     return resetData.timeTillReset;
 }
 
+bool ResetChecker::isDailyReset()
+{
+
+}
+
+bool ResetChecker::isWedWeeklyReset()
+{
+
+}
+
+bool ResetChecker::isMonWeeklyReset()
+{
+
+}
+
 int ResetChecker::daysTillWeekly(int resetDay)
 {
     QDateTime currentDateTimeUTC = QDateTime::currentDateTimeUtc();
@@ -80,11 +95,6 @@ QString ResetChecker::resetToLabel(QDateTime resetDateTime)
     if (time.minute() > 0)
     {
         label.append(QString::number(time.minute()) + "m ");
-    }
-
-    if (time.second() > 0)
-    {
-        label.append(QString::number(time.second()) + "s");
     }
 
     return label;

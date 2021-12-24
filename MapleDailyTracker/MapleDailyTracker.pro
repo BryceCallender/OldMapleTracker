@@ -17,18 +17,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
+        character.cpp \
+        filemanager.cpp \
         main.cpp \
         mainwindow.cpp \
-        resetchecker.cpp
+        newcharacterdialog.cpp \
+        resetchecker.cpp \
+        trackertabcontent.cpp \
+        trackertabwidget.cpp
 
 HEADERS += \
+    mapleaction.h \
+    character.h \
+    filemanager.h \
+    newcharacterdialog.h \
     resetchecker.h \
     resetdata.h \
     resettype.h \
-        mainwindow.h
+    savedata.h \
+        mainwindow.h \
+    trackertabcontent.h \
+    trackertabwidget.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        newcharacterdialog.ui \
+        trackertabcontent.ui \
+        trackertabwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
