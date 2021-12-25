@@ -73,6 +73,13 @@ void Character::readActions(const QJsonObject &json, QString name, QVector<Maple
         {
             QJsonObject actionObject = jsonArray[i].toObject();
             MapleAction action;
+
+            if (actionObject.contains("name") && actionObject["name"].isString())
+                action.name = actionObject["name"].toString();
+
+            if (actionObject.contains("done") && actionObject["done"].isString())
+                action.done = actionObject["done"].toBool();
+
             actions.push_back(action);
         }
     }

@@ -17,6 +17,7 @@ void TrackerTabWidget::loadTabs(SaveData saveData)
         TrackerTabContent* content = new TrackerTabContent(this);
         content->setCharacter(character);
         addTab(content, character.getName());
+        tabs.push_back(content);
     }
 }
 
@@ -34,4 +35,15 @@ QVector<Character> TrackerTabWidget::getCharactersFromTabs()
 TrackerTabWidget::~TrackerTabWidget()
 {
     delete ui;
+}
+
+void TrackerTabWidget::addCharacterTab(QString name)
+{
+    TrackerTabContent* content = new TrackerTabContent(this);
+    Character character;
+    character.setName(name);
+
+    content->setCharacter(character);
+    addTab(content, name);
+    tabs.push_back(content);
 }

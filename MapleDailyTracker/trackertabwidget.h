@@ -21,7 +21,8 @@ public:
     void loadTabs(SaveData saveData);
     QVector<Character> getCharactersFromTabs();
     ~TrackerTabWidget();
-
+public slots:
+    void addCharacterTab(QString name);
 private:
     Ui::TrackerTabWidget *ui;
     QVector<TrackerTabContent*> tabs;

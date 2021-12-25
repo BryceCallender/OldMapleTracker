@@ -49,6 +49,27 @@ SaveData FileManager::loadData()
     QByteArray saveData = loadFile.readAll();
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject json = loadDoc.object();
+
+    if (json.contains("lastOpened") && json["lastOpened"].isString())
+    {
+        data.lastOpened = QDateTime::fromString(json["lastOpened"].toString());
+    }
+
+    QVector<Character> characters;
+    if (json.contains("characters") && json["characters"].isArray())
+    {
+        QJsonArray jsonArray = json["characters"].toArray();
+        for (int i = 0; i < jsonArray.size(); ++i)
+        {
+            QJsonObject object = jsonArray[i].toObject();
+            Character character;
+            character.read(object);
+            characters.push_back(character);
+        }
+    }
+
+    data.characters = characters;
 
     return data;
 }

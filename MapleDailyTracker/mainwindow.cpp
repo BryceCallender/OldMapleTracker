@@ -54,6 +54,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionAdd_Character_triggered()
 {
     newCharDialog = new NewCharacterDialog();
-    newCharDialog->show();
+    connect(newCharDialog, &NewCharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
+    newCharDialog->exec();
 }
 
