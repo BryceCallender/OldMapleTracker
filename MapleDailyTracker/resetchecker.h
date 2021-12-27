@@ -4,7 +4,6 @@
 #include <QTime>
 #include <QDebug>
 #include "resetdata.h"
-#include "resettype.h"
 
 class ResetChecker
 {
@@ -20,7 +19,7 @@ public:
     static QString resetToLabel(QDateTime resetDateTime);
 private:
     int daysTillWeekly(int resetDay = Qt::Thursday);
-    ResetData calcReset(ResetType resetType, int days = 0);
+    ResetData calcReset(int days = 0);
     QDateTime lastOpened;
 };
 

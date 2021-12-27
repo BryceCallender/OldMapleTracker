@@ -23,21 +23,23 @@ SOURCES += \
         mainwindow.cpp \
         mapleactionwidget.cpp \
         newcharacterdialog.cpp \
+        newmapleactiondialog.cpp \
         progress.cpp \
         resetchecker.cpp \
         trackertabcontent.cpp \
         trackertabwidget.cpp
 
 HEADERS += \
+    actiontype.h \
     mapleaction.h \
     character.h \
     filemanager.h \
     mapleactionwidget.h \
     newcharacterdialog.h \
+    newmapleactiondialog.h \
     progress.h \
     resetchecker.h \
     resetdata.h \
-    resettype.h \
     savedata.h \
         mainwindow.h \
     trackertabcontent.h \
@@ -47,6 +49,7 @@ FORMS += \
         mainwindow.ui \
         mapleactionwidget.ui \
         newcharacterdialog.ui \
+        newmapleactiondialog.ui \
         progress.ui \
         trackertabcontent.ui \
         trackertabwidget.ui

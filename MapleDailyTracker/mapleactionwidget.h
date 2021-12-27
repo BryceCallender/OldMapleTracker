@@ -17,8 +17,8 @@ public:
     explicit MapleActionWidget(QWidget *parent = nullptr);
     ~MapleActionWidget();
 
-    const MapleAction &getMapleAction() const;
-    void setMapleAction(const MapleAction &newMapleAction);
+    const MapleAction& getMapleAction() const;
+    void setMapleAction(const MapleAction& newMapleAction);
 
 private:
     MapleAction mapleAction;

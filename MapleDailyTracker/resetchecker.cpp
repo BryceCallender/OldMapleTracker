@@ -7,14 +7,14 @@ ResetChecker::ResetChecker()
 
 QDateTime ResetChecker::timeTillDailyReset()
 {
-    ResetData resetData = calcReset(ResetType::Daily);
+    ResetData resetData = calcReset();
     return resetData.timeTillReset;
 }
 
 QDateTime ResetChecker::timeTillWeeklyReset(int resetDay)
 {
     int days = daysTillWeekly(resetDay);
-    ResetData resetData = calcReset(ResetType::Weekly, days);
+    ResetData resetData = calcReset(days);
     return resetData.timeTillReset;
 }
 
@@ -54,7 +54,7 @@ int ResetChecker::daysTillWeekly(int resetDay)
     return distanceFromResetDay;
 }
 
-ResetData ResetChecker::calcReset(ResetType resetType, int days)
+ResetData ResetChecker::calcReset(int days)
 {
     QDateTime currentDateTimeUTC = QDateTime::currentDateTimeUtc();
 
@@ -68,7 +68,6 @@ ResetData ResetChecker::calcReset(ResetType resetType, int days)
 
     ResetData resetData;
     resetData.timeTillReset = QDateTime(resetDate, timeTillReset);
-    resetData.resetType = resetType;
     return resetData;
 }
 

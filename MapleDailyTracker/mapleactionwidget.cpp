@@ -13,12 +13,12 @@ MapleActionWidget::~MapleActionWidget()
     delete ui;
 }
 
-const MapleAction &MapleActionWidget::getMapleAction() const
+const MapleAction& MapleActionWidget::getMapleAction() const
 {
     return mapleAction;
 }
 
-void MapleActionWidget::setMapleAction(const MapleAction &newMapleAction)
+void MapleActionWidget::setMapleAction(const MapleAction& newMapleAction)
 {
     mapleAction = newMapleAction;
     ui->mapleAction->setText(mapleAction.name);
