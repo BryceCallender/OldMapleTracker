@@ -10,7 +10,7 @@ void Character::setName(QString name)
     this->name = name;
 }
 
-QString Character::getName()
+const QString Character::getName() const
 {
     return name;
 }
@@ -83,4 +83,19 @@ void Character::readActions(const QJsonObject &json, QString name, QVector<Maple
             actions.push_back(action);
         }
     }
+}
+
+const QVector<MapleAction>& Character::getMonWeeklies() const
+{
+    return monWeeklies;
+}
+
+const QVector<MapleAction>& Character::getWedWeeklies() const
+{
+    return wedWeeklies;
+}
+
+const QVector<MapleAction>& Character::getDailies() const
+{
+    return dailies;
 }

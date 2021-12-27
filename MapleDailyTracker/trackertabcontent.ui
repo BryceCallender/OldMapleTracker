@@ -15,24 +15,27 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="dailiesBox">
      <property name="title">
       <string>Dailies</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout"/>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="wedWeekliesBox">
      <property name="title">
       <string>Weeklies</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_2"/>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="monWeekliesBox">
      <property name="title">
       <string>Monday Weeklies</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_3"/>
     </widget>
    </item>
   </layout>

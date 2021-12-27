@@ -6,6 +6,8 @@ TrackerTabWidget::TrackerTabWidget(QWidget *parent) :
     ui(new Ui::TrackerTabWidget)
 {
     ui->setupUi(this);
+
+    //setTabsClosable(true);
 }
 
 void TrackerTabWidget::loadTabs(SaveData saveData)

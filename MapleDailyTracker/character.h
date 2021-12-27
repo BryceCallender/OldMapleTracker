@@ -12,14 +12,22 @@ class Character
 {
 public:
     Character();
+
     void setName(QString name);
-    QString getName();
+    const QString getName() const;
+
     void addDaily(MapleAction daily);
     void addWedWeekly(MapleAction weekly);
     void addMonWeekly(MapleAction weekly);
 
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
+
+    const QVector<MapleAction>& getDailies() const;
+
+    const QVector<MapleAction>& getWedWeeklies() const;
+
+    const QVector<MapleAction>& getMonWeeklies() const;
 
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction> actions);

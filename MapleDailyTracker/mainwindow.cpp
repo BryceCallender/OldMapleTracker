@@ -21,10 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FileManager* instance = FileManager::getInstance();
     SaveData saveData = instance->loadData();
+    Progress* progress = ui->progressContents;
 
     if (!saveData.characters.isEmpty())
     {
         trackerTabWidget->loadTabs(saveData);
+        progress->load(saveData.characters);
     }
 }
 

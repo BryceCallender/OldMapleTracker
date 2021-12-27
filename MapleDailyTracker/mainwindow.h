@@ -9,6 +9,7 @@
 #include "resetchecker.h"
 #include "newcharacterdialog.h"
 #include "trackertabwidget.h"
+#include "progress.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,7 @@ private:
     ResetChecker resetChecker;
     QTimer* timer;
 
+    Progress* progress;
     TrackerTabWidget* trackerTabWidget;
     NewCharacterDialog* newCharDialog;
 };
