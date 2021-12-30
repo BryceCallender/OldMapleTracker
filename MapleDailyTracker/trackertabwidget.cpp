@@ -12,7 +12,7 @@ void TrackerTabWidget::loadTabs(SaveData saveData)
 {
     clear();
 
-    for (Character character : saveData.characters)
+    for (const Character &character : saveData.characters)
     {
         TrackerTabContent* content = new TrackerTabContent(this);
         content->setCharacter(character);

@@ -11,7 +11,7 @@ Progress::Progress(QWidget *parent) :
 
 void Progress::load(QVector<Character> characters)
 {
-    for (const Character& character: characters)
+    for (Character& character: characters)
     {
         addCharacterProgress(character);
     }
@@ -21,15 +21,14 @@ void Progress::addProgressBar(QString name, QMap<QString, double>& progressData)
 {
     if (progressData.contains(name))
     {
-        QProgressBar* progress = new QProgressBar();
+        QProgressBar* progress = new QProgressBar(this);
         progress->setFixedWidth(150);
-        progress->setTextVisible(true);
         progress->setValue(progressData[name]);
         layout->addWidget(progress);
     }
 }
 
-QMap<QString, double> Progress::getProgressFromData(const Character& character)
+QMap<QString, double> Progress::getProgressFromData(Character& character)
 {
     QMap<QString, double> progressData;
 
@@ -40,7 +39,7 @@ QMap<QString, double> Progress::getProgressFromData(const Character& character)
     return progressData;
 }
 
-void Progress::addCharacterProgress(const Character& character)
+void Progress::addCharacterProgress(Character& character)
 {
     QMap<QString, double> progressData = getProgressFromData(character);
 

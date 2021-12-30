@@ -6,9 +6,13 @@ TrackerTabContent::TrackerTabContent(QWidget *parent) :
     ui(new Ui::TrackerTabContent)
 {
     ui->setupUi(this);
+
+    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character.getDailies(), this));
+    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character.getWedWeeklies(), this));
+    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character.getMonWeeklies(), this));
 }
 
-void TrackerTabContent::addMapleAction(ActionType actionType, QString action)
+void TrackerTabContent::addMapleAction(ActionType actionType, QString& action)
 {
     MapleAction mapleAction;
     mapleAction.name = action;

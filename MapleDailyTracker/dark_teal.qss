@@ -439,32 +439,38 @@ QCheckBox::indicator {
 /*  ------------------------------------------------------------------------  */
 /*  QListView Indicator  */
 
+QListView::indicator:unchecked,
+QListView::indicator:unchecked:selected,
+QListView::indicator:unchecked:focus {
+  image: url(:icon/theme/primary/checkbox_unchecked.svg);
+}
+
 QListView::indicator:checked,
 QListView::indicator:checked:selected,
 QListView::indicator:checked:focus {
-  image: url(:icon/theme/primary/checklist.svg);
+  image: url(:icon/theme/primary/checkbox_checked.svg);
 }
 
 QListView::indicator:checked:selected:active {
-  image: url(:icon/theme/primary/checklist_invert.svg);
+  image: url(:icon/theme/primary/checkbox_invert.svg);
 }
 
 QListView::indicator:checked:disabled {
-  image: url(:icon/theme/disabled/checklist.svg);
+  image: url(:icon/theme/disabled/checkbox_checked.svg);
 }
 
 QListView::indicator:indeterminate,
 QListView::indicator:indeterminate:selected,
 QListView::indicator:indeterminate:focus {
-  image: url(:icon/theme/primary/checklist_indeterminate.svg);
+  image: url(:icon/theme/primary/checkbox_indeterminate.svg);
 }
 
 QListView::indicator:indeterminate:selected:active {
-  image: url(:icon/theme/primary/checklist_indeterminate_invert.svg);
+  image: url(:icon/theme/primary/checkbox_indeterminate_invert.svg);
 }
 
 QListView::indicator:indeterminate:disabled {
-  image: url(:icon/theme/disabled/checklist_indeterminate.svg);
+  image: url(:icon/theme/disabled/checkbox_indeterminate.svg);
 }
 
 /*  ------------------------------------------------------------------------  */
@@ -968,10 +974,10 @@ QListView::item:selected {
 QTableView:item:selected:focus,
 QTreeView::item:selected:focus,
 QListView::item:selected:focus {
-  background-color: #1de9b6;
-  selection-background-color: #1de9b6;
-  color: #000000;
-  selection-color: #000000; /* For Windows */
+  background-color: rgba(29, 233, 182, 0.2);
+  selection-background-color: rgba(29, 233, 182, 0.2);
+  color: #ffffff;
+  selection-color: #ffffff; /* For Windows */
 }
 
 QTableView {

@@ -7,7 +7,7 @@
 
 #include "filemanager.h"
 #include "resetchecker.h"
-#include "newcharacterdialog.h"
+#include "characterdialog.h"
 #include "trackertabwidget.h"
 #include "progress.h"
 
@@ -35,7 +35,7 @@ private:
 
     Progress* progress;
     TrackerTabWidget* trackerTabWidget;
-    NewCharacterDialog* newCharDialog;
+    CharacterDialog* newCharDialog;
 };
 
 #endif // MAINWINDOW_H

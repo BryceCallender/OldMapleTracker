@@ -18,41 +18,41 @@ CONFIG += c++17
 
 SOURCES += \
         character.cpp \
+        characterdialog.cpp \
         filemanager.cpp \
         main.cpp \
         mainwindow.cpp \
-        mapleactionwidget.cpp \
-        newcharacterdialog.cpp \
-        newmapleactiondialog.cpp \
+        mapleactiondialog.cpp \
         progress.cpp \
         resetchecker.cpp \
         trackertabcontent.cpp \
-        trackertabwidget.cpp
+        trackertabwidget.cpp \
+        trackerwidget.cpp
 
 HEADERS += \
     actiontype.h \
+    characterdialog.h \
     mapleaction.h \
     character.h \
     filemanager.h \
-    mapleactionwidget.h \
-    newcharacterdialog.h \
-    newmapleactiondialog.h \
+    mapleactiondialog.h \
     progress.h \
     resetchecker.h \
     resetdata.h \
     savedata.h \
         mainwindow.h \
     trackertabcontent.h \
-    trackertabwidget.h
+    trackertabwidget.h \
+    trackerwidget.h
 
 FORMS += \
+        characterdialog.ui \
         mainwindow.ui \
-        mapleactionwidget.ui \
-        newcharacterdialog.ui \
-        newmapleactiondialog.ui \
+        mapleactiondialog.ui \
         progress.ui \
         trackertabcontent.ui \
-        trackertabwidget.ui
+        trackertabwidget.ui \
+        trackerwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

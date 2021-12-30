@@ -41,11 +41,13 @@ void MainWindow::calculateResets()
     ui->monWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyMondayResetTime));
 }
 
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event)
+
     FileManager* instance = FileManager::getInstance();
     instance->saveData(trackerTabWidget->getCharactersFromTabs());
-    qDebug() << "Close event";
 }
 
 MainWindow::~MainWindow()
@@ -55,8 +57,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAdd_Character_triggered()
 {
-    newCharDialog = new NewCharacterDialog(this);
-    connect(newCharDialog, &NewCharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
+    newCharDialog = new CharacterDialog(this);
+    connect(newCharDialog, &CharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
     newCharDialog->exec();
 }
 

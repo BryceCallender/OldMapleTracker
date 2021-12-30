@@ -20,17 +20,17 @@ QDateTime ResetChecker::timeTillWeeklyReset(int resetDay)
 
 bool ResetChecker::isDailyReset()
 {
-
+    return false;
 }
 
 bool ResetChecker::isWedWeeklyReset()
 {
-
+    return false;
 }
 
 bool ResetChecker::isMonWeeklyReset()
 {
-
+    return false;
 }
 
 int ResetChecker::daysTillWeekly(int resetDay)

@@ -56,6 +56,8 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction> actions)
         QJsonObject dailyAction;
         dailyAction["name"] = action.name;
         dailyAction["done"] = action.done;
+        dailyAction["isTemporary"] = action.isTemporary;
+        dailyAction["removalTime"] = action.removalTime.toString();
         characterActions.push_back(dailyAction);
     }
 
@@ -77,25 +79,31 @@ void Character::readActions(const QJsonObject &json, QString name, QVector<Maple
             if (actionObject.contains("name") && actionObject["name"].isString())
                 action.name = actionObject["name"].toString();
 
-            if (actionObject.contains("done") && actionObject["done"].isString())
+            if (actionObject.contains("done") && actionObject["done"].isBool())
                 action.done = actionObject["done"].toBool();
+
+            if (actionObject.contains("isTemporary") && actionObject["isTemporary"].isBool())
+                action.isTemporary = actionObject["isTemporary"].toBool();
+
+            if (actionObject.contains("removalTime") && actionObject["removalTime"].isString())
+                action.removalTime = QDateTime::fromString(actionObject["removalTime"].toString());
 
             actions.push_back(action);
         }
     }
 }
 
-const QVector<MapleAction>& Character::getMonWeeklies() const
+QVector<MapleAction>& Character::getMonWeeklies()
 {
     return monWeeklies;
 }
 
-const QVector<MapleAction>& Character::getWedWeeklies() const
+QVector<MapleAction>& Character::getWedWeeklies()
 {
     return wedWeeklies;
 }
 
-const QVector<MapleAction>& Character::getDailies() const
+QVector<MapleAction>& Character::getDailies()
 {
     return dailies;
 }

@@ -5,8 +5,8 @@
 #include <QWidget>
 
 #include "character.h"
-#include "mapleactionwidget.h"
 #include "actiontype.h"
+#include "trackerwidget.h"
 
 namespace Ui {
 class TrackerTabContent;
@@ -18,7 +18,7 @@ class TrackerTabContent : public QWidget
 
 public:
     explicit TrackerTabContent(QWidget *parent = nullptr);
-    void addMapleAction(ActionType actionType, QString action);
+    void addMapleAction(ActionType actionType, QString &action);
     Character getCharacter();
     void setCharacter(Character character);
     ~TrackerTabContent();

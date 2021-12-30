@@ -23,11 +23,11 @@ public:
     void read(const QJsonObject &json);
     void write(QJsonObject &json);
 
-    const QVector<MapleAction>& getDailies() const;
+    QVector<MapleAction>& getDailies();
 
-    const QVector<MapleAction>& getWedWeeklies() const;
+    QVector<MapleAction>& getWedWeeklies();
 
-    const QVector<MapleAction>& getMonWeeklies() const;
+    QVector<MapleAction>& getMonWeeklies();
 
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction> actions);

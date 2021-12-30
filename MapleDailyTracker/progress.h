@@ -21,8 +21,8 @@ public:
     explicit Progress(QWidget *parent = nullptr);
     void load(QVector<Character> characters);
     void addProgressBar(QString name, QMap<QString, double>& progressData);
-    void addCharacterProgress(const Character& character);
-    QMap<QString, double> getProgressFromData(const Character& character);
+    void addCharacterProgress(Character& character);
+    QMap<QString, double> getProgressFromData(Character& character);
     ~Progress();
 
 private:
