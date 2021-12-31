@@ -17,6 +17,7 @@ private:
     FileManager();
     static FileManager* instance;
 public:
+    static bool closedWelcome;
     static FileManager* getInstance()
     {
         if (instance == nullptr)

@@ -8,6 +8,7 @@
 #include <QLabel>
 
 #include "character.h"
+#include "progresscontent.h"
 
 namespace Ui {
 class Progress;
@@ -20,15 +21,15 @@ class Progress : public QWidget
 public:
     explicit Progress(QWidget *parent = nullptr);
     void load(QVector<Character> characters);
-    void addProgressBar(QString name, QMap<QString, double>& progressData);
+     ~Progress();
+public slots:
     void addCharacterProgress(Character& character);
-    QMap<QString, double> getProgressFromData(Character& character);
-    ~Progress();
+    void removeCharacterProgress(int index);
 
 private:
-    double getProgressFromSet(const QVector<MapleAction> &set);
     QVBoxLayout* layout;
     Ui::Progress *ui;
+    QVector<ProgressContent*> progress;
 };
 
 #endif // PROGRESS_H

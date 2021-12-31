@@ -6,6 +6,15 @@ TrackerTabWidget::TrackerTabWidget(QWidget *parent) :
     ui(new Ui::TrackerTabWidget)
 {
     ui->setupUi(this);
+
+    connect(this, &QTabWidget::tabCloseRequested, this, &TrackerTabWidget::tabCloseRequest);
+}
+
+void TrackerTabWidget::setProgressReference(Progress *progress)
+{
+    this->progress = progress;
+    connect(this, &TrackerTabWidget::characterAdded, progress, &Progress::addCharacterProgress);
+    connect(this, &TrackerTabWidget::characterRemoved, progress, &Progress::removeCharacterProgress);
 }
 
 void TrackerTabWidget::loadTabs(SaveData saveData)
@@ -19,6 +28,26 @@ void TrackerTabWidget::loadTabs(SaveData saveData)
         addTab(content, character.getName());
         tabs.push_back(content);
     }
+}
+
+void TrackerTabWidget::tabCloseRequest(int index)
+{
+    if (tabText(index).contains("Welcome"))
+    {
+        FileManager::closedWelcome = true;
+    }
+    else
+    {
+        int result = QMessageBox::warning(this, "Removing character", "Are you sure you want to remove? This will permenantly delete all data associated with it.", QMessageBox::Ok, QMessageBox::Cancel);
+        if (result != QMessageBox::Ok)
+        {
+            return;
+        }
+
+        emit characterRemoved(index);
+    }
+
+    removeTab(index);
 }
 
 QVector<Character> TrackerTabWidget::getCharactersFromTabs()
@@ -42,6 +71,8 @@ void TrackerTabWidget::addCharacterTab(QString name)
     TrackerTabContent* content = new TrackerTabContent(this);
     Character character;
     character.setName(name);
+
+    emit characterAdded(character);
 
     content->setCharacter(character);
     addTab(content, name);

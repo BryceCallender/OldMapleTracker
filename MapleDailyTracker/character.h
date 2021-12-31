@@ -24,14 +24,16 @@ public:
     void write(QJsonObject &json);
 
     QVector<MapleAction>& getDailies();
-
     QVector<MapleAction>& getWedWeeklies();
-
     QVector<MapleAction>& getMonWeeklies();
 
+    bool operator==(const Character& other)
+    {
+      return getName() == other.getName();
+    }
 private:
-    QJsonArray actionsToJSONArray(QVector<MapleAction> actions);
-    void readActions(const QJsonObject &json, QString name, QVector<MapleAction> actions);
+    QJsonArray actionsToJSONArray(QVector<MapleAction>& actions);
+    void readActions(const QJsonObject &json, QString name, QVector<MapleAction>& actions);
 
     QString name;
     QVector<MapleAction> dailies;

@@ -24,6 +24,7 @@ SOURCES += \
         mainwindow.cpp \
         mapleactiondialog.cpp \
         progress.cpp \
+        progresscontent.cpp \
         resetchecker.cpp \
         trackertabcontent.cpp \
         trackertabwidget.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     filemanager.h \
     mapleactiondialog.h \
     progress.h \
+    progresscontent.h \
     resetchecker.h \
     resetdata.h \
     savedata.h \
@@ -50,6 +52,7 @@ FORMS += \
         mainwindow.ui \
         mapleactiondialog.ui \
         progress.ui \
+        progresscontent.ui \
         trackertabcontent.ui \
         trackertabwidget.ui \
         trackerwidget.ui

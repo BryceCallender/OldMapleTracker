@@ -16,17 +16,13 @@ TrackerWidget::TrackerWidget(QVector<MapleAction> &actions, QWidget *parent) :
     unfinishedList->setMinimumHeight(200);
     finishedList->setMinimumHeight(200);
 
-    for (const MapleAction& action : actions)
-    {
-        if (action.done)
-        {
+    QAction* deleteAction = new QAction("Delete", this);
 
-        }
-        else
-        {
+    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    unfinishedList->addActions({ deleteAction });
 
-        }
-    }
+    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    finishedList->addActions({ deleteAction });
 
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
 }
@@ -45,17 +41,12 @@ void TrackerWidget::addMapleAction()
 
 void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
 {
-    this->actions.push_back(action);
+    actions.push_back(action);
 
     //Item setup
-    QListWidgetItem* item = new QListWidgetItem("testing", unfinishedList);
+    QListWidgetItem* item = new QListWidgetItem(action.name, unfinishedList);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
     item->setCheckState(Qt::Unchecked);
-
-    //Store the data associated with the item
-    QVariant data;
-    data.setValue(action);
-    item->setData(Qt::UserRole, data);
 
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveToFinished);
 
@@ -66,10 +57,9 @@ void TrackerWidget::moveToFinished(QListWidgetItem *item)
 {
     if (item->checkState() == Qt::Checked)
     {
-        MapleAction action = item->data(Qt::UserRole).value<MapleAction>();
-        action.done = Qt::Checked;
-        //item = unfinishedList->takeItem(unfinishedList->currentRow());
-        //finishedList->addItem(item);
-        emit updateProgress();
+        QListWidgetItem* taken = unfinishedList->takeItem(unfinishedList->currentRow());
+        finishedList->addItem(taken);
     }
+
+    emit updateProgress();
 }

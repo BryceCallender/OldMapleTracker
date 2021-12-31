@@ -452,7 +452,7 @@ QListView::indicator:checked:focus {
 }
 
 QListView::indicator:checked:selected:active {
-  image: url(:icon/theme/primary/checkbox_invert.svg);
+  image: url(:icon/theme/primary/checkbox_checked.svg);
 }
 
 QListView::indicator:checked:disabled {

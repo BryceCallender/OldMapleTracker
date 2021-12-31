@@ -1,5 +1,6 @@
 #include "filemanager.h"
 
+bool FileManager::closedWelcome = false;
 FileManager *FileManager::instance = nullptr;
 
 FileManager::FileManager()
@@ -18,6 +19,7 @@ bool FileManager::saveData(QVector<Character> characters) const
     }
 
     QJsonObject json;
+    json["closedWelcome"] = FileManager::closedWelcome;
     json["lastOpened"] = QDateTime::currentDateTimeUtc().toString();
 
     QJsonArray charactersArray;
@@ -50,6 +52,12 @@ SaveData FileManager::loadData()
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     QJsonObject json = loadDoc.object();
+
+    if (json.contains("closedWelcome") && json["closedWelcome"].isBool())
+    {
+        data.closedWelcome = json["closedWelcome"].toBool();
+        FileManager::closedWelcome = data.closedWelcome;
+    }
 
     if (json.contains("lastOpened") && json["lastOpened"].isString())
     {

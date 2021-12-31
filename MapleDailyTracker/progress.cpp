@@ -13,55 +13,22 @@ void Progress::load(QVector<Character> characters)
 {
     for (Character& character: characters)
     {
-        addCharacterProgress(character);
+        ProgressContent* progressContent = new ProgressContent(character, this);
+        layout->addWidget(progressContent);
+        progress.push_back(progressContent);
     }
-}
-
-void Progress::addProgressBar(QString name, QMap<QString, double>& progressData)
-{
-    if (progressData.contains(name))
-    {
-        QProgressBar* progress = new QProgressBar(this);
-        progress->setFixedWidth(150);
-        progress->setValue(progressData[name]);
-        layout->addWidget(progress);
-    }
-}
-
-QMap<QString, double> Progress::getProgressFromData(Character& character)
-{
-    QMap<QString, double> progressData;
-
-    progressData.insert("dailies", getProgressFromSet(character.getDailies()));
-    progressData.insert("wedWeeklies", getProgressFromSet(character.getWedWeeklies()));
-    progressData.insert("monWeeklies", getProgressFromSet(character.getMonWeeklies()));
-
-    return progressData;
 }
 
 void Progress::addCharacterProgress(Character& character)
 {
-    QMap<QString, double> progressData = getProgressFromData(character);
-
-    layout->addWidget(new QLabel(character.getName()));
-    addProgressBar("dailies", progressData);
-    addProgressBar("wedWeeklies", progressData);
-    addProgressBar("monWeeklies", progressData);
+    progress.push_back(new ProgressContent(character, this));
 }
 
-double Progress::getProgressFromSet(const QVector<MapleAction>& set)
+void Progress::removeCharacterProgress(int index)
 {
-    int numberOfDone = 0;
-
-    for (const MapleAction& action : set)
-    {
-        if (action.done)
-        {
-            ++numberOfDone;
-        }
-    }
-
-    return (numberOfDone / set.size()) * 100;
+    QWidget* widget = progress.takeAt(index);
+    layout->removeWidget(widget);
+    delete widget;
 }
 
 Progress::~Progress()

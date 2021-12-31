@@ -48,7 +48,7 @@ void Character::write(QJsonObject &json)
     json["monWeeklies"] = actionsToJSONArray(monWeeklies);
 }
 
-QJsonArray Character::actionsToJSONArray(QVector<MapleAction> actions)
+QJsonArray Character::actionsToJSONArray(QVector<MapleAction>& actions)
 {
     QJsonArray characterActions;
     for (const MapleAction& action : actions)
@@ -64,7 +64,7 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction> actions)
     return characterActions;
 }
 
-void Character::readActions(const QJsonObject &json, QString name, QVector<MapleAction> actions)
+void Character::readActions(const QJsonObject &json, QString name, QVector<MapleAction>& actions)
 {
     if (json.contains(name) && json[name].isArray())
     {

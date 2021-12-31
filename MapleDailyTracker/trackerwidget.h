@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QVector>
 #include <QListWidget>
+#include <QAction>
 
 #include "character.h"
 #include "mapleaction.h"
@@ -30,10 +31,10 @@ private:
     QVector<MapleAction> actions;
 
     QListWidget* unfinishedList;
-    QVector<MapleAction> unfinished;
+    QMap<QString, MapleAction> unfinished;
 
     QListWidget* finishedList;
-    QVector<MapleAction> finished;
+    QMap<QString, MapleAction> finished;
 };
 
 #endif // TRACKERWIDGET_H

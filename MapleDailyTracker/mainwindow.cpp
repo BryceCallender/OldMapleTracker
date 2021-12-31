@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     SaveData saveData = instance->loadData();
     Progress* progress = ui->progressContents;
 
+    trackerTabWidget->setProgressReference(progress);
+
     if (!saveData.characters.isEmpty())
     {
         trackerTabWidget->loadTabs(saveData);
