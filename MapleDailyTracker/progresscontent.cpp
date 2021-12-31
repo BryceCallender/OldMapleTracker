@@ -28,11 +28,6 @@ QMap<QString, double> ProgressContent::getProgressFromData(Character& character)
     return progressData;
 }
 
-Character &ProgressContent::getCharacter()
-{
-    return character;
-}
-
 double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)
 {
     int numberOfDone = 0;
