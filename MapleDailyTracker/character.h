@@ -16,12 +16,8 @@ public:
     void setName(QString name);
     const QString getName() const;
 
-    void addDaily(MapleAction daily);
-    void addWedWeekly(MapleAction weekly);
-    void addMonWeekly(MapleAction weekly);
-
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json);
+    void read(const QJsonObject& json);
+    void write(QJsonObject& json);
 
     QVector<MapleAction>& getDailies();
     QVector<MapleAction>& getWedWeeklies();
@@ -33,7 +29,7 @@ public:
     }
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction>& actions);
-    void readActions(const QJsonObject &json, QString name, QVector<MapleAction>& actions);
+    void readActions(const QJsonObject& json, QString name, QVector<MapleAction>& actions);
 
     QString name;
     QVector<MapleAction> dailies;

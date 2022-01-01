@@ -21,9 +21,9 @@ void TrackerTabWidget::loadTabs(SaveData saveData)
 {
     clear();
 
-    for (const Character &character : saveData.characters)
+    for (Character& character : saveData.characters)
     {
-        TrackerTabContent* content = new TrackerTabContent(this);
+        TrackerTabContent* content = new TrackerTabContent(progress, this);
         content->setCharacter(character);
         addTab(content, character.getName());
         tabs.push_back(content);
@@ -45,6 +45,8 @@ void TrackerTabWidget::tabCloseRequest(int index)
         }
 
         emit characterRemoved(index);
+
+        tabs.removeAt(index);
     }
 
     removeTab(index);
@@ -68,7 +70,7 @@ TrackerTabWidget::~TrackerTabWidget()
 
 void TrackerTabWidget::addCharacterTab(QString name)
 {
-    TrackerTabContent* content = new TrackerTabContent(this);
+    TrackerTabContent* content = new TrackerTabContent(progress, this);
     Character character;
     character.setName(name);
 

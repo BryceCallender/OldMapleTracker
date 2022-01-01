@@ -8,6 +8,7 @@
 
 #include "character.h"
 #include "mapleaction.h"
+#include "progress.h"
 
 namespace Ui {
 class TrackerWidget;
@@ -18,16 +19,18 @@ class TrackerWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackerWidget(QVector<MapleAction>& actions, QWidget *parent = nullptr);
+    explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
     void addToUnfinishedListWidget(MapleAction& action);
-    void moveToFinished(QListWidgetItem *item);
+    void moveItem(QListWidgetItem *item);
 signals:
     void updateProgress();
 private:
     Ui::TrackerWidget *ui;
+    Progress* progress;
+
     QVector<MapleAction> actions;
 
     QListWidget* unfinishedList;

@@ -16,7 +16,7 @@ class ProgressContent : public QWidget
 public:
     explicit ProgressContent(Character& character, QWidget *parent = nullptr);
     void loadProgressBars();
-    QMap<QString, double> getProgressFromData(Character& character);
+    QMap<QString, double> getProgressFromData();
     ~ProgressContent();
 
 private:

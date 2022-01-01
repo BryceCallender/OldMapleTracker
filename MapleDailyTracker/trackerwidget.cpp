@@ -2,13 +2,14 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
-TrackerWidget::TrackerWidget(QVector<MapleAction> &actions, QWidget *parent) :
+TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TrackerWidget)
 {
     ui->setupUi(this);
 
     this->actions = actions;
+    this->progress = progress;
 
     unfinishedList = ui->unfinishedListWidget;
     finishedList = ui->finishedListWidget;
@@ -16,15 +17,18 @@ TrackerWidget::TrackerWidget(QVector<MapleAction> &actions, QWidget *parent) :
     unfinishedList->setMinimumHeight(200);
     finishedList->setMinimumHeight(200);
 
-    QAction* deleteAction = new QAction("Delete", this);
+//    QAction* deleteAction = new QAction("Delete", this);
 
-    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-    unfinishedList->addActions({ deleteAction });
+//    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+//    unfinishedList->addActions({ deleteAction });
 
-    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-    finishedList->addActions({ deleteAction });
+//    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+//    finishedList->addActions({ deleteAction });
 
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
+    connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
+    connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
+    connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
 }
 
 TrackerWidget::~TrackerWidget()
@@ -48,17 +52,20 @@ void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
     item->setCheckState(Qt::Unchecked);
 
-    connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveToFinished);
-
     unfinishedList->addItem(item);
 }
 
-void TrackerWidget::moveToFinished(QListWidgetItem *item)
+void TrackerWidget::moveItem(QListWidgetItem *item)
 {
     if (item->checkState() == Qt::Checked)
     {
         QListWidgetItem* taken = unfinishedList->takeItem(unfinishedList->currentRow());
         finishedList->addItem(taken);
+    }
+    else
+    {
+        QListWidgetItem* taken = finishedList->takeItem(finishedList->currentRow());
+        unfinishedList->addItem(taken);
     }
 
     emit updateProgress();

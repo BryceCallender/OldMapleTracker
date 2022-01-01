@@ -15,22 +15,7 @@ const QString Character::getName() const
     return name;
 }
 
-void Character::addDaily(MapleAction daily)
-{
-    this->dailies.push_back(daily);
-}
-
-void Character::addWedWeekly(MapleAction weekly)
-{
-    this->wedWeeklies.push_back(weekly);
-}
-
-void Character::addMonWeekly(MapleAction weekly)
-{
-    this->monWeeklies.push_back(weekly);
-}
-
-void Character::read(const QJsonObject &json)
+void Character::read(const QJsonObject& json)
 {
     if (json.contains("name") && json["name"].isString())
         name = json["name"].toString();
@@ -40,7 +25,7 @@ void Character::read(const QJsonObject &json)
     readActions(json, "monWeeklies", monWeeklies);
 }
 
-void Character::write(QJsonObject &json)
+void Character::write(QJsonObject& json)
 {
     json["name"] = name;
     json["dailies"] = actionsToJSONArray(dailies);
@@ -64,7 +49,7 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction>& actions)
     return characterActions;
 }
 
-void Character::readActions(const QJsonObject &json, QString name, QVector<MapleAction>& actions)
+void Character::readActions(const QJsonObject& json, QString name, QVector<MapleAction>& actions)
 {
     if (json.contains(name) && json[name].isArray())
     {

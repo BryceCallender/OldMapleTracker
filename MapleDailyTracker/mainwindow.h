@@ -35,7 +35,6 @@ private:
 
     Progress* progress;
     TrackerTabWidget* trackerTabWidget;
-    CharacterDialog* newCharDialog;
 };
 
 #endif // MAINWINDOW_H

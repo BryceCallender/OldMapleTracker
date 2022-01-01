@@ -10,14 +10,20 @@ ProgressContent::ProgressContent(Character &character, QWidget *parent) :
     this->character = character;
 
     ui->label->setText(character.getName());
+
+    loadProgressBars();
 }
 
 void ProgressContent::loadProgressBars()
 {
+    QMap<QString, double> progressData = getProgressFromData();
 
+    ui->dailyBar->setValue(progressData["dailies"]);
+    ui->wedWeeklyBar->setValue(progressData["wedWeeklies"]);
+    ui->monWeeklyBar->setValue(progressData["monWeeklies"]);
 }
 
-QMap<QString, double> ProgressContent::getProgressFromData(Character& character)
+QMap<QString, double> ProgressContent::getProgressFromData()
 {
     QMap<QString, double> progressData;
 

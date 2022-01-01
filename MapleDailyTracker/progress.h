@@ -25,7 +25,7 @@ public:
 public slots:
     void addCharacterProgress(Character& character);
     void removeCharacterProgress(int index);
-
+    void updateProgress();
 private:
     QVBoxLayout* layout;
     Ui::Progress *ui;

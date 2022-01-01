@@ -31,6 +31,14 @@ void Progress::removeCharacterProgress(int index)
     delete widget;
 }
 
+void Progress::updateProgress()
+{
+    for (ProgressContent* pc: progress)
+    {
+        pc->loadProgressBars();
+    }
+}
+
 Progress::~Progress()
 {
     delete ui;
