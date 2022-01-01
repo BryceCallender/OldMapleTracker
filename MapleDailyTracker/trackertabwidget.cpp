@@ -10,21 +10,20 @@ TrackerTabWidget::TrackerTabWidget(QWidget *parent) :
     connect(this, &QTabWidget::tabCloseRequested, this, &TrackerTabWidget::tabCloseRequest);
 }
 
-void TrackerTabWidget::setProgressReference(Progress *progress)
+void TrackerTabWidget::setProgressReference(Progress* progress)
 {
     this->progress = progress;
     connect(this, &TrackerTabWidget::characterAdded, progress, &Progress::addCharacterProgress);
     connect(this, &TrackerTabWidget::characterRemoved, progress, &Progress::removeCharacterProgress);
 }
 
-void TrackerTabWidget::loadTabs(SaveData saveData)
+void TrackerTabWidget::loadTabs(SaveData& saveData)
 {
     clear();
 
     for (Character& character : saveData.characters)
     {
-        TrackerTabContent* content = new TrackerTabContent(progress, this);
-        content->setCharacter(character);
+        TrackerTabContent* content = new TrackerTabContent(character, progress, this);
         addTab(content, character.getName());
         tabs.push_back(content);
     }
@@ -70,13 +69,13 @@ TrackerTabWidget::~TrackerTabWidget()
 
 void TrackerTabWidget::addCharacterTab(QString name)
 {
-    TrackerTabContent* content = new TrackerTabContent(progress, this);
     Character character;
     character.setName(name);
 
+    TrackerTabContent* content = new TrackerTabContent(character, progress, this);
+
     emit characterAdded(character);
 
-    content->setCharacter(character);
     addTab(content, name);
     tabs.push_back(content);
 }

@@ -2,13 +2,14 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
-TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
+TrackerWidget::TrackerWidget(Character& character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
+    character(character),
+    actions(actions),
     ui(new Ui::TrackerWidget)
 {
     ui->setupUi(this);
 
-    this->actions = actions;
     this->progress = progress;
 
     unfinishedList = ui->unfinishedListWidget;

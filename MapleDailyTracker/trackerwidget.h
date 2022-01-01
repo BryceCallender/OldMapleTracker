@@ -19,7 +19,7 @@ class TrackerWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
+    explicit TrackerWidget(Character& character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -28,16 +28,14 @@ private slots:
 signals:
     void updateProgress();
 private:
+    Character character;
+    QVector<MapleAction> actions;
+
     Ui::TrackerWidget *ui;
     Progress* progress;
 
-    QVector<MapleAction> actions;
-
     QListWidget* unfinishedList;
-    QMap<QString, MapleAction> unfinished;
-
     QListWidget* finishedList;
-    QMap<QString, MapleAction> finished;
 };
 
 #endif // TRACKERWIDGET_H

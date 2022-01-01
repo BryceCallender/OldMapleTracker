@@ -22,7 +22,7 @@ class TrackerTabWidget : public QTabWidget
 public:
     explicit TrackerTabWidget(QWidget *parent = nullptr);
     void setProgressReference(Progress* progress);
-    void loadTabs(SaveData saveData);
+    void loadTabs(SaveData& saveData);
     void tabCloseRequest(int index);
     QVector<Character> getCharactersFromTabs();
     ~TrackerTabWidget();
