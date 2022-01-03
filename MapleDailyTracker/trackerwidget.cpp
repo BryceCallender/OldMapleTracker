@@ -2,7 +2,7 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
-TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
+TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     actions(actions),
     ui(new Ui::TrackerWidget)
@@ -10,7 +10,6 @@ TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions
     ui->setupUi(this);
 
     this->progress = progress;
-    this->character = character;
 
     unfinishedList = ui->unfinishedListWidget;
     finishedList = ui->finishedListWidget;
@@ -29,8 +28,6 @@ TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions
             loadActionTo(unfinishedList, action);
         }
     }
-
-
 
 //    QAction* deleteAction = new QAction("Delete", this);
 
@@ -77,6 +74,7 @@ void TrackerWidget::moveItem(QListWidgetItem *item)
         unfinishedList->addItem(taken);
     }
 
+    updateActionTo(item->text(), item->checkState());
     emit updateProgress();
 }
 
@@ -84,7 +82,19 @@ void TrackerWidget::loadActionTo(QListWidget *widget, const MapleAction &action)
 {
     QListWidgetItem* item = new QListWidgetItem(action.name, widget);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
-    item->setCheckState(Qt::Unchecked);
+    item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);
+}
+
+void TrackerWidget::updateActionTo(const QString& actionName, bool checked)
+{
+    for (MapleAction& action : actions)
+    {
+        if (action.name == actionName)
+        {
+            action.done = checked;
+            return;
+        }
+    }
 }

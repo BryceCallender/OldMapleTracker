@@ -14,6 +14,7 @@ void TrackerTabWidget::setProgressReference(Progress* progress)
 {
     this->progress = progress;
     connect(this, &TrackerTabWidget::characterRemoved, progress, &Progress::removeCharacterProgress);
+    connect(this, &TrackerTabWidget::currentChanged, progress, &Progress::scrollToProgress);
 }
 
 void TrackerTabWidget::loadTabs(SaveData& saveData)
@@ -68,10 +69,10 @@ TrackerTabWidget::~TrackerTabWidget()
 
 void TrackerTabWidget::addCharacterTab(const QString &name)
 {
-    Character character;
-    character.setName(name);
+    Character* character = new Character();
+    character->setName(name);
 
-    TrackerTabContent* content = new TrackerTabContent(&character, progress, this);
+    TrackerTabContent* content = new TrackerTabContent(character, progress, this);
 
     addTab(content, name);
     tabs.push_back(content);

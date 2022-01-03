@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QListWidget>
 #include <QAction>
+#include <algorithm>
 
 #include "character.h"
 #include "mapleaction.h"
@@ -19,7 +20,7 @@ class TrackerWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackerWidget(Character* character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
+    explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -29,6 +30,7 @@ signals:
     void updateProgress();
 private:
     void loadActionTo(QListWidget* widget, const MapleAction& action);
+    void updateActionTo(const QString &actionName, bool checked);
     Character* character;
     QVector<MapleAction>& actions;
 

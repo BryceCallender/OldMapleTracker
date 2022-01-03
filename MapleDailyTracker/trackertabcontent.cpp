@@ -12,9 +12,9 @@ TrackerTabContent::TrackerTabContent(Character* character, Progress* progress, Q
 
     progress->addCharacterProgress(character);
 
-    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character, character->getDailies(), progress, this));
-    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getWedWeeklies(), progress, this));
-    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getMonWeeklies(), progress, this));
+    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character->getDailies(), progress, this));
+    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character->getWedWeeklies(), progress, this));
+    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character->getMonWeeklies(), progress, this));
 }
 
 Character* TrackerTabContent::getCharacter()

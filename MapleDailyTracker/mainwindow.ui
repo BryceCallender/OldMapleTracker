@@ -181,20 +181,13 @@ p, li { white-space: pre-wrap; }
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QScrollArea" name="scrollArea">
-             <property name="widgetResizable">
-              <bool>true</bool>
+            <widget class="Progress" name="progressContents" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <widget class="Progress" name="progressContents">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>224</width>
-                <height>299</height>
-               </rect>
-              </property>
-             </widget>
             </widget>
            </item>
           </layout>
@@ -240,7 +233,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>Progress</class>
    <extends>QWidget</extends>
-   <header>progress.h</header>
+   <header location="global">progress.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
