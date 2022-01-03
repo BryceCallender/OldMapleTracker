@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-07-30T18:25:55
-#
-#-------------------------------------------------
-
 QT       += core gui widgets
 
 TARGET = MapleDailyTracker
@@ -15,38 +9,61 @@ TEMPLATE = app
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+QMAKE_CXXFLAGS_WARN_ON += -Wno-reorder
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECAbTED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++17
 
 SOURCES += \
+        character.cpp \
+        characterdialog.cpp \
+        filemanager.cpp \
         main.cpp \
         mainwindow.cpp \
-    initilizationwindow.cpp \
-    dailytrackerwindow.cpp \
-    mapletabwidget.cpp \
-    checkboxnamewindow.cpp \
-    datechecker.cpp
+        mapleactiondialog.cpp \
+        progress.cpp \
+        progresscontent.cpp \
+        resetchecker.cpp \
+        trackertabcontent.cpp \
+        trackertabwidget.cpp \
+        trackerwidget.cpp
 
 HEADERS += \
+    characterdialog.h \
+    mapleaction.h \
+    character.h \
+    filemanager.h \
+    mapleactiondialog.h \
+    progress.h \
+    progresscontent.h \
+    resetchecker.h \
+    resetdata.h \
+    savedata.h \
         mainwindow.h \
-    initilizationwindow.h \
-    dailytrackerwindow.h \
-    mapletabwidget.h \
-    checkboxnamewindow.h \
-    datechecker.h
+    trackertabcontent.h \
+    trackertabwidget.h \
+    trackerwidget.h
 
 FORMS += \
+        characterdialog.ui \
         mainwindow.ui \
-    initilizationwindow.ui \
-    dailytrackerwindow.ui \
-    mapletabwidget.ui \
-    checkboxnamewindow.ui
+        mapleactiondialog.ui \
+        progress.ui \
+        progresscontent.ui \
+        trackertabcontent.ui \
+        trackertabwidget.ui \
+        trackerwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    resources.qrc

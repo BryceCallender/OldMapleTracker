@@ -9,13 +9,46 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    initWindow = new InitilizationWindow();
-    trackerWindow = new DailyTrackerWindow();
+
+    calculateResets();
+
+    timer = new QTimer(this);
+    timer->setInterval(1000 * 60);
+    timer->callOnTimeout(this, &MainWindow::calculateResets);
+    timer->start();
+
+    trackerTabWidget = ui->tabWidget;
+
+    FileManager* instance = FileManager::getInstance();
+    SaveData saveData = instance->loadData();
+    Progress* progress = ui->progressContents;
+
+    trackerTabWidget->setProgressReference(progress);
+
+    if (!saveData.characters.isEmpty())
+    {
+        trackerTabWidget->loadTabs(saveData);
+    }
 }
 
-DailyTrackerWindow *MainWindow::getTrackerWindow()
+void MainWindow::calculateResets()
 {
-    return trackerWindow;
+    QDateTime dailyResetTime = resetChecker.timeTillDailyReset();
+    QDateTime weeklyResetTime = resetChecker.timeTillWeeklyReset();
+    QDateTime weeklyMondayResetTime = resetChecker.timeTillWeeklyReset(Qt::Monday);
+
+    ui->dailyResetLabel->setText(ResetChecker::resetToLabel(dailyResetTime));
+    ui->wedWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyResetTime));
+    ui->monWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyMondayResetTime));
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event)
+
+    FileManager* instance = FileManager::getInstance();
+    instance->saveData(trackerTabWidget->getCharactersFromTabs());
 }
 
 MainWindow::~MainWindow()
@@ -23,29 +56,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_beginTrackerButton_clicked()
+void MainWindow::on_actionAdd_Character_triggered()
 {
-    QFile file("FileLocation.txt");
-    this->close();
-
-    //If the save file is saved into the program
-    if(file.exists("FileLocation.txt"))
-    {
-        qDebug() << "File exists";
-        if(file.open(QIODevice::ReadOnly))
-        {
-            if(trackerWindow->loadData())
-            {
-                trackerWindow->show();
-            }
-            else
-            {
-                QMessageBox::critical(this,"Couldn't get save information","No Save File detected or file is corrupted");
-            }
-        }
-    }
-    else
-    {
-        initWindow->show();
-    }
+    CharacterDialog* newCharDialog = new CharacterDialog(this);
+    connect(newCharDialog, &CharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
+    newCharDialog->exec();
 }
+

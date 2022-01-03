@@ -2,8 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "initilizationwindow.h"
-#include "dailytrackerwindow.h"
+#include <QFile>
+#include <QTimer>
+
+#include "filemanager.h"
+#include "resetchecker.h"
+#include "characterdialog.h"
+#include "trackertabwidget.h"
+#include "progress.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,16 +21,20 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    DailyTrackerWindow* getTrackerWindow();
+    void calculateResets();
+    void closeEvent(QCloseEvent* event);
     ~MainWindow();
 
 private slots:
-    void on_beginTrackerButton_clicked();
+    void on_actionAdd_Character_triggered();
 
 private:
     Ui::MainWindow *ui;
-    InitilizationWindow *initWindow;
-    DailyTrackerWindow *trackerWindow;
+    ResetChecker resetChecker;
+    QTimer* timer;
+
+    Progress* progress;
+    TrackerTabWidget* trackerTabWidget;
 };
 
 #endif // MAINWINDOW_H
