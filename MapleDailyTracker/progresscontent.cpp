@@ -1,7 +1,7 @@
 #include "progresscontent.h"
 #include "ui_progresscontent.h"
 
-ProgressContent::ProgressContent(Character &character, QWidget *parent) :
+ProgressContent::ProgressContent(Character* character, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ProgressContent)
 {
@@ -9,7 +9,7 @@ ProgressContent::ProgressContent(Character &character, QWidget *parent) :
 
     this->character = character;
 
-    ui->label->setText(character.getName());
+    ui->label->setText(character->getName());
 
     loadProgressBars();
 }
@@ -27,9 +27,9 @@ QMap<QString, double> ProgressContent::getProgressFromData()
 {
     QMap<QString, double> progressData;
 
-    progressData.insert("dailies", getProgressFromSet(character.getDailies()));
-    progressData.insert("wedWeeklies", getProgressFromSet(character.getWedWeeklies()));
-    progressData.insert("monWeeklies", getProgressFromSet(character.getMonWeeklies()));
+    progressData.insert("dailies", getProgressFromSet(character->getDailies()));
+    progressData.insert("wedWeeklies", getProgressFromSet(character->getWedWeeklies()));
+    progressData.insert("monWeeklies", getProgressFromSet(character->getMonWeeklies()));
 
     return progressData;
 }

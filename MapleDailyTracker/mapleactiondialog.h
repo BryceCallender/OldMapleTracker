@@ -2,6 +2,7 @@
 #define MAPLEACTIONDIALOG_H
 
 #include <QDialog>
+#include <QPushButton>
 
 #include "mapleaction.h"
 
@@ -14,8 +15,9 @@ class MapleActionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit MapleActionDialog(QWidget *parent = nullptr);
+    explicit MapleActionDialog(QVector<MapleAction>& actions, QWidget *parent = nullptr);
     void createAction();
+    void checkForAction(const QString& name);
     ~MapleActionDialog();
 
 private slots:
@@ -24,6 +26,7 @@ private slots:
 signals:
     void actionConfirmed(MapleAction& mapleAction);
 private:
+    QVector<MapleAction>& actions;
     Ui::MapleActionDialog *ui;
 };
 

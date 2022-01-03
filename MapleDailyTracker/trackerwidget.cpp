@@ -2,21 +2,35 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
-TrackerWidget::TrackerWidget(Character& character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
+TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
-    character(character),
     actions(actions),
     ui(new Ui::TrackerWidget)
 {
     ui->setupUi(this);
 
     this->progress = progress;
+    this->character = character;
 
     unfinishedList = ui->unfinishedListWidget;
     finishedList = ui->finishedListWidget;
 
     unfinishedList->setMinimumHeight(200);
     finishedList->setMinimumHeight(200);
+
+    for (const MapleAction& action: actions)
+    {
+        if (action.done)
+        {
+            loadActionTo(finishedList, action);
+        }
+        else
+        {
+            loadActionTo(unfinishedList, action);
+        }
+    }
+
+
 
 //    QAction* deleteAction = new QAction("Delete", this);
 
@@ -39,21 +53,15 @@ TrackerWidget::~TrackerWidget()
 
 void TrackerWidget::addMapleAction()
 {
-    MapleActionDialog* dialog = new MapleActionDialog(this);
+    MapleActionDialog* dialog = new MapleActionDialog(actions, this);
     connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
     dialog->exec();
 }
 
-void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
+void TrackerWidget::addToUnfinishedListWidget(const MapleAction& action)
 {
     actions.push_back(action);
-
-    //Item setup
-    QListWidgetItem* item = new QListWidgetItem(action.name, unfinishedList);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
-    item->setCheckState(Qt::Unchecked);
-
-    unfinishedList->addItem(item);
+    loadActionTo(unfinishedList, action);
 }
 
 void TrackerWidget::moveItem(QListWidgetItem *item)
@@ -70,4 +78,13 @@ void TrackerWidget::moveItem(QListWidgetItem *item)
     }
 
     emit updateProgress();
+}
+
+void TrackerWidget::loadActionTo(QListWidget *widget, const MapleAction &action)
+{
+    QListWidgetItem* item = new QListWidgetItem(action.name, widget);
+    item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+    item->setCheckState(Qt::Unchecked);
+
+    widget->addItem(item);
 }

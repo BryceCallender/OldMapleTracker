@@ -8,7 +8,7 @@ FileManager::FileManager()
 
 }
 
-bool FileManager::saveData(QVector<Character> characters) const
+bool FileManager::saveData(QVector<Character*> characters) const
 {
     QFile saveFile("SaveData.json");
 
@@ -23,10 +23,10 @@ bool FileManager::saveData(QVector<Character> characters) const
     json["lastOpened"] = QDateTime::currentDateTimeUtc().toString();
 
     QJsonArray charactersArray;
-    for (Character &character: characters)
+    for (Character* character: characters)
     {
         QJsonObject mapler;
-        character.write(mapler);
+        character->write(mapler);
         charactersArray.push_back(mapler);
     }
 
@@ -64,15 +64,15 @@ SaveData FileManager::loadData()
         data.lastOpened = QDateTime::fromString(json["lastOpened"].toString());
     }
 
-    QVector<Character> characters;
+    QVector<Character*> characters;
     if (json.contains("characters") && json["characters"].isArray())
     {
         QJsonArray jsonArray = json["characters"].toArray();
         for (int i = 0; i < jsonArray.size(); ++i)
         {
             QJsonObject object = jsonArray[i].toObject();
-            Character character;
-            character.read(object);
+            Character* character = new Character();
+            character->read(object);
             characters.push_back(character);
         }
     }

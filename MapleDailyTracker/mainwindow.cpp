@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
     if (!saveData.characters.isEmpty())
     {
         trackerTabWidget->loadTabs(saveData);
-        progress->load(saveData.characters);
     }
 }
 

@@ -9,19 +9,11 @@ Progress::Progress(QWidget *parent) :
     layout = ui->progressLayout;
 }
 
-void Progress::load(QVector<Character> characters)
+void Progress::addCharacterProgress(Character* character)
 {
-    for (Character& character: characters)
-    {
-        ProgressContent* progressContent = new ProgressContent(character, this);
-        layout->addWidget(progressContent);
-        progress.push_back(progressContent);
-    }
-}
-
-void Progress::addCharacterProgress(Character& character)
-{
-    progress.push_back(new ProgressContent(character, this));
+    ProgressContent* progressContent = new ProgressContent(character, this);
+    layout->addWidget(progressContent);
+    progress.push_back(progressContent);
 }
 
 void Progress::removeCharacterProgress(int index)

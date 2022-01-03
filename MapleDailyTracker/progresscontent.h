@@ -14,15 +14,15 @@ class ProgressContent : public QWidget
     Q_OBJECT
 
 public:
-    explicit ProgressContent(Character& character, QWidget *parent = nullptr);
+    explicit ProgressContent(Character* character, QWidget *parent = nullptr);
     void loadProgressBars();
     QMap<QString, double> getProgressFromData();
     ~ProgressContent();
 
 private:
     double getProgressFromSet(const QVector<MapleAction>& set);
+    Character* character;
     Ui::ProgressContent *ui;
-    Character character;
 };
 
 #endif // PROGRESSCONTENT_H

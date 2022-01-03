@@ -28,7 +28,7 @@ public:
         return instance;
     }
 
-    bool saveData(QVector<Character> characters) const;
+    bool saveData(QVector<Character*> characters) const;
     SaveData loadData();
 };
 

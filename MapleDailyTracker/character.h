@@ -13,7 +13,7 @@ class Character
 public:
     Character();
 
-    void setName(QString name);
+    void setName(const QString &name);
     const QString getName() const;
 
     void read(const QJsonObject& json);
@@ -29,7 +29,7 @@ public:
     }
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction>& actions);
-    void readActions(const QJsonObject& json, QString name, QVector<MapleAction>& actions);
+    void readActions(const QJsonObject& json, const QString& name, QVector<MapleAction>& actions);
 
     QString name;
     QVector<MapleAction> dailies;

@@ -10,7 +10,7 @@ struct SaveData
 {
     bool closedWelcome;
     QDateTime lastOpened;
-    QVector<Character> characters;
+    QVector<Character*> characters;
 };
 
 #endif // SAVEDATA_H

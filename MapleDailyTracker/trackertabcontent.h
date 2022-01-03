@@ -17,14 +17,14 @@ class TrackerTabContent : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackerTabContent(Character& character, Progress* progress, QWidget *parent = nullptr);
-    Character& getCharacter();
+    explicit TrackerTabContent(Character* character, Progress* progress, QWidget *parent = nullptr);
+    Character* getCharacter();
     ~TrackerTabContent();
 
 private:
     Ui::TrackerTabContent *ui;
     Progress* progress;
-    Character character;
+    Character* character;
 };
 
 #endif // TRACKERTABCONTENT_H

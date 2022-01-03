@@ -2,10 +2,9 @@
 
 Character::Character()
 {
-
 }
 
-void Character::setName(QString name)
+void Character::setName(const QString& name)
 {
     this->name = name;
 }
@@ -49,7 +48,7 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction>& actions)
     return characterActions;
 }
 
-void Character::readActions(const QJsonObject& json, QString name, QVector<MapleAction>& actions)
+void Character::readActions(const QJsonObject& json, const QString& name, QVector<MapleAction>& actions)
 {
     if (json.contains(name) && json[name].isArray())
     {

@@ -1,7 +1,7 @@
 #include "trackertabcontent.h"
 #include "ui_trackertabcontent.h"
 
-TrackerTabContent::TrackerTabContent(Character& character, Progress* progress, QWidget *parent) :
+TrackerTabContent::TrackerTabContent(Character* character, Progress* progress, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TrackerTabContent)
 {
@@ -10,12 +10,14 @@ TrackerTabContent::TrackerTabContent(Character& character, Progress* progress, Q
     this->progress = progress;
     this->character = character;
 
-    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character, character.getDailies(), progress, this));
-    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character, character.getWedWeeklies(), progress, this));
-    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character, character.getMonWeeklies(), progress, this));
+    progress->addCharacterProgress(character);
+
+    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character, character->getDailies(), progress, this));
+    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getWedWeeklies(), progress, this));
+    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getMonWeeklies(), progress, this));
 }
 
-Character& TrackerTabContent::getCharacter()
+Character* TrackerTabContent::getCharacter()
 {
     return character;
 }

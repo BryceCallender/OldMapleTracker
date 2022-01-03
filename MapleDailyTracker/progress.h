@@ -20,10 +20,9 @@ class Progress : public QWidget
 
 public:
     explicit Progress(QWidget *parent = nullptr);
-    void load(QVector<Character> characters);
+    void addCharacterProgress(Character* character);
      ~Progress();
 public slots:
-    void addCharacterProgress(Character& character);
     void removeCharacterProgress(int index);
     void updateProgress();
 private:
