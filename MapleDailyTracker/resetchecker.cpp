@@ -18,20 +18,18 @@ QDateTime ResetChecker::timeTillWeeklyReset(int resetDay)
     return resetData.timeTillReset;
 }
 
-bool ResetChecker::isDailyReset()
+bool ResetChecker::hasReset(const QDateTime& timeTillReset)
 {
-    return false;
+    QDateTime currentTimeUtc = QDateTime::currentDateTimeUtc();
+
+    int msecs = currentTimeUtc.time().msecsSinceStartOfDay();
+    QDateTime resetTime = timeTillReset.addMSecs(msecs);
+    // just force it to be 0 to make calculations correct
+    resetTime.setTime(QTime(0,0,0));
+
+    return currentTimeUtc.secsTo(resetTime) <= 0;
 }
 
-bool ResetChecker::isWedWeeklyReset()
-{
-    return false;
-}
-
-bool ResetChecker::isMonWeeklyReset()
-{
-    return false;
-}
 
 int ResetChecker::daysTillWeekly(int resetDay)
 {
@@ -71,7 +69,7 @@ ResetData ResetChecker::calcReset(int days)
     return resetData;
 }
 
-QString ResetChecker::resetToLabel(QDateTime resetDateTime)
+QString ResetChecker::resetToLabel(const QDateTime &resetDateTime)
 {
     QString label;
 

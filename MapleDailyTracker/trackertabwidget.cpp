@@ -51,6 +51,14 @@ void TrackerTabWidget::tabCloseRequest(int index)
     removeTab(index);
 }
 
+void TrackerTabWidget::actionsReset(const QString &type)
+{
+    for (TrackerTabContent* tabContent: tabs)
+    {
+        tabContent->actionsReset(type);
+    }
+}
+
 QVector<Character*> TrackerTabWidget::getCharactersFromTabs()
 {
     QVector<Character*> characters;

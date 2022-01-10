@@ -21,7 +21,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    void calculateResets();
+    void resetChecking();
+    void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
     ~MainWindow();
 
@@ -33,6 +34,7 @@ private:
     ResetChecker resetChecker;
     QTimer* timer;
 
+    SaveData saveData;
     Progress* progress;
     TrackerTabWidget* trackerTabWidget;
 };

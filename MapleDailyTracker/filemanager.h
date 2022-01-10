@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 
 #include "character.h"
+#include "resetchecker.h"
 #include "savedata.h"
 
 class FileManager
@@ -28,7 +29,7 @@ public:
         return instance;
     }
 
-    bool saveData(QVector<Character*> characters) const;
+    bool saveData(ResetChecker& resetChecker, QVector<Character*> characters) const;
     SaveData loadData();
 };
 

@@ -21,6 +21,7 @@ class TrackerWidget : public QWidget
 
 public:
     explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
+    void resetActions();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -30,7 +31,7 @@ signals:
     void updateProgress();
 private:
     void loadActionTo(QListWidget* widget, const MapleAction& action);
-    void updateActionTo(const QString &actionName, bool checked);
+    void updateActionTo(const QString& actionName, bool checked);
     Character* character;
     QVector<MapleAction>& actions;
 

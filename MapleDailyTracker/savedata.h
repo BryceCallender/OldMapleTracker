@@ -10,6 +10,9 @@ struct SaveData
 {
     bool closedWelcome;
     QDateTime lastOpened;
+    QDateTime nextDailyReset;
+    QDateTime nextWedWeeklyReset;
+    QDateTime nextMonWeeklyReset;
     QVector<Character*> characters;
 };
 
