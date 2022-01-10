@@ -23,6 +23,11 @@ public:
     QVector<MapleAction>& getWedWeeklies();
     QVector<MapleAction>& getMonWeeklies();
 
+    void removeExpiredActions();
+    void resetDailies();
+    void resetWedWeeklies();
+    void resetMonWeeklies();
+
     bool operator==(const Character& other)
     {
       return getName() == other.getName();
@@ -30,6 +35,7 @@ public:
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction>& actions);
     void readActions(const QJsonObject& json, const QString& name, QVector<MapleAction>& actions);
+    void resetActions(QVector<MapleAction>& actions);
 
     QString name;
     QVector<MapleAction> dailies;

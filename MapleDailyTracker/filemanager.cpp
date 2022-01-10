@@ -8,7 +8,7 @@ FileManager::FileManager()
 
 }
 
-bool FileManager::saveData(QVector<Character*> characters) const
+bool FileManager::saveData(ResetChecker& resetChecker, QVector<Character*> characters) const
 {
     QFile saveFile("SaveData.json");
 
@@ -21,6 +21,9 @@ bool FileManager::saveData(QVector<Character*> characters) const
     QJsonObject json;
     json["closedWelcome"] = FileManager::closedWelcome;
     json["lastOpened"] = QDateTime::currentDateTimeUtc().toString();
+    json["nextDailyReset"] = resetChecker.timeTillDailyReset().toString();
+    json["nextWedWeeklyReset"] = resetChecker.timeTillWeeklyReset().toString();
+    json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).toString();
 
     QJsonArray charactersArray;
     for (Character* character: characters)
@@ -62,6 +65,21 @@ SaveData FileManager::loadData()
     if (json.contains("lastOpened") && json["lastOpened"].isString())
     {
         data.lastOpened = QDateTime::fromString(json["lastOpened"].toString());
+    }
+
+    if (json.contains("nextDailyReset") && json["nextDailyReset"].isString())
+    {
+        data.nextDailyReset = QDateTime::fromString(json["nextDailyReset"].toString());
+    }
+
+    if (json.contains("nextWedWeeklyReset") && json["nextWedWeeklyReset"].isString())
+    {
+        data.nextWedWeeklyReset = QDateTime::fromString(json["nextWedWeeklyReset"].toString());
+    }
+
+    if (json.contains("nextMonWeeklyReset") && json["nextMonWeeklyReset"].isString())
+    {
+        data.nextMonWeeklyReset = QDateTime::fromString(json["nextMonWeeklyReset"].toString());
     }
 
     QVector<Character*> characters;

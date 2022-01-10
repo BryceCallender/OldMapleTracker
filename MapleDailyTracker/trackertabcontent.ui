@@ -29,9 +29,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-426</y>
         <width>767</width>
-        <height>566</height>
+        <height>1380</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -57,6 +57,12 @@
        </item>
        <item>
         <widget class="QGroupBox" name="wedWeekliesBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>450</height>
+          </size>
+         </property>
          <property name="title">
           <string>Weeklies</string>
          </property>
@@ -65,6 +71,12 @@
        </item>
        <item>
         <widget class="QGroupBox" name="monWeekliesBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>450</height>
+          </size>
+         </property>
          <property name="title">
           <string>Monday Weeklies</string>
          </property>

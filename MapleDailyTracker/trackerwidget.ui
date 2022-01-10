@@ -72,8 +72,14 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>200</height>
+            </size>
+           </property>
            <property name="dragDropMode">
-            <enum>QAbstractItemView::DragDrop</enum>
+            <enum>QAbstractItemView::NoDragDrop</enum>
            </property>
            <property name="defaultDropAction">
             <enum>Qt::MoveAction</enum>
@@ -117,8 +123,14 @@
          </item>
          <item>
           <widget class="QListWidget" name="finishedListWidget">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>200</height>
+            </size>
+           </property>
            <property name="dragDropMode">
-            <enum>QAbstractItemView::DragDrop</enum>
+            <enum>QAbstractItemView::NoDragDrop</enum>
            </property>
            <property name="defaultDropAction">
             <enum>Qt::MoveAction</enum>

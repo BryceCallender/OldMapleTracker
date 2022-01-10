@@ -2,7 +2,7 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
-TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
+TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     actions(actions),
     ui(new Ui::TrackerWidget)
@@ -10,7 +10,6 @@ TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions
     ui->setupUi(this);
 
     this->progress = progress;
-    this->character = character;
 
     unfinishedList = ui->unfinishedListWidget;
     finishedList = ui->finishedListWidget;
@@ -30,20 +29,65 @@ TrackerWidget::TrackerWidget(Character* character, QVector<MapleAction>& actions
         }
     }
 
+    QAction* deleteAction = new QAction("Delete", this);
+
+    connect(deleteAction, &QAction::triggered, this, [=]() {
+        // If multiple selection is on, we need to erase all selected items
+        for (int i = 0; i < unfinishedList->selectedItems().size(); ++i)
+        {
+            // Get curent item on selected row
+            QListWidgetItem *item = unfinishedList->takeItem(unfinishedList->currentRow());
+
+            // And remove it
+            this->actions.removeIf([&item](const MapleAction& action) {
+                return item->text() == action.name;
+            });
+
+            emit updateProgress();
+
+            delete item;
+        }
 
 
-//    QAction* deleteAction = new QAction("Delete", this);
+        // If multiple selection is on, we need to erase all selected items
+        for (int i = 0; i < finishedList->selectedItems().size(); ++i)
+        {
+            // Get curent item on selected row
+            QListWidgetItem *item = finishedList->takeItem(finishedList->currentRow());
 
-//    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-//    unfinishedList->addActions({ deleteAction });
+            // And remove it
+            this->actions.removeIf([&item](const MapleAction& action) {
+                return item->text() == action.name;
+            });
 
-//    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-//    finishedList->addActions({ deleteAction });
+            emit updateProgress();
+
+            delete item;
+        }
+    });
+
+    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    unfinishedList->addActions({ deleteAction });
+
+    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    finishedList->addActions({ deleteAction });
 
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
+}
+
+void TrackerWidget::resetActions()
+{
+    for(int row = 0; row < finishedList->count(); row++)
+    {
+         QListWidgetItem* item = finishedList->takeItem(row);
+         item->setCheckState(Qt::Unchecked);
+         unfinishedList->addItem(item);
+    }
+
+    emit updateProgress();
 }
 
 TrackerWidget::~TrackerWidget()
@@ -64,18 +108,20 @@ void TrackerWidget::addToUnfinishedListWidget(const MapleAction& action)
     loadActionTo(unfinishedList, action);
 }
 
-void TrackerWidget::moveItem(QListWidgetItem *item)
+void TrackerWidget::moveItem(QListWidgetItem* item)
 {
     if (item->checkState() == Qt::Checked)
     {
-        QListWidgetItem* taken = unfinishedList->takeItem(unfinishedList->currentRow());
+        QListWidgetItem* taken = unfinishedList->takeItem(unfinishedList->row(item));
         finishedList->addItem(taken);
     }
     else
     {
-        QListWidgetItem* taken = finishedList->takeItem(finishedList->currentRow());
+        QListWidgetItem* taken = finishedList->takeItem(finishedList->row(item));
         unfinishedList->addItem(taken);
     }
+
+    updateActionTo(item->text(), item->checkState());
 
     emit updateProgress();
 }
@@ -84,7 +130,19 @@ void TrackerWidget::loadActionTo(QListWidget *widget, const MapleAction &action)
 {
     QListWidgetItem* item = new QListWidgetItem(action.name, widget);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
-    item->setCheckState(Qt::Unchecked);
+    item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);
+}
+
+void TrackerWidget::updateActionTo(const QString& actionName, bool checked)
+{
+    for (MapleAction& action : actions)
+    {
+        if (action.name == actionName)
+        {
+            action.done = checked;
+            return;
+        }
+    }
 }

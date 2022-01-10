@@ -77,9 +77,55 @@ void Character::readActions(const QJsonObject& json, const QString& name, QVecto
     }
 }
 
+void Character::resetActions(QVector<MapleAction>& actions)
+{
+    for (MapleAction& action: actions)
+    {
+        action.done = false;
+    }
+}
+
 QVector<MapleAction>& Character::getMonWeeklies()
 {
     return monWeeklies;
+}
+
+void Character::removeExpiredActions()
+{
+    const auto pred = [](const MapleAction& action)
+    {
+        if (action.isTemporary)
+        {
+            QDateTime removalTimeUtc = action.removalTime.toUTC();
+            QDateTime currentTimeUtc = QDateTime::currentDateTimeUtc();
+
+            if (currentTimeUtc.secsTo(removalTimeUtc) <= 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    dailies.removeIf(pred);
+    wedWeeklies.removeIf(pred);
+    monWeeklies.removeIf(pred);
+}
+
+void Character::resetDailies()
+{
+    resetActions(dailies);
+}
+
+void Character::resetWedWeeklies()
+{
+    resetActions(wedWeeklies);
+}
+
+void Character::resetMonWeeklies()
+{
+    resetActions(monWeeklies);
 }
 
 QVector<MapleAction>& Character::getWedWeeklies()

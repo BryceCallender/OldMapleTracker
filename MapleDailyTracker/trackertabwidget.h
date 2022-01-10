@@ -24,12 +24,12 @@ public:
     void setProgressReference(Progress* progress);
     void loadTabs(SaveData& saveData);
     void tabCloseRequest(int index);
+    void actionsReset(const QString& type);
     QVector<Character*> getCharactersFromTabs();
     ~TrackerTabWidget();
 public slots:
     void addCharacterTab(const QString& name);
 signals:
-    void characterAdded(Character character);
     void characterRemoved(int index);
 private:
     Ui::TrackerTabWidget *ui;

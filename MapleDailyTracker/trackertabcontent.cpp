@@ -12,14 +12,27 @@ TrackerTabContent::TrackerTabContent(Character* character, Progress* progress, Q
 
     progress->addCharacterProgress(character);
 
-    ui->dailiesBox->layout()->addWidget(new TrackerWidget(character, character->getDailies(), progress, this));
-    ui->wedWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getWedWeeklies(), progress, this));
-    ui->monWeekliesBox->layout()->addWidget(new TrackerWidget(character, character->getMonWeeklies(), progress, this));
+    TrackerWidget* daily = new TrackerWidget(character->getDailies(), progress, this);
+    TrackerWidget* wedWeekly = new TrackerWidget(character->getWedWeeklies(), progress, this);
+    TrackerWidget* monWeekly = new TrackerWidget(character->getMonWeeklies(), progress, this);
+
+    trackers.insert("Daily", daily);
+    trackers.insert("WedWeekly", wedWeekly);
+    trackers.insert("MonWeekly", monWeekly);
+
+    ui->dailiesBox->layout()->addWidget(daily);
+    ui->wedWeekliesBox->layout()->addWidget(wedWeekly);
+    ui->monWeekliesBox->layout()->addWidget(monWeekly);
 }
 
 Character* TrackerTabContent::getCharacter()
 {
     return character;
+}
+
+void TrackerTabContent::actionsReset(const QString& type)
+{
+    trackers[type]->resetActions();
 }
 
 TrackerTabContent::~TrackerTabContent()

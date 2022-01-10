@@ -12,11 +12,9 @@ public:
     QDateTime timeTillDailyReset();
     QDateTime timeTillWeeklyReset(int resetDay = Qt::Thursday);
 
-    bool isDailyReset();
-    bool isWedWeeklyReset();
-    bool isMonWeeklyReset();
+    bool hasReset(const QDateTime& resetTime);
 
-    static QString resetToLabel(QDateTime resetDateTime);
+    static QString resetToLabel(const QDateTime& resetDateTime);
 private:
     int daysTillWeekly(int resetDay = Qt::Thursday);
     ResetData calcReset(int days = 0);

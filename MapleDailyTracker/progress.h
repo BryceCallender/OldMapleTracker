@@ -24,9 +24,10 @@ public:
      ~Progress();
 public slots:
     void removeCharacterProgress(int index);
+    void scrollToProgress(int index);
     void updateProgress();
 private:
-    QVBoxLayout* layout;
+    QLayout* layout;
     Ui::Progress *ui;
     QVector<ProgressContent*> progress;
 };
