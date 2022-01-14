@@ -25,7 +25,7 @@ void Progress::removeCharacterProgress(int index)
 
 void Progress::scrollToProgress(int index)
 {
-    if (progress.size() < index || index < 0)
+    if (progress.size() <= index || index < 0)
         return;
 
     ui->scrollArea->ensureWidgetVisible(progress[index]);
