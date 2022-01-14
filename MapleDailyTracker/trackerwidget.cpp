@@ -17,17 +17,7 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     unfinishedList->setMinimumHeight(200);
     finishedList->setMinimumHeight(200);
 
-    for (const MapleAction& action: actions)
-    {
-        if (action.done)
-        {
-            loadActionTo(finishedList, action);
-        }
-        else
-        {
-            loadActionTo(unfinishedList, action);
-        }
-    }
+    load();
 
     QAction* deleteAction = new QAction("Delete", this);
 
@@ -88,6 +78,31 @@ void TrackerWidget::resetActions()
     }
 
     emit updateProgress();
+}
+
+void TrackerWidget::reload()
+{
+    unfinishedList->clear();
+    finishedList->clear();
+
+    load();
+
+    emit updateProgress();
+}
+
+void TrackerWidget::load()
+{
+    for (const MapleAction& action: actions)
+    {
+        if (action.done)
+        {
+            loadActionTo(finishedList, action);
+        }
+        else
+        {
+            loadActionTo(unfinishedList, action);
+        }
+    }
 }
 
 TrackerWidget::~TrackerWidget()

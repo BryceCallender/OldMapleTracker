@@ -37,6 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         trackerTabWidget->loadTabs(saveData);
     }
+    else
+    {
+        FileManager::closedWelcome = false;
+    }
 }
 
 void MainWindow::resetChecking()
@@ -70,7 +74,10 @@ void MainWindow::resetChecking()
         }
 
         // check incase they expire as the application is running
-        character->removeExpiredActions();
+        if (character->removeExpiredActions())
+        {
+            trackerTabWidget->reloadTabs();
+        }
     }
 }
 

@@ -35,6 +35,14 @@ void TrackerTabContent::actionsReset(const QString& type)
     trackers[type]->resetActions();
 }
 
+void TrackerTabContent::reloadTabs()
+{
+    for (TrackerWidget* tracker : trackers)
+    {
+        tracker->reload();
+    }
+}
+
 TrackerTabContent::~TrackerTabContent()
 {
     delete ui;

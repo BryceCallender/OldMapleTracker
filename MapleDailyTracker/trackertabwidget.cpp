@@ -29,6 +29,14 @@ void TrackerTabWidget::loadTabs(SaveData& saveData)
     }
 }
 
+void TrackerTabWidget::reloadTabs()
+{
+    for (TrackerTabContent* tabContent: tabs)
+    {
+        tabContent->reloadTabs();
+    }
+}
+
 void TrackerTabWidget::tabCloseRequest(int index)
 {
     if (tabText(index).contains("Welcome"))
@@ -81,6 +89,12 @@ void TrackerTabWidget::addCharacterTab(const QString &name)
     character->setName(name);
 
     TrackerTabContent* content = new TrackerTabContent(character, progress, this);
+
+    if (!FileManager::closedWelcome)
+    {
+        FileManager::closedWelcome = true;
+        removeTab(0);
+    }
 
     addTab(content, name);
     tabs.push_back(content);
