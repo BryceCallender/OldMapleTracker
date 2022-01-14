@@ -46,9 +46,8 @@ double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)
         }
     }
 
-    return (numberOfDone / (double)set.size()) * 100;
+    return numberOfDone == 0 ? 0 : (numberOfDone / (double)set.size()) * 100;
 }
-
 
 ProgressContent::~ProgressContent()
 {
