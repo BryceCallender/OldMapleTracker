@@ -1,8 +1,24 @@
-# MapleTracker
+# MapleTracker 
 
-This program allows you to keep track of your maplestory characters and add daily and weekly
-events. Once checked they will persistent unless you uncheck them or the reset happens.
+<img src="OS_Icons/Icon1024_windows.png" width="100" height="100">
 
-![daily_tracker](https://user-images.githubusercontent.com/25470163/61186370-3845c300-a619-11e9-81aa-d4c994938937.PNG)
+Welcome to the Maple Tracker! This is a tracking application used to keep track of your character and their dailies/weeklies. 
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+This application will track the reset times appropriately and reset all actions when a reset happens! It also supports temporary actions that will be removed when you specify them (They are in terms of UTC).
+
+This program saves the data to a file when the application is closed. There may be room for auto saving every so often in the future if the need is there. 
+
+![tracker](application.png)
+
+---
+
+# Installation
+
+### Windows
+1. 
+### Mac
+1.
+### Linux
+1.
+
+Icon made by [Good Ware]("https://www.flaticon.com/authors/good-ware") from [Flaticon]("https://www.flaticon.com/")
