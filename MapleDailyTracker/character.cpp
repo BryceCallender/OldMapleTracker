@@ -90,9 +90,10 @@ QVector<MapleAction>& Character::getMonWeeklies()
     return monWeeklies;
 }
 
-void Character::removeExpiredActions()
+bool Character::removeExpiredActions()
 {
-    const auto pred = [](const MapleAction& action)
+    bool removed = false;
+    const auto pred = [&removed](const MapleAction& action)
     {
         if (action.isTemporary)
         {
@@ -101,6 +102,7 @@ void Character::removeExpiredActions()
 
             if (currentTimeUtc.secsTo(removalTimeUtc) <= 0)
             {
+                removed = true;
                 return true;
             }
         }
@@ -111,6 +113,8 @@ void Character::removeExpiredActions()
     dailies.removeIf(pred);
     wedWeeklies.removeIf(pred);
     monWeeklies.removeIf(pred);
+
+    return removed;
 }
 
 void Character::resetDailies()

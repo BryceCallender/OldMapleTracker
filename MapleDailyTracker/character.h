@@ -23,7 +23,7 @@ public:
     QVector<MapleAction>& getWedWeeklies();
     QVector<MapleAction>& getMonWeeklies();
 
-    void removeExpiredActions();
+    bool removeExpiredActions();
     void resetDailies();
     void resetWedWeeklies();
     void resetMonWeeklies();

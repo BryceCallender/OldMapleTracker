@@ -786,6 +786,17 @@ QScrollBar::sub-line:horizontal {
   height: 0px;
 }
 
+QScrollBar:left-arrow:vertical, QScrollBar::right-arrow:vertical {
+  border: 2px solid grey;
+  width: 3px;
+  height: 3px;
+  background: white;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+  background: none;
+}
+
 /*  ------------------------------------------------------------------------  */
 /*  QSlider  */
 

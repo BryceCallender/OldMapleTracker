@@ -22,6 +22,8 @@ class TrackerWidget : public QWidget
 public:
     explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     void resetActions();
+    void reload();
+    void load();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
