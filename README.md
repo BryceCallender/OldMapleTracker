@@ -13,12 +13,22 @@ This program saves the data to a file when the application is closed. There may 
 ---
 
 # Installation
+Visit the [release](https://github.com/BryceCallender/MapleTracker/releases/tag/v1) page and find the most recent version
 
 ### Windows
-1. 
+1. Download the MapleDailyTrackerWindows.rar file
+2. Extract the contents to a location
+    a. You can create a folder anywhere
+    b. Extract to that folder
+3. Run the executable file
+4. Pin to taskbar if you want by right click and pin to taskbar
+5. Enjoy
 ### Mac
-1.
+1. Download the .dmg file
+2. Copy the app and place it in the Applications folder in your finder tab
+3. Run from there and pin to dock bar if you want!
+4. Enjoy
 ### Linux
-1.
+1. To be made...
 
-Icon made by [Good Ware]("https://www.flaticon.com/authors/good-ware") from [Flaticon]("https://www.flaticon.com/")
+Icon made by [Good Ware](https://www.flaticon.com/authors/good-ware) from [Flaticon](https://www.flaticon.com/)
