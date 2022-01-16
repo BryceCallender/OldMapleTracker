@@ -7,6 +7,7 @@ Progress::Progress(QWidget *parent) :
 {
     ui->setupUi(this);
     layout = ui->progressLayout->layout();
+    layout->setAlignment(Qt::AlignTop);
 }
 
 void Progress::addCharacterProgress(Character* character)
