@@ -243,7 +243,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Menu</string>
     </property>
     <addaction name="actionAdd_Character"/>
    </widget>
