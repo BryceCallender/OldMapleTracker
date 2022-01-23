@@ -23,10 +23,19 @@ MainWindow::MainWindow(QWidget *parent) :
     currentServerTimer->callOnTimeout([this]() {  ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP")); });
     currentServerTimer->start();
 
+    // AUTO SAVE FUNCTIONALITY
+    loadContents();
+
+    QTimer* autosaveTimer = new QTimer(this);
+    autosaveTimer->setInterval(5000);
+    autosaveTimer->callOnTimeout([this]() {
+        FileManager* instance = FileManager::getInstance();
+        instance->saveData(FileManager::autosaveFile, resetChecker, trackerTabWidget->getCharactersFromTabs() );
+    });
+    autosaveTimer->start();
+
     trackerTabWidget = ui->tabWidget;
 
-    FileManager* instance = FileManager::getInstance();
-    saveData = instance->loadData();
     Progress* progress = ui->progressContents;
 
     trackerTabWidget->setProgressReference(progress);
@@ -109,7 +118,24 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(event)
 
     FileManager* instance = FileManager::getInstance();
-    instance->saveData(resetChecker, trackerTabWidget->getCharactersFromTabs());
+    instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
+    instance->clearAutoSave();
+}
+
+void MainWindow::loadContents()
+{
+    QFile file(FileManager::autosaveFile);
+    FileManager* instance = FileManager::getInstance();
+
+    // Application crashed / closed without properly saving
+    if (file.size() > 0)
+    {
+        saveData = instance->loadData(FileManager::autosaveFile);
+    }
+    else
+    {
+        saveData = instance->loadData(FileManager::saveFile);
+    }
 }
 
 MainWindow::~MainWindow()
