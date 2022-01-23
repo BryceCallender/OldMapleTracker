@@ -24,6 +24,7 @@ public:
     void resetChecking();
     void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
+    void loadContents();
     ~MainWindow();
 
 private slots:

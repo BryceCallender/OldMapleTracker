@@ -2,15 +2,17 @@
 
 bool FileManager::closedWelcome = false;
 FileManager *FileManager::instance = nullptr;
+QString FileManager::saveFile = QString::fromUtf8("SaveData.json");
+QString FileManager::autosaveFile = QString::fromUtf8("AutoSave.json");
 
 FileManager::FileManager()
 {
 
 }
 
-bool FileManager::saveData(ResetChecker& resetChecker, QVector<Character*> characters) const
+bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters) const
 {
-    QFile saveFile("SaveData.json");
+    QFile saveFile(name);
 
     if (!saveFile.open(QIODevice::WriteOnly))
     {
@@ -40,9 +42,15 @@ bool FileManager::saveData(ResetChecker& resetChecker, QVector<Character*> chara
     return true;
 }
 
-SaveData FileManager::loadData()
+void FileManager::clearAutoSave()
 {
-    QFile loadFile("SaveData.json");
+    QFile autoSave("AutoSave.json");
+    autoSave.resize(0);
+}
+
+SaveData FileManager::loadData(const QString &name)
+{
+    QFile loadFile(name);
     SaveData data;
 
     if (!loadFile.open(QIODevice::ReadOnly))

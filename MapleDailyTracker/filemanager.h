@@ -19,6 +19,8 @@ private:
     static FileManager* instance;
 public:
     static bool closedWelcome;
+    static QString saveFile;
+    static QString autosaveFile;
     static FileManager* getInstance()
     {
         if (instance == nullptr)
@@ -29,8 +31,9 @@ public:
         return instance;
     }
 
-    bool saveData(ResetChecker& resetChecker, QVector<Character*> characters) const;
-    SaveData loadData();
+    bool saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters) const;
+    void clearAutoSave();
+    SaveData loadData(const QString& name);
 };
 
 #endif // FILEMANAGER_H
