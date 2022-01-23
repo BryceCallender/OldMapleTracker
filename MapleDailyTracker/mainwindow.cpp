@@ -50,6 +50,10 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         FileManager::closedWelcome = false;
     }
+
+    connect(progress, &Progress::clicked, trackerTabWidget, [this](int index) {
+       trackerTabWidget->setCurrentIndex(index);
+    });
 }
 
 void MainWindow::resetChecking()
