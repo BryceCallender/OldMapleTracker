@@ -15,6 +15,8 @@ void Progress::addCharacterProgress(Character* character)
     ProgressContent* progressContent = new ProgressContent(character, this);
     layout->addWidget(progressContent);
     progress.push_back(progressContent);
+
+    connect(progressContent, &ProgressContent::clicked, this, &Progress::progressContentClicked);
 }
 
 void Progress::removeCharacterProgress(int index)
@@ -38,6 +40,24 @@ void Progress::updateProgress()
     {
         pc->loadProgressBars();
     }
+}
+
+void Progress::progressContentClicked(Character* character)
+{
+    int index = 0;
+    bool found = false;
+    ProgressContent* pc = nullptr;
+
+    do
+    {
+        pc = progress[index];
+        if (pc->getCharacter()->getName() == character->getName())
+        {
+            found = true;
+            emit clicked(index);
+        }
+        index++;
+    } while(!found);
 }
 
 Progress::~Progress()

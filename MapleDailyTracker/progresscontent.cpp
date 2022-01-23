@@ -23,6 +23,11 @@ void ProgressContent::loadProgressBars()
     ui->monWeeklyBar->setValue(progressData["monWeeklies"]);
 }
 
+Character *ProgressContent::getCharacter()
+{
+    return character;
+}
+
 QMap<QString, double> ProgressContent::getProgressFromData()
 {
     QMap<QString, double> progressData;
@@ -32,6 +37,12 @@ QMap<QString, double> ProgressContent::getProgressFromData()
     progressData.insert("monWeeklies", getProgressFromSet(character->getMonWeeklies()));
 
     return progressData;
+}
+
+void ProgressContent::mousePressEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    emit clicked(this->character);
 }
 
 double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)

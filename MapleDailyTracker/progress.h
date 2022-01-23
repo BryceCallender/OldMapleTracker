@@ -26,6 +26,9 @@ public slots:
     void removeCharacterProgress(int index);
     void scrollToProgress(int index);
     void updateProgress();
+    void progressContentClicked(Character* character);
+signals:
+    void clicked(int index);
 private:
     QLayout* layout;
     Ui::Progress *ui;

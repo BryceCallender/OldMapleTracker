@@ -16,9 +16,12 @@ class ProgressContent : public QWidget
 public:
     explicit ProgressContent(Character* character, QWidget *parent = nullptr);
     void loadProgressBars();
+    Character* getCharacter();
     QMap<QString, double> getProgressFromData();
+    void mousePressEvent(QMouseEvent* event);
     ~ProgressContent();
-
+signals:
+    void clicked(Character* character);
 private:
     double getProgressFromSet(const QVector<MapleAction>& set);
     Character* character;
