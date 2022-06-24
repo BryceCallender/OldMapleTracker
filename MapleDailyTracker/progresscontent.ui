@@ -43,7 +43,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="dailyBar">
+    <widget class="QModernProgressBar" name="dailyBar">
      <property name="value">
       <number>24</number>
      </property>
@@ -56,7 +56,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="wedWeeklyBar">
+    <widget class="QModernProgressBar" name="wedWeeklyBar">
      <property name="value">
       <number>24</number>
      </property>
@@ -66,7 +66,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="monWeeklyBar">
+    <widget class="QModernProgressBar" name="monWeeklyBar">
      <property name="value">
       <number>24</number>
      </property>
@@ -77,6 +77,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QModernProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header>qmodernprogressbar.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
