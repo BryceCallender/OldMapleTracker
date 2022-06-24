@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <algorithm>
 
 #include "character.h"
 #include "resetchecker.h"

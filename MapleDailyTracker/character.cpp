@@ -9,15 +9,28 @@ void Character::setName(const QString& name)
     this->name = name;
 }
 
+void Character::setOrder(const int order)
+{
+    this->order = order;
+}
+
 const QString Character::getName() const
 {
     return name;
+}
+
+int Character::getOrder() const
+{
+    return order;
 }
 
 void Character::read(const QJsonObject& json)
 {
     if (json.contains("name") && json["name"].isString())
         name = json["name"].toString();
+
+    if (json.contains("order"))
+        order = json["order"].toInt();
 
     readActions(json, "dailies", dailies);
     readActions(json, "wedWeeklies", wedWeeklies);
@@ -27,6 +40,7 @@ void Character::read(const QJsonObject& json)
 void Character::write(QJsonObject& json)
 {
     json["name"] = name;
+    json["order"] = order;
     json["dailies"] = actionsToJSONArray(dailies);
     json["wedWeeklies"] = actionsToJSONArray(wedWeeklies);
     json["monWeeklies"] = actionsToJSONArray(monWeeklies);
@@ -39,6 +53,7 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction>& actions)
     {
         QJsonObject dailyAction;
         dailyAction["name"] = action.name;
+        dailyAction["order"] = action.order;
         dailyAction["done"] = action.done;
         dailyAction["isTemporary"] = action.isTemporary;
         dailyAction["removalTime"] = action.removalTime.toString();
@@ -62,6 +77,9 @@ void Character::readActions(const QJsonObject& json, const QString& name, QVecto
 
             if (actionObject.contains("name") && actionObject["name"].isString())
                 action.name = actionObject["name"].toString();
+
+            if (actionObject.contains("order"))
+                action.order = actionObject["order"].toInt();
 
             if (actionObject.contains("done") && actionObject["done"].isBool())
                 action.done = actionObject["done"].toBool();
