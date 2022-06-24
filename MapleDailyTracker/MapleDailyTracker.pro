@@ -28,6 +28,7 @@ SOURCES += \
         mapleactiondialog.cpp \
         progress.cpp \
         progresscontent.cpp \
+        qmodernprogressbar.cpp \
         resetchecker.cpp \
         trackertabcontent.cpp \
         trackertabwidget.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     mapleactiondialog.h \
     progress.h \
     progresscontent.h \
+    qmodernprogressbar.h \
     resetchecker.h \
     resetdata.h \
     savedata.h \
