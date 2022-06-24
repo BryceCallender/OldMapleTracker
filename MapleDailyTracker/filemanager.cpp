@@ -28,9 +28,11 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
     json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).toString();
 
     QJsonArray charactersArray;
+    int index = 0;
     for (Character* character: characters)
     {
         QJsonObject mapler;
+        character->setOrder(index++);
         character->write(mapler);
         charactersArray.push_back(mapler);
     }
@@ -102,6 +104,10 @@ SaveData FileManager::loadData(const QString &name)
             characters.push_back(character);
         }
     }
+
+    std::sort(characters.begin(), characters.end(), [](const Character* lhs, const Character* rhs) {
+        return lhs->getOrder() < rhs->getOrder();
+    });
 
     data.characters = characters;
 

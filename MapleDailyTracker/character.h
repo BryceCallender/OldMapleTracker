@@ -14,7 +14,9 @@ public:
     Character();
 
     void setName(const QString &name);
+    void setOrder(const int order);
     const QString getName() const;
+    int getOrder() const;
 
     void read(const QJsonObject& json);
     void write(QJsonObject& json);
@@ -28,9 +30,9 @@ public:
     void resetWedWeeklies();
     void resetMonWeeklies();
 
-    bool operator==(const Character& other)
+    bool operator ==(const Character& other)
     {
-      return getName() == other.getName();
+        return name == other.getName();
     }
 private:
     QJsonArray actionsToJSONArray(QVector<MapleAction>& actions);
@@ -38,6 +40,7 @@ private:
     void resetActions(QVector<MapleAction>& actions);
 
     QString name;
+    int order;
     QVector<MapleAction> dailies;
     QVector<MapleAction> wedWeeklies;
     QVector<MapleAction> monWeeklies;

@@ -7,7 +7,9 @@ TrackerTabWidget::TrackerTabWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setMovable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &TrackerTabWidget::tabCloseRequest);
+    connect(this->tabBar(), &QTabBar::tabMoved, this, &TrackerTabWidget::tabMoved);
 }
 
 void TrackerTabWidget::setProgressReference(Progress* progress)
@@ -57,6 +59,11 @@ void TrackerTabWidget::tabCloseRequest(int index)
     }
 
     removeTab(index);
+}
+
+void TrackerTabWidget::tabMoved(int from, int to)
+{
+    std::swap(tabs[from], tabs[to]);
 }
 
 void TrackerTabWidget::actionsReset(const QString &type)
