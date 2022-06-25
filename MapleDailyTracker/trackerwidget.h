@@ -10,6 +10,7 @@
 #include "character.h"
 #include "mapleaction.h"
 #include "progress.h"
+#include "mapleactionlistwidgetitem.h"
 
 namespace Ui {
 class TrackerWidget;
@@ -27,7 +28,7 @@ public:
     ~TrackerWidget();
 private slots:
     void addMapleAction();
-    void addToUnfinishedListWidget(const MapleAction& action);
+    void addToUnfinishedListWidget(MapleAction& action);
     void moveItem(QListWidgetItem *item);
 signals:
     void updateProgress();

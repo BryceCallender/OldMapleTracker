@@ -28,7 +28,7 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
     json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).toString();
 
     QJsonArray charactersArray;
-    int index = 0;
+    int index = 1;
     for (Character* character: characters)
     {
         QJsonObject mapler;

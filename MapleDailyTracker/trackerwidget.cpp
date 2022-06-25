@@ -103,6 +103,8 @@ void TrackerWidget::load()
             loadActionTo(unfinishedList, action);
         }
     }
+
+    unfinishedList->sortItems();
 }
 
 TrackerWidget::~TrackerWidget()
@@ -117,8 +119,9 @@ void TrackerWidget::addMapleAction()
     dialog->exec();
 }
 
-void TrackerWidget::addToUnfinishedListWidget(const MapleAction& action)
+void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
 {
+    action.order = actions.length() + 1;
     actions.push_back(action);
     loadActionTo(unfinishedList, action);
 }
@@ -134,6 +137,7 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
     {
         QListWidgetItem* taken = finishedList->takeItem(finishedList->row(item));
         unfinishedList->addItem(taken);
+        unfinishedList->sortItems();
     }
 
     updateActionTo(item->text(), item->checkState());
@@ -141,9 +145,9 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
     emit updateProgress();
 }
 
-void TrackerWidget::loadActionTo(QListWidget *widget, const MapleAction &action)
+void TrackerWidget::loadActionTo(QListWidget* widget, const MapleAction& action)
 {
-    QListWidgetItem* item = new QListWidgetItem(action.name, widget);
+    QListWidgetItem* item = new MapleActionListWidgetItem(action, widget);
     item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 

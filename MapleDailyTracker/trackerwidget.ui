@@ -52,7 +52,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>185</width>
+          <width>178</width>
           <height>248</height>
          </rect>
         </property>
@@ -79,7 +79,7 @@
             </size>
            </property>
            <property name="dragDropMode">
-            <enum>QAbstractItemView::NoDragDrop</enum>
+            <enum>QAbstractItemView::InternalMove</enum>
            </property>
            <property name="defaultDropAction">
             <enum>Qt::MoveAction</enum>
@@ -109,7 +109,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>185</width>
+          <width>178</width>
           <height>248</height>
          </rect>
         </property>
