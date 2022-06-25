@@ -66,6 +66,7 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
+    connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::editMode);
 }
 
 void TrackerWidget::resetActions()
@@ -105,6 +106,13 @@ void TrackerWidget::load()
     }
 
     unfinishedList->sortItems();
+}
+
+void TrackerWidget::editMode()
+{
+    OrderActionWidget oaw;
+    oaw.show();
+    hide();
 }
 
 TrackerWidget::~TrackerWidget()

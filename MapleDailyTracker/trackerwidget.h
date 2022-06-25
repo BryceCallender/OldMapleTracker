@@ -11,6 +11,7 @@
 #include "mapleaction.h"
 #include "progress.h"
 #include "mapleactionlistwidgetitem.h"
+#include "orderactionwidget.h"
 
 namespace Ui {
 class TrackerWidget;
@@ -25,6 +26,7 @@ public:
     void resetActions();
     void reload();
     void load();
+    void editMode();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
