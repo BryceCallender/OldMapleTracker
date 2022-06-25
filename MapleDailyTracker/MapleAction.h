@@ -7,6 +7,7 @@
 struct MapleAction
 {
     QString name;
+    int order;
     bool done;
 
     bool isTemporary;
