@@ -11,6 +11,8 @@ class MapleActionListWidgetItem: public QListWidgetItem
 public:
     explicit MapleActionListWidgetItem(const MapleAction& action, QListWidget *parent = nullptr);
 
+    MapleAction& getAction();
+
     bool operator <(const QListWidgetItem& other) const
     {
         return action.order < static_cast<const MapleActionListWidgetItem&>(other).action.order;

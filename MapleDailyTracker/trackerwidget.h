@@ -26,7 +26,8 @@ public:
     void resetActions();
     void reload();
     void load();
-    void editMode();
+    void orderMode();
+    void listMode();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -36,8 +37,6 @@ signals:
     void updateProgress();
 private:
     void loadActionTo(QListWidget* widget, const MapleAction& action);
-    void updateActionTo(const QString& actionName, bool checked);
-    Character* character;
     QVector<MapleAction>& actions;
 
     Ui::TrackerWidget *ui;

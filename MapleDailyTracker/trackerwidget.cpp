@@ -2,6 +2,8 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
+#include <QDebug>
+
 TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     actions(actions),
@@ -62,11 +64,14 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
     finishedList->addActions({ deleteAction });
 
+    ui->stackedWidget->setCurrentIndex(0);
+
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
-    connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::editMode);
+    connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::orderMode);
+    connect(ui->finalizeButton, &QPushButton::clicked, this, &TrackerWidget::listMode);
 }
 
 void TrackerWidget::resetActions()
@@ -108,11 +113,39 @@ void TrackerWidget::load()
     unfinishedList->sortItems();
 }
 
-void TrackerWidget::editMode()
+void TrackerWidget::orderMode()
 {
-    OrderActionWidget oaw;
-    oaw.show();
-    hide();
+    ui->orderWidget->clear();
+
+    for (const MapleAction& action: actions)
+    {
+        qDebug() << action.name << action.done;
+        ui->orderWidget->addItem(new MapleActionListWidgetItem(action, ui->orderWidget));
+    }
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
+}
+
+void TrackerWidget::listMode()
+{
+    QVector<MapleAction> actions;
+
+    for (int i = 0; i < ui->orderWidget->count(); ++i)
+    {
+        MapleActionListWidgetItem* item = dynamic_cast<MapleActionListWidgetItem*>(ui->orderWidget->item(i));
+
+        if (item)
+        {
+            MapleAction action = item->getAction();
+            action.order = i + 1;
+            actions.push_back(action);
+        }
+    }
+
+    this->actions = actions;
+    reload();
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
 }
 
 TrackerWidget::~TrackerWidget()
@@ -125,6 +158,9 @@ void TrackerWidget::addMapleAction()
     MapleActionDialog* dialog = new MapleActionDialog(actions, this);
     connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
     dialog->exec();
+
+    unfinishedList->clearSelection();
+    finishedList->clearSelection();
 }
 
 void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
@@ -148,7 +184,12 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
         unfinishedList->sortItems();
     }
 
-    updateActionTo(item->text(), item->checkState());
+    MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(item);
+
+    if (actionItem)
+    {
+        actionItem->getAction().done = item->checkState();
+    }
 
     emit updateProgress();
 }
@@ -156,20 +197,8 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
 void TrackerWidget::loadActionTo(QListWidget* widget, const MapleAction& action)
 {
     QListWidgetItem* item = new MapleActionListWidgetItem(action, widget);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+    item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);
-}
-
-void TrackerWidget::updateActionTo(const QString& actionName, bool checked)
-{
-    for (MapleAction& action : actions)
-    {
-        if (action.name == actionName)
-        {
-            action.done = checked;
-            return;
-        }
-    }
 }
