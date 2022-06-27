@@ -21,48 +21,19 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
 
     load();
 
+    QAction* addAction = new QAction("Add", this);
     QAction* deleteAction = new QAction("Delete", this);
+    QAction* editAction = new QAction("Edit", this);
 
-    connect(deleteAction, &QAction::triggered, this, [=]() {
-        // If multiple selection is on, we need to erase all selected items
-        for (int i = 0; i < unfinishedList->selectedItems().size(); ++i)
-        {
-            // Get curent item on selected row
-            QListWidgetItem *item = unfinishedList->takeItem(unfinishedList->currentRow());
-
-            // And remove it
-            this->actions.removeIf([&item](const MapleAction& action) {
-                return item->text() == action.name;
-            });
-
-            emit updateProgress();
-
-            delete item;
-        }
-
-
-        // If multiple selection is on, we need to erase all selected items
-        for (int i = 0; i < finishedList->selectedItems().size(); ++i)
-        {
-            // Get curent item on selected row
-            QListWidgetItem *item = finishedList->takeItem(finishedList->currentRow());
-
-            // And remove it
-            this->actions.removeIf([&item](const MapleAction& action) {
-                return item->text() == action.name;
-            });
-
-            emit updateProgress();
-
-            delete item;
-        }
-    });
+    connect(addAction, &QAction::triggered, this, &TrackerWidget::addMapleAction);
+    connect(editAction, &QAction::triggered, this, &TrackerWidget::triggerEditAction);
+    connect(deleteAction, &QAction::triggered, this, &TrackerWidget::triggerDeleteAction);
 
     unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-    unfinishedList->addActions({ deleteAction });
+    unfinishedList->addActions({ addAction });
 
     finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
-    finishedList->addActions({ deleteAction });
+    finishedList->addActions({ addAction });
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -147,6 +118,64 @@ void TrackerWidget::listMode()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
 }
 
+void TrackerWidget::triggerEditAction()
+{
+    QListWidgetItem* selectedItem;
+
+    if (unfinishedList->selectedItems().size() > 0)
+    {
+        // Get curent item on selected row
+        selectedItem = unfinishedList->item(unfinishedList->currentRow());
+    }
+    else
+    {
+        selectedItem = finishedList->item(finishedList->currentRow());
+    }
+
+    MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(selectedItem);
+
+    if (actionItem)
+    {
+        triggerActionDialog(&actionItem->getAction());
+    }
+}
+
+void TrackerWidget::triggerDeleteAction()
+{
+    // If multiple selection is on, we need to erase all selected items
+    for (int i = 0; i < unfinishedList->selectedItems().size(); ++i)
+    {
+        // Get curent item on selected row
+        QListWidgetItem *item = unfinishedList->takeItem(unfinishedList->currentRow());
+
+        // And remove it
+        this->actions.removeIf([&item](const MapleAction& action) {
+            return item->text() == action.name;
+        });
+
+        emit updateProgress();
+
+        delete item;
+    }
+
+
+    // If multiple selection is on, we need to erase all selected items
+    for (int i = 0; i < finishedList->selectedItems().size(); ++i)
+    {
+        // Get curent item on selected row
+        QListWidgetItem *item = finishedList->takeItem(finishedList->currentRow());
+
+        // And remove it
+        this->actions.removeIf([&item](const MapleAction& action) {
+            return item->text() == action.name;
+        });
+
+        emit updateProgress();
+
+        delete item;
+    }
+}
+
 TrackerWidget::~TrackerWidget()
 {
     delete ui;
@@ -154,12 +183,7 @@ TrackerWidget::~TrackerWidget()
 
 void TrackerWidget::addMapleAction()
 {
-    MapleActionDialog* dialog = new MapleActionDialog(actions, this);
-    connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
-    dialog->exec();
-
-    unfinishedList->clearSelection();
-    finishedList->clearSelection();
+    triggerActionDialog();
 }
 
 void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
@@ -199,4 +223,14 @@ void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);
+}
+
+void TrackerWidget::triggerActionDialog(MapleAction *action)
+{
+    MapleActionDialog* dialog = new MapleActionDialog(actions, action, this);
+    connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
+    dialog->exec();
+
+    unfinishedList->clearSelection();
+    finishedList->clearSelection();
 }

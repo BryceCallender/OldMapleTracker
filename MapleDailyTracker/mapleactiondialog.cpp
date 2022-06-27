@@ -1,7 +1,7 @@
 #include "mapleactiondialog.h"
 #include "ui_mapleactiondialog.h"
 
-MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, QWidget *parent) :
+MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, MapleAction* action, QWidget* parent) :
     QDialog(parent),
     actions(actions),
     ui(new Ui::MapleActionDialog)
@@ -9,6 +9,14 @@ MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, QWidget *par
     ui->setupUi(this);
     ui->expirationDateTimeEdit->setMinimumDateTime(QDateTime::currentDateTime());
     ui->errorText->hide();
+
+    if (action != nullptr)
+    {
+        setWindowTitle(tr("Edit Action"));
+        ui->lineEdit->setText(action->name);
+        ui->checkBox->setChecked(action->isTemporary);
+        ui->expirationDateTimeEdit->setDateTime(action->removalTime);
+    }
 
     connect(ui->lineEdit, &QLineEdit::textChanged, this, &MapleActionDialog::checkForAction);
     connect(ui->checkBox, &QCheckBox::stateChanged, this, &MapleActionDialog::enableTemporaryState);
@@ -44,7 +52,7 @@ void MapleActionDialog::checkForAction(const QString &name)
         if (action.name == name)
         {
             ui->errorText->show();
-            ui->errorText->setText("<span style='color: #dc3545;'>" + name + " already exists." + "</span>");
+            ui->errorText->setText("<span style='color: #dc3545;'>" + name + tr(" already exists.") + "</span>");
             ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
             return;
         }

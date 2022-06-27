@@ -28,6 +28,8 @@ public:
     void load();
     void orderMode();
     void listMode();
+    void triggerEditAction();
+    void triggerDeleteAction();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -37,6 +39,7 @@ signals:
     void updateProgress();
 private:
     void loadActionTo(QListWidget* widget, MapleAction& action);
+    void triggerActionDialog(MapleAction* action = nullptr);
     QVector<MapleAction>& actions;
 
     Ui::TrackerWidget *ui;

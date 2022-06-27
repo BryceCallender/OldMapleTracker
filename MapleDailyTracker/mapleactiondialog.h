@@ -15,7 +15,7 @@ class MapleActionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit MapleActionDialog(QVector<MapleAction>& actions, QWidget *parent = nullptr);
+    explicit MapleActionDialog(QVector<MapleAction>& actions, MapleAction* action = nullptr, QWidget* parent = nullptr);
     void createAction();
     void checkForAction(const QString& name);
     ~MapleActionDialog();
@@ -27,7 +27,7 @@ signals:
     void actionConfirmed(MapleAction& mapleAction);
 private:
     QVector<MapleAction>& actions;
-    Ui::MapleActionDialog *ui;
+    Ui::MapleActionDialog* ui;
 };
 
 #endif // MAPLEACTIONDIALOG_H
