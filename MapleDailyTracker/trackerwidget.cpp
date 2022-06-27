@@ -98,7 +98,7 @@ void TrackerWidget::reload()
 
 void TrackerWidget::load()
 {
-    for (const MapleAction& action: actions)
+    for (MapleAction& action: actions)
     {
         if (action.done)
         {
@@ -117,9 +117,8 @@ void TrackerWidget::orderMode()
 {
     ui->orderWidget->clear();
 
-    for (const MapleAction& action: actions)
+    for (MapleAction& action: actions)
     {
-        qDebug() << action.name << action.done;
         ui->orderWidget->addItem(new MapleActionListWidgetItem(action, ui->orderWidget));
     }
 
@@ -136,7 +135,7 @@ void TrackerWidget::listMode()
 
         if (item)
         {
-            MapleAction action = item->getAction();
+            MapleAction& action = item->getAction();
             action.order = i + 1;
             actions.push_back(action);
         }
@@ -194,10 +193,9 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
     emit updateProgress();
 }
 
-void TrackerWidget::loadActionTo(QListWidget* widget, const MapleAction& action)
+void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
 {
     QListWidgetItem* item = new MapleActionListWidgetItem(action, widget);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);

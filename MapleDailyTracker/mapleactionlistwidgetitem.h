@@ -9,7 +9,7 @@
 class MapleActionListWidgetItem: public QListWidgetItem
 {
 public:
-    explicit MapleActionListWidgetItem(const MapleAction& action, QListWidget *parent = nullptr);
+    explicit MapleActionListWidgetItem(MapleAction& action, QListWidget *parent = nullptr);
 
     MapleAction& getAction();
 
@@ -18,7 +18,7 @@ public:
         return action.order < static_cast<const MapleActionListWidgetItem&>(other).action.order;
     }
 private:
-    MapleAction action;
+    MapleAction& action;
 };
 
 

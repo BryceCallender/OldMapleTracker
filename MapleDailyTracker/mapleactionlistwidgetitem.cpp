@@ -1,8 +1,7 @@
 #include "mapleactionlistwidgetitem.h"
 
-MapleActionListWidgetItem::MapleActionListWidgetItem(const MapleAction& action, QListWidget* parent) : QListWidgetItem(action.name, parent)
+MapleActionListWidgetItem::MapleActionListWidgetItem(MapleAction& action, QListWidget* parent) : QListWidgetItem(action.name, parent), action(action)
 {
-    this->action = action;
 }
 
 MapleAction& MapleActionListWidgetItem::getAction()

@@ -36,7 +36,7 @@ private slots:
 signals:
     void updateProgress();
 private:
-    void loadActionTo(QListWidget* widget, const MapleAction& action);
+    void loadActionTo(QListWidget* widget, MapleAction& action);
     QVector<MapleAction>& actions;
 
     Ui::TrackerWidget *ui;
