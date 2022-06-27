@@ -2,6 +2,8 @@
 #include "trackerwidget.h"
 #include "ui_trackerwidget.h"
 
+#include <QDebug>
+
 TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     actions(actions),
@@ -62,10 +64,14 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
     finishedList->addActions({ deleteAction });
 
+    ui->stackedWidget->setCurrentIndex(0);
+
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
+    connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::orderMode);
+    connect(ui->finalizeButton, &QPushButton::clicked, this, &TrackerWidget::listMode);
 }
 
 void TrackerWidget::resetActions()
@@ -92,7 +98,7 @@ void TrackerWidget::reload()
 
 void TrackerWidget::load()
 {
-    for (const MapleAction& action: actions)
+    for (MapleAction& action: actions)
     {
         if (action.done)
         {
@@ -103,6 +109,42 @@ void TrackerWidget::load()
             loadActionTo(unfinishedList, action);
         }
     }
+
+    unfinishedList->sortItems();
+}
+
+void TrackerWidget::orderMode()
+{
+    ui->orderWidget->clear();
+
+    for (MapleAction& action: actions)
+    {
+        ui->orderWidget->addItem(new MapleActionListWidgetItem(action, ui->orderWidget));
+    }
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
+}
+
+void TrackerWidget::listMode()
+{
+    QVector<MapleAction> actions;
+
+    for (int i = 0; i < ui->orderWidget->count(); ++i)
+    {
+        MapleActionListWidgetItem* item = dynamic_cast<MapleActionListWidgetItem*>(ui->orderWidget->item(i));
+
+        if (item)
+        {
+            MapleAction& action = item->getAction();
+            action.order = i + 1;
+            actions.push_back(action);
+        }
+    }
+
+    this->actions = actions;
+    reload();
+
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
 }
 
 TrackerWidget::~TrackerWidget()
@@ -115,10 +157,14 @@ void TrackerWidget::addMapleAction()
     MapleActionDialog* dialog = new MapleActionDialog(actions, this);
     connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
     dialog->exec();
+
+    unfinishedList->clearSelection();
+    finishedList->clearSelection();
 }
 
-void TrackerWidget::addToUnfinishedListWidget(const MapleAction& action)
+void TrackerWidget::addToUnfinishedListWidget(MapleAction& action)
 {
+    action.order = actions.length() + 1;
     actions.push_back(action);
     loadActionTo(unfinishedList, action);
 }
@@ -134,30 +180,23 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
     {
         QListWidgetItem* taken = finishedList->takeItem(finishedList->row(item));
         unfinishedList->addItem(taken);
+        unfinishedList->sortItems();
     }
 
-    updateActionTo(item->text(), item->checkState());
+    MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(item);
+
+    if (actionItem)
+    {
+        actionItem->getAction().done = item->checkState();
+    }
 
     emit updateProgress();
 }
 
-void TrackerWidget::loadActionTo(QListWidget *widget, const MapleAction &action)
+void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
 {
-    QListWidgetItem* item = new QListWidgetItem(action.name, widget);
-    item->setFlags(item->flags() | Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+    QListWidgetItem* item = new MapleActionListWidgetItem(action, widget);
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
 
     widget->addItem(item);
-}
-
-void TrackerWidget::updateActionTo(const QString& actionName, bool checked)
-{
-    for (MapleAction& action : actions)
-    {
-        if (action.name == actionName)
-        {
-            action.done = checked;
-            return;
-        }
-    }
 }

@@ -26,6 +26,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         mapleactiondialog.cpp \
+        mapleactionlistwidgetitem.cpp \
+        orderactionwidget.cpp \
         progress.cpp \
         progresscontent.cpp \
         qmodernprogressbar.cpp \
@@ -40,6 +42,8 @@ HEADERS += \
     character.h \
     filemanager.h \
     mapleactiondialog.h \
+    mapleactionlistwidgetitem.h \
+    orderactionwidget.h \
     progress.h \
     progresscontent.h \
     qmodernprogressbar.h \
@@ -55,6 +59,7 @@ FORMS += \
         characterdialog.ui \
         mainwindow.ui \
         mapleactiondialog.ui \
+        orderactionwidget.ui \
         progress.ui \
         progresscontent.ui \
         trackertabcontent.ui \

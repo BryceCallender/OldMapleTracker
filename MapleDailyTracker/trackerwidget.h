@@ -10,6 +10,8 @@
 #include "character.h"
 #include "mapleaction.h"
 #include "progress.h"
+#include "mapleactionlistwidgetitem.h"
+#include "orderactionwidget.h"
 
 namespace Ui {
 class TrackerWidget;
@@ -24,17 +26,17 @@ public:
     void resetActions();
     void reload();
     void load();
+    void orderMode();
+    void listMode();
     ~TrackerWidget();
 private slots:
     void addMapleAction();
-    void addToUnfinishedListWidget(const MapleAction& action);
+    void addToUnfinishedListWidget(MapleAction& action);
     void moveItem(QListWidgetItem *item);
 signals:
     void updateProgress();
 private:
-    void loadActionTo(QListWidget* widget, const MapleAction& action);
-    void updateActionTo(const QString& actionName, bool checked);
-    Character* character;
+    void loadActionTo(QListWidget* widget, MapleAction& action);
     QVector<MapleAction>& actions;
 
     Ui::TrackerWidget *ui;
