@@ -12,7 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resetChecking();
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
-    ui->actionAdd_Character->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
+
+    // Actions
+    ui->addCharacter->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
+    QAction* saveAction = new QAction("Save", this);
+    saveAction->setShortcut(QKeySequence(QKeySequence::Save));
 
     timer = new QTimer(this);
     timer->setInterval(1000 * 60);
@@ -55,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(progress, &Progress::clicked, trackerTabWidget, [this](int index) {
        trackerTabWidget->setCurrentIndex(index);
     });
+
+    connect(ui->addCharacter, &QAction::triggered, this, &MainWindow::addCharacter);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::saveContents);
 }
 
 void MainWindow::resetChecking()
@@ -122,9 +129,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
 
-    FileManager* instance = FileManager::getInstance();
-    instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
-    instance->clearAutoSave();
+    saveContents();
 }
 
 void MainWindow::loadContents()
@@ -143,15 +148,22 @@ void MainWindow::loadContents()
     }
 }
 
-MainWindow::~MainWindow()
+void MainWindow::saveContents()
 {
-    delete ui;
+    qDebug() << "Save...";
+    FileManager* instance = FileManager::getInstance();
+    instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
+    instance->clearAutoSave();
 }
 
-void MainWindow::on_actionAdd_Character_triggered()
+void MainWindow::addCharacter()
 {
     CharacterDialog* newCharDialog = new CharacterDialog(this);
     connect(newCharDialog, &CharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
     newCharDialog->exec();
 }
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
