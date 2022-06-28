@@ -4,6 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setOverrideCursor(QCursor(QPixmap(":/cursor/hand.png")));
     MainWindow w;
 
     w.setWindowTitle("Maple Tracker");

@@ -2,7 +2,7 @@
     <qresource prefix="/styles">
         <file>dark_teal.qss</file>
     </qresource>
-    <qresource prefix="icon">
+    <qresource prefix="/icon">
         <file>theme/disabled/tab_close.svg</file>
         <file>theme/disabled/leftarrow.svg</file>
         <file>theme/disabled/rightarrow.svg</file>
@@ -77,5 +77,8 @@
         <file>theme/primary/splitter-horizontal.svg</file>
         <file>theme/primary/checkbox_checked_invert.svg</file>
         <file>theme/primary/radiobutton_checked_invert.svg</file>
-      </qresource>
+    </qresource>
+    <qresource prefix="/cursor">
+        <file>hand.png</file>
+    </qresource>
 </RCC>
