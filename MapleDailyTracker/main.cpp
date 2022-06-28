@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     w.setWindowTitle("Maple Tracker");
     w.show();
 
-    QFile styleFile(":/styles/dark_teal.qss");
+    QFile styleFile(":/styles/dark_cyan.qss");
     styleFile.open(QFile::ReadOnly);
 
     QString style { styleFile.readAll() };
