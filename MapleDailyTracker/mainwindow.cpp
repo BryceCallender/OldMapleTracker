@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resetChecking();
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
+    ui->actionAdd_Character->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
 
     timer = new QTimer(this);
     timer->setInterval(1000 * 60);
