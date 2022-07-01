@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QPushButton>
 
+#include "character.h"
+
 namespace Ui {
 class CharacterDialog;
 }
@@ -13,7 +15,9 @@ class CharacterDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CharacterDialog(QWidget *parent = nullptr);
+    explicit CharacterDialog(QVector<Character*> characters, QWidget *parent = nullptr);
+    void hideCloneCharacter();
+    void showCloneCharacter();
     ~CharacterDialog();
 
 private slots:
@@ -21,9 +25,11 @@ private slots:
     void characterNameChanged(const QString &name);
 
 signals:
-    void newCharacter(QString name);
+    void newCharacter(const QString& name);
+    void cloneCharacter(Character* character, const QString& name);
 
 private:
+    QVector<Character*> characters;
     Ui::CharacterDialog *ui;
 };
 

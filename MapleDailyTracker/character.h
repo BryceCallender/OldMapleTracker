@@ -15,6 +15,10 @@ public:
 
     void setName(const QString &name);
     void setOrder(const int order);
+    void setDailies(QVector<MapleAction> actions);
+    void setWedWeeklies(QVector<MapleAction> actions);
+    void setMonWeeklies(QVector<MapleAction> actions);
+
     const QString getName() const;
     int getOrder() const;
 
@@ -29,6 +33,8 @@ public:
     void resetDailies();
     void resetWedWeeklies();
     void resetMonWeeklies();
+
+    Character* clone();
 
     bool operator ==(const Character& other)
     {
