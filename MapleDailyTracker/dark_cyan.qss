@@ -151,6 +151,7 @@ QComboBox {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   height: 36px;
+  min-width: 7em;
 }
 
 QComboBox:disabled {
@@ -162,7 +163,6 @@ QComboBox:disabled {
 QComboBox::drop-down {
   border: none;
   color: #4dd0e1;
-  width: 20px;
 }
 
 QComboBox::down-arrow {
@@ -594,10 +594,12 @@ QDockWidget::title {
 
 QComboBox::indicator:checked {
   image: url(:icon/cyan/primary/checklist.svg);
+  margin-right: 5px;
 }
 
 QComboBox::indicator:checked:selected {
   image: url(:icon/cyan/primary/checklist_invert.svg);
+  margin-right: 5px;
 }
 
 /*  ------------------------------------------------------------------------  */

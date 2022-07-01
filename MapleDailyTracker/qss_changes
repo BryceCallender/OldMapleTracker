@@ -1,0 +1,57 @@
+//442
+QListView::indicator:unchecked,
+QListView::indicator:unchecked:selected,
+QListView::indicator:unchecked:focus {
+  image: url(:icon/theme/primary/checkbox_unchecked.svg);
+}
+QListView::indicator:checked,
+QListView::indicator:checked:selected,
+QListView::indicator:checked:focus {
+  image: url(:icon/theme/primary/checkbox_checked.svg);
+}
+QListView::indicator:checked:selected:active {
+  image: url(:icon/theme/primary/checkbox_checked.svg);
+}
+QListView::indicator:checked:disabled {
+  image: url(:icon/disabled/checkbox_checked.svg);
+}
+QListView::indicator:indeterminate,
+QListView::indicator:indeterminate:selected,
+QListView::indicator:indeterminate:focus {
+  image: url(:icon/theme/primary/checkbox_indeterminate.svg);
+}
+QListView::indicator:indeterminate:selected:active {
+  image: url(:icon/theme/primary/checkbox_indeterminate_invert.svg);
+}
+QListView::indicator:indeterminate:disabled {
+  image: url(:icon/disabled/checkbox_indeterminate.svg);
+}
+
+//732
+QProgressBar {
+  border-radius: 0;
+  background-color: #4f5b62;
+  text-align: center;
+  /*color: transparent;*/
+}
+
+//788
+QScrollBar:left-arrow:vertical, QScrollBar::right-arrow:vertical {
+  border: 2px solid grey;
+  width: 3px;
+  height: 3px;
+  background: white;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+  background: none;
+}
+
+//984
+QTableView:item:selected:focus,
+QTreeView::item:selected:focus,
+QListView::item:selected:focus {
+  background-color: rgba(29, 233, 182, 0.2);
+  selection-background-color: rgba(29, 233, 182, 0.2);
+  color: #ffffff;
+  selection-color: #ffffff; /* For Windows */
+}
