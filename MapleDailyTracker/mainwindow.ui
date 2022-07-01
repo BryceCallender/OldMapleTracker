@@ -238,7 +238,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>992</width>
-     <height>21</height>
+     <height>37</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -246,12 +246,18 @@ p, li { white-space: pre-wrap; }
      <string>Menu</string>
     </property>
     <addaction name="actionAdd_Character"/>
+    <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <action name="actionAdd_Character">
    <property name="text">
     <string>Add Character</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

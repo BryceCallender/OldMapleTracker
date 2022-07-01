@@ -10,6 +10,7 @@
 #include "characterdialog.h"
 #include "trackertabwidget.h"
 #include "progress.h"
+#include "preferences.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,7 @@ public:
     void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
     void loadContents();
+    void openPreferences();
     ~MainWindow();
 
 private slots:

@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QSettings settings;
+    if (settings.contains("ui/geometry"))
+    {
+        setGeometry(settings.value("ui/geometry").toRect());
+    }
+
     resetChecking();
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
 
@@ -54,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(progress, &Progress::clicked, trackerTabWidget, [this](int index) {
        trackerTabWidget->setCurrentIndex(index);
     });
+
+    connect(ui->actionSettings, &QAction::triggered, this, &MainWindow::openPreferences);
 }
 
 void MainWindow::resetChecking()
@@ -124,6 +132,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     FileManager* instance = FileManager::getInstance();
     instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
     instance->clearAutoSave();
+
+    QSettings settings;
+    settings.setValue("ui/geometry", this->geometry());
 }
 
 void MainWindow::loadContents()
@@ -140,6 +151,12 @@ void MainWindow::loadContents()
     {
         saveData = instance->loadData(FileManager::saveFile);
     }
+}
+
+void MainWindow::openPreferences()
+{
+    Preferences* preferencesDialog = new Preferences(this);
+    preferencesDialog->exec();
 }
 
 MainWindow::~MainWindow()
