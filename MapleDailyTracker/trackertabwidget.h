@@ -27,10 +27,12 @@ public:
     void tabCloseRequest(int index);
     void tabMoved(int from, int to);
     void actionsReset(const QString& type);
+    void addNewTab(Character* character, const QString& name);
     QVector<Character*> getCharactersFromTabs();
     ~TrackerTabWidget();
 public slots:
     void addCharacterTab(const QString& name);
+    void cloneCharacterTab(Character* clone, const QString& name);
 signals:
     void characterRemoved(int index);
 private:
