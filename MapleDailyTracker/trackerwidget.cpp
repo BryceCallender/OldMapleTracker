@@ -21,18 +21,20 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
 
     load();
 
-    QAction* addAction = new QAction("Add", this);
-    QAction* deleteAction = new QAction("Delete", this);
-    QAction* editAction = new QAction("Edit", this);
+    addAction = new QAction("Add", this);
+    deleteAction = new QAction("Delete", this);
+    editAction = new QAction("Edit", this);
 
     connect(addAction, &QAction::triggered, this, &TrackerWidget::addMapleAction);
     connect(editAction, &QAction::triggered, this, &TrackerWidget::triggerEditAction);
     connect(deleteAction, &QAction::triggered, this, &TrackerWidget::triggerDeleteAction);
 
-    unfinishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    unfinishedList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(unfinishedList, &QListWidget::customContextMenuRequested, this, &TrackerWidget::provideContextMenuUnfinished);
     unfinishedList->addActions({ addAction });
 
-    finishedList->setContextMenuPolicy(Qt::ActionsContextMenu);
+    finishedList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(finishedList, &QListWidget::customContextMenuRequested, this, &TrackerWidget::provideContextMenuFinished);
     finishedList->addActions({ addAction });
 
     ui->stackedWidget->setCurrentIndex(0);
@@ -215,6 +217,34 @@ void TrackerWidget::moveItem(QListWidgetItem* item)
     }
 
     emit updateProgress();
+}
+
+void TrackerWidget::provideContextMenuUnfinished(const QPoint& point)
+{
+    provideContextMenu(unfinishedList, point);
+}
+
+void TrackerWidget::provideContextMenuFinished(const QPoint &point)
+{
+    provideContextMenu(finishedList, point);
+}
+
+void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)
+{
+    QPoint globalPos = widget->mapToGlobal(point);
+    QListWidgetItem* test = widget->item(widget->indexAt(point).row());
+    MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(test);
+
+    QMenu myMenu;
+    myMenu.addAction(addAction);
+
+    if (actionItem)
+    {
+        myMenu.addAction(editAction);
+        myMenu.addAction(deleteAction);
+    }
+
+    myMenu.exec(globalPos);
 }
 
 void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)

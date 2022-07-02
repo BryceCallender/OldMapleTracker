@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QListWidget>
 #include <QAction>
+#include <QMenu>
 #include <algorithm>
 
 #include "character.h"
@@ -30,11 +31,14 @@ public:
     void listMode();
     void triggerEditAction();
     void triggerDeleteAction();
+    void provideContextMenu(QListWidget* widget, const QPoint& point);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
     void addToUnfinishedListWidget(MapleAction& action);
     void moveItem(QListWidgetItem *item);
+    void provideContextMenuUnfinished(const QPoint& point);
+    void provideContextMenuFinished(const QPoint& point);
 signals:
     void updateProgress();
 private:
@@ -47,6 +51,10 @@ private:
 
     QListWidget* unfinishedList;
     QListWidget* finishedList;
+
+    QAction* addAction;
+    QAction* deleteAction;
+    QAction* editAction;
 };
 
 #endif // TRACKERWIDGET_H
