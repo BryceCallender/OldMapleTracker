@@ -27,8 +27,6 @@ bool ResetChecker::hasReset(const QDateTime& timeTillReset)
     // just force it to be 0 to make calculations correct
     resetTime.setTime(QTime(0,0,0));
 
-    qDebug() << (currentTimeUtc.secsTo(resetTime) <= 0);
-
     return currentTimeUtc.secsTo(resetTime) <= 0;
 }
 
@@ -68,7 +66,6 @@ ResetData ResetChecker::calcReset(int days)
 
     ResetData resetData;
     resetData.timeTillReset = QDateTime(resetDate, timeTillReset, Qt::TimeSpec::UTC);
-    qDebug() << resetData.timeTillReset;
     return resetData;
 }
 
