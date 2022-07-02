@@ -17,7 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECAbTED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++17
+CONFIG += c++20
 
 SOURCES += \
         character.cpp \
@@ -28,6 +28,7 @@ SOURCES += \
         mapleactiondialog.cpp \
         mapleactionlistwidgetitem.cpp \
         orderactionwidget.cpp \
+        preferences.cpp \
         progress.cpp \
         progresscontent.cpp \
         qmodernprogressbar.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     mapleactiondialog.h \
     mapleactionlistwidgetitem.h \
     orderactionwidget.h \
+    preferences.h \
     progress.h \
     progresscontent.h \
     qmodernprogressbar.h \
@@ -60,6 +62,7 @@ FORMS += \
         mainwindow.ui \
         mapleactiondialog.ui \
         orderactionwidget.ui \
+        preferences.ui \
         progress.ui \
         progresscontent.ui \
         trackertabcontent.ui \

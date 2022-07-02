@@ -74,6 +74,20 @@ void TrackerTabWidget::actionsReset(const QString &type)
     }
 }
 
+void TrackerTabWidget::addNewTab(Character *character, const QString &name)
+{
+    TrackerTabContent* content = new TrackerTabContent(character, progress, this);
+
+    if (!FileManager::closedWelcome)
+    {
+        FileManager::closedWelcome = true;
+        removeTab(0);
+    }
+
+    addTab(content, name);
+    tabs.push_back(content);
+}
+
 QVector<Character*> TrackerTabWidget::getCharactersFromTabs()
 {
     QVector<Character*> characters;
@@ -95,14 +109,13 @@ void TrackerTabWidget::addCharacterTab(const QString &name)
     Character* character = new Character();
     character->setName(name);
 
-    TrackerTabContent* content = new TrackerTabContent(character, progress, this);
+    addNewTab(character, name);
+}
 
-    if (!FileManager::closedWelcome)
-    {
-        FileManager::closedWelcome = true;
-        removeTab(0);
-    }
+void TrackerTabWidget::cloneCharacterTab(Character* clone, const QString &name)
+{
+    Character* character = clone->clone();
+    character->setName(name);
 
-    addTab(content, name);
-    tabs.push_back(content);
+    addNewTab(character, name);
 }
