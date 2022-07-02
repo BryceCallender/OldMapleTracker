@@ -40,8 +40,13 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     ui->stackedWidget->setCurrentIndex(0);
 
     connect(ui->addButton, &QPushButton::clicked, this, &TrackerWidget::addMapleAction);
+
     connect(unfinishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
+    connect(unfinishedList, &QListWidget::itemSelectionChanged, this, &TrackerWidget::unselectFinished);
+
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
+    connect(finishedList, &QListWidget::itemSelectionChanged, this, &TrackerWidget::unselectUnfinished);
+
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
     connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::orderMode);
     connect(ui->finalizeButton, &QPushButton::clicked, this, &TrackerWidget::listMode);
@@ -227,6 +232,16 @@ void TrackerWidget::provideContextMenuUnfinished(const QPoint& point)
 void TrackerWidget::provideContextMenuFinished(const QPoint &point)
 {
     provideContextMenu(finishedList, point);
+}
+
+void TrackerWidget::unselectUnfinished()
+{
+    unfinishedList->clearSelection();
+}
+
+void TrackerWidget::unselectFinished()
+{
+    finishedList->clearSelection();
 }
 
 void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)

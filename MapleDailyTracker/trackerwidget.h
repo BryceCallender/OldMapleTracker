@@ -39,6 +39,8 @@ private slots:
     void moveItem(QListWidgetItem *item);
     void provideContextMenuUnfinished(const QPoint& point);
     void provideContextMenuFinished(const QPoint& point);
+    void unselectUnfinished();
+    void unselectFinished();
 signals:
     void updateProgress();
 private:
