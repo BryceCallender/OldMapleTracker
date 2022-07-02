@@ -61,10 +61,10 @@ ResetData ResetChecker::calcReset(int days)
     qint64 secondsTillReset = currentDateTimeUTC.secsTo(tomorrow);
     QTime timeTillReset = QTime::fromMSecsSinceStartOfDay(secondsTillReset * 1000);
 
-    QDate resetDate = currentDateTimeUTC.date().addDays(days);
+    QDate resetDate = tomorrow.date().addDays(days);
 
     ResetData resetData;
-    resetData.timeTillReset = QDateTime(resetDate, timeTillReset);
+    resetData.timeTillReset = QDateTime(resetDate, timeTillReset, Qt::TimeSpec::UTC);
     return resetData;
 }
 
@@ -72,14 +72,17 @@ QString ResetChecker::resetToLabel(const QDateTime &resetDateTime)
 {
     QString label;
 
-    QDate currentUTCDate = QDateTime::currentDateTimeUtc().date();
+    QDateTime currentUTCDateTime = QDateTime::currentDateTimeUtc();
 
-    QDate date = resetDateTime.date();
+    QDateTime resetDate(resetDateTime);
+    resetDate.setTime(QTime(0,0,0));
     QTime time = resetDateTime.time();
 
-    if (date.day() != currentUTCDate.day())
-    {
-        int days = currentUTCDate.daysTo(date);
+    qint64 secondsTill = currentUTCDateTime.secsTo(resetDate);
+    int days = secondsTill / 86400.0;
+
+    if (days > 0)
+    {        
         label.append(QString::number(days) + "d ");
     }
 
