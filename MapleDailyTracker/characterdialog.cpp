@@ -49,7 +49,7 @@ CharacterDialog::~CharacterDialog()
 
 void CharacterDialog::characterConfirmed()
 {
-    if (ui->charactersBox->currentText() != "None")
+    if (characters.length() > 0 && ui->charactersBox->currentText() != "None")
     {
         QVector<Character*>::iterator it = std::find_if(characters.begin(), characters.end(), [&] (const Character* c) { return c->getName() == ui->charactersBox->currentText(); });
         emit cloneCharacter(*it, ui->lineEdit->text());
