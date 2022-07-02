@@ -13,14 +13,24 @@ MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, MapleAction*
     if (action != nullptr)
     {
         setWindowTitle(tr("Edit Action"));
+        this->action = action;
+
         ui->lineEdit->setText(action->name);
         ui->checkBox->setChecked(action->isTemporary);
         ui->expirationDateTimeEdit->setDateTime(action->removalTime);
     }
 
+    if (action)
+    {
+         connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MapleActionDialog::editAction);
+    }
+    else
+    {
+         connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MapleActionDialog::createAction);
+    }
+
     connect(ui->lineEdit, &QLineEdit::textChanged, this, &MapleActionDialog::checkForAction);
     connect(ui->checkBox, &QCheckBox::stateChanged, this, &MapleActionDialog::enableTemporaryState);
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MapleActionDialog::createAction);
 }
 
 MapleActionDialog::~MapleActionDialog()
@@ -43,6 +53,13 @@ void MapleActionDialog::createAction()
     action.isTemporary = ui->checkBox->isChecked();
     action.removalTime = action.isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
     emit actionConfirmed(action);
+}
+
+void MapleActionDialog::editAction()
+{
+    action->name = ui->lineEdit->text();
+    action->isTemporary = ui->checkBox->isChecked();
+    action->removalTime = action->isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
 }
 
 void MapleActionDialog::checkForAction(const QString &name)

@@ -258,9 +258,15 @@ void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
 void TrackerWidget::triggerActionDialog(MapleAction *action)
 {
     MapleActionDialog* dialog = new MapleActionDialog(actions, action, this);
-    connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
+
+    if (action == nullptr)
+    {
+        connect(dialog, &MapleActionDialog::actionConfirmed, this, &TrackerWidget::addToUnfinishedListWidget);
+    }
+
     dialog->exec();
 
+    reload();
     unfinishedList->clearSelection();
     finishedList->clearSelection();
 }
