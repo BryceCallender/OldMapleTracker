@@ -82,7 +82,6 @@ QString ResetChecker::resetToLabel(const QDateTime &resetDateTime)
     resetDate.setTime(QTime(0,0,0));
     QTime time = resetDateTime.time();
 
-    qDebug() << resetDateTime;
     qint64 secondsTill = currentUTCDateTime.secsTo(resetDate);
     int days = secondsTill / 86400.0;
 

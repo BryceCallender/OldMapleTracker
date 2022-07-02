@@ -78,22 +78,18 @@ void MainWindow::resetChecking()
     {
         if (resetChecker.hasReset(dailyResetTime))
         {
-            qDebug() << "Reset Dailies...";
-            qDebug() << dailyResetTime;
             character->resetDailies();
             trackerTabWidget->actionsReset("Daily");
         }
 
         if (resetChecker.hasReset(weeklyResetTime))
         {
-            qDebug() << "Reset Wed Weeklies...";
             character->resetWedWeeklies();
             trackerTabWidget->actionsReset("WedWeekly");
         }
 
         if (resetChecker.hasReset(weeklyMondayResetTime))
         {
-            qDebug() << "Reset Monday Weeklies...";
             character->resetMonWeeklies();
             trackerTabWidget->actionsReset("MonWeekly");
         }
