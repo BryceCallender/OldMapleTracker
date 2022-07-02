@@ -1,6 +1,6 @@
 # MapleTracker 
 
-<img src="OS_Icons/Icon1024_windows.png" width="100" height="100">
+<img src="OS_Icons/logo.png" width="100" height="100">
 
 Welcome to the Maple Tracker! This is a tracking application used to keep track of your character and their dailies/weeklies. 
 
@@ -13,7 +13,7 @@ This program saves the data to a file when the application is closed. There may 
 ---
 
 # Installation
-Visit the [release](https://github.com/BryceCallender/MapleTracker/releases/tag/v1) page and find the most recent version
+Visit the [release](https://github.com/BryceCallender/MapleTracker/releases) page and find the most recent version
 
 ### Windows
 1. Download the MapleDailyTrackerWindows.rar file

@@ -1,9 +1,9 @@
 #Windows
-convert Icon1024.png -resize 16x16   -depth 32 16-32.png
-convert Icon1024.png -resize 32x32   -depth 32 32-32.png
-convert Icon1024.png -resize 48x48   -depth 32 48-32.png
-convert Icon1024.png -resize 256x256 -depth 32 256-32.png
-convert Icon1024.png -resize 512x512 -depth 32 512-32.png
+convert logo.png -resize 16x16   -depth 32 16-32.png
+convert logo.png -resize 32x32   -depth 32 32-32.png
+convert logo.png -resize 48x48   -depth 32 48-32.png
+convert logo.png -resize 256x256 -depth 32 256-32.png
+convert logo.png -resize 512x512 -depth 32 512-32.png
 
 convert 16-32.png 32-32.png 48-32.png 256-32.png 512-32.png MapleTracker.ico
 
