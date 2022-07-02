@@ -27,7 +27,6 @@ SOURCES += \
         mainwindow.cpp \
         mapleactiondialog.cpp \
         mapleactionlistwidgetitem.cpp \
-        orderactionwidget.cpp \
         preferences.cpp \
         progress.cpp \
         progresscontent.cpp \
@@ -44,7 +43,6 @@ HEADERS += \
     filemanager.h \
     mapleactiondialog.h \
     mapleactionlistwidgetitem.h \
-    orderactionwidget.h \
     preferences.h \
     progress.h \
     progresscontent.h \
@@ -61,7 +59,6 @@ FORMS += \
         characterdialog.ui \
         mainwindow.ui \
         mapleactiondialog.ui \
-        orderactionwidget.ui \
         preferences.ui \
         progress.ui \
         progresscontent.ui \
