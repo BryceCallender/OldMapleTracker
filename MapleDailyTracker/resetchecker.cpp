@@ -30,7 +30,6 @@ bool ResetChecker::hasReset(const QDateTime& timeTillReset)
     return currentTimeUtc.secsTo(resetTime) <= 0;
 }
 
-
 int ResetChecker::daysTillWeekly(int resetDay)
 {
     QDateTime currentDateTimeUTC = QDateTime::currentDateTimeUtc();

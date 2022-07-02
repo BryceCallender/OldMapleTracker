@@ -16,7 +16,7 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
 
     if (!saveFile.open(QIODevice::WriteOnly))
     {
-        qWarning("Couldn't open save file.");
+        qWarning() << "Couldn't open save file.";
         return false;
     }
 

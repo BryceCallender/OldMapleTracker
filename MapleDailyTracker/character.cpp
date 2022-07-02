@@ -14,6 +14,21 @@ void Character::setOrder(const int order)
     this->order = order;
 }
 
+void Character::setDailies(QVector<MapleAction> actions)
+{
+    this->dailies = actions;
+}
+
+void Character::setWedWeeklies(QVector<MapleAction> actions)
+{
+    this->wedWeeklies = actions;
+}
+
+void Character::setMonWeeklies(QVector<MapleAction> actions)
+{
+    this->monWeeklies = actions;
+}
+
 const QString Character::getName() const
 {
     return name;
@@ -148,6 +163,11 @@ void Character::resetWedWeeklies()
 void Character::resetMonWeeklies()
 {
     resetActions(monWeeklies);
+}
+
+Character *Character::clone()
+{
+    return new Character(*this);
 }
 
 QVector<MapleAction>& Character::getWedWeeklies()

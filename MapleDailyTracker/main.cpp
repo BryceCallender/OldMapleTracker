@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <QSettings>
 
 int main(int argc, char *argv[])
 {
@@ -7,14 +8,22 @@ int main(int argc, char *argv[])
     a.setOverrideCursor(QCursor(QPixmap(":/cursor/hand.png")));
     MainWindow w;
 
-    w.setWindowTitle("Maple Tracker");
-    w.show();
+    QCoreApplication::setOrganizationName("MapleTracker");
+    QCoreApplication::setApplicationName("MapleDailyTracker");
 
-    QFile styleFile(":/styles/dark_teal.qss");
+    QSettings settings;
+    QString theme = settings.value("theme", "teal").toString();
+
+    QFile styleFile(QString(":/styles/dark_%1.qss").arg(theme));
     styleFile.open(QFile::ReadOnly);
 
     QString style { styleFile.readAll() };
     a.setStyleSheet(style);
+
+    MainWindow w;
+
+    w.setWindowTitle("Maple Tracker");
+    w.show();
 
     return a.exec();
 }
