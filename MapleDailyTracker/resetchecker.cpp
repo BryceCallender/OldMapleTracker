@@ -96,5 +96,10 @@ QString ResetChecker::resetToLabel(const QDateTime &resetDateTime)
         label.append(QString::number(time.minute()) + "m ");
     }
 
+    if (time.second() > 0)
+    {
+        label.append(QString::number(time.second()) + "s ");
+    }
+
     return label;
 }
