@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
 
     timer = new QTimer(this);
-    timer->setInterval(1000 * 60);
+    timer->setInterval(1000 * 10);
     timer->callOnTimeout(this, &MainWindow::resetChecking);
     timer->start();
 
@@ -28,6 +28,11 @@ MainWindow::MainWindow(QWidget *parent) :
     currentServerTimer->setInterval(1000);
     currentServerTimer->callOnTimeout([this]() {  ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP")); });
     currentServerTimer->start();
+
+    QTimer* updateTimerLabels = new QTimer(this);
+    updateTimerLabels->setInterval(1000);
+    updateTimerLabels->callOnTimeout(this, &MainWindow::updateTimerLabels);
+    updateTimerLabels->start();
 
     // AUTO SAVE FUNCTIONALITY
     loadContents();
@@ -70,10 +75,6 @@ void MainWindow::resetChecking()
     QDateTime weeklyResetTime = resetChecker.timeTillWeeklyReset();
     QDateTime weeklyMondayResetTime = resetChecker.timeTillWeeklyReset(Qt::Monday);
 
-    ui->dailyResetLabel->setText(ResetChecker::resetToLabel(dailyResetTime));
-    ui->wedWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyResetTime));
-    ui->monWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyMondayResetTime));
-
     for (Character* character: saveData.characters)
     {
         if (resetChecker.hasReset(dailyResetTime))
@@ -100,6 +101,17 @@ void MainWindow::resetChecking()
             trackerTabWidget->reloadTabs();
         }
     }
+}
+
+void MainWindow::updateTimerLabels()
+{
+    QDateTime dailyResetTime = resetChecker.timeTillDailyReset();
+    QDateTime weeklyResetTime = resetChecker.timeTillWeeklyReset();
+    QDateTime weeklyMondayResetTime = resetChecker.timeTillWeeklyReset(Qt::Monday);
+
+    ui->dailyResetLabel->setText(ResetChecker::resetToLabel(dailyResetTime));
+    ui->wedWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyResetTime));
+    ui->monWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyMondayResetTime));
 }
 
 void MainWindow::checkForExpiredResets(SaveData& saveData)

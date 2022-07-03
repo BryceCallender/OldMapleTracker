@@ -23,6 +23,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     void resetChecking();
+    void updateTimerLabels();
     void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
     void loadContents();
