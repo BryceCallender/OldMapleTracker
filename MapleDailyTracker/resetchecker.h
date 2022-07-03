@@ -12,12 +12,12 @@ public:
     QDateTime timeTillDailyReset();
     QDateTime timeTillWeeklyReset(int resetDay = Qt::Thursday);
 
-    bool hasReset(const QDateTime& resetTime);
+    bool hasReset(const QDateTime& resetTime, const QDateTime& currentDateTime = QDateTime::currentDateTimeUtc());
 
-    static QString resetToLabel(const QDateTime& resetDateTime);
+    static QString resetToLabel(const QDateTime& resetDateTime, const QDateTime& currentDateTime = QDateTime::currentDateTimeUtc());
 private:
-    int daysTillWeekly(int resetDay = Qt::Thursday);
-    ResetData calcReset(int days = 0);
+    int daysTillWeekly(int resetDay = Qt::Thursday, const QDateTime& currentDateTime = QDateTime::currentDateTimeUtc());
+    ResetData calcReset(int days = 0, const QDateTime& currentDateTime = QDateTime::currentDateTimeUtc());
     QDateTime lastOpened;
 };
 
