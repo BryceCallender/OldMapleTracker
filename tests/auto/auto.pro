@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS += \
-    addcharacter \
-    resetchecker
+TEMPLATE = subdirs
+
+SUBDIRS += addcharacter \
+           resetchecker

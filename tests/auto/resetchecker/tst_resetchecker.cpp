@@ -1,6 +1,6 @@
 #include <QTest>
 
-// add necessary includes here
+#include "resetchecker.h"
 
 class Tst_ResetChecker : public QObject
 {
@@ -9,9 +9,17 @@ class Tst_ResetChecker : public QObject
 public:
     Tst_ResetChecker();
 private slots:
+    void test();
+private:
+    ResetChecker resetChecker;
 };
 
 Tst_ResetChecker::Tst_ResetChecker()
+{
+
+}
+
+void Tst_ResetChecker::test()
 {
 
 }
