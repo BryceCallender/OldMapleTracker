@@ -21,7 +21,6 @@ public:
     void createAction();
     void editAction();
     void checkForAction(const QString& name);
-    std::string logAction(const MapleAction& action);
     ~MapleActionDialog();
 
 private slots:

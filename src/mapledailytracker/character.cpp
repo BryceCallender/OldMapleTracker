@@ -2,6 +2,7 @@
 
 Character::Character()
 {
+    logger = Logger::getLogger();
 }
 
 void Character::setName(const QString& name)
@@ -85,9 +86,7 @@ void Character::readActions(const QJsonObject& json, const QString& name, QVecto
         {
             QJsonObject actionObject = jsonArray[i].toObject();
             MapleAction action;
-
             action.read(actionObject);
-
             actions.push_back(action);
         }
     }
@@ -109,7 +108,7 @@ QVector<MapleAction>& Character::getMonWeeklies()
 bool Character::removeExpiredActions()
 {
     bool removed = false;
-    const auto pred = [&removed](const MapleAction& action)
+    const auto pred = [&removed, this](const MapleAction& action)
     {
         if (action.isTemporary)
         {
@@ -119,6 +118,7 @@ bool Character::removeExpiredActions()
             if (currentTimeUtc.secsTo(removalTimeUtc) <= 0)
             {
                 removed = true;
+                logger->info("Removed temporary action: {}", action.toString());
             }
         }
 

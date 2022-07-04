@@ -57,7 +57,7 @@ void MapleActionDialog::createAction()
     action.isTemporary = ui->checkBox->isChecked();
     action.removalTime = action.isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
 
-    logger->info("Created action: {}", logAction(action));
+    logger->info("Created action: {}", action.toString());
     emit actionConfirmed(action);
 }
 
@@ -68,7 +68,7 @@ void MapleActionDialog::editAction()
     action->isTemporary = ui->checkBox->isChecked();
     action->removalTime = action->isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
 
-    logger->info("Edited action {0} to {1}", logAction(actionBefore), logAction(*action));
+    logger->info("Edited action {0} to {1}", actionBefore.toString(), action->toString());
 }
 
 void MapleActionDialog::checkForAction(const QString &name)
@@ -86,13 +86,4 @@ void MapleActionDialog::checkForAction(const QString &name)
 
     ui->errorText->hide();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(false);
-}
-
-std::string MapleActionDialog::logAction(const MapleAction& action)
-{
-    QJsonObject data;
-    action.write(data);
-
-    QJsonDocument doc(data);
-    return doc.toJson(QJsonDocument::Compact).toStdString();
 }

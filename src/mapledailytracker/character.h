@@ -7,6 +7,7 @@
 #include <QJsonArray>
 
 #include "mapleaction.h"
+#include "logger.h"
 
 class Character
 {
@@ -50,6 +51,8 @@ private:
     QVector<MapleAction> dailies;
     QVector<MapleAction> wedWeeklies;
     QVector<MapleAction> monWeeklies;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // CHARACTER_H

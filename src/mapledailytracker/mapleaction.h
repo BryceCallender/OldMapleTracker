@@ -2,6 +2,7 @@
 #define MAPLEACTION_H
 
 #include <QDateTime>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QString>
 
@@ -40,6 +41,15 @@ struct MapleAction
         json["done"] = done;
         json["isTemporary"] = isTemporary;
         json["removalTime"] = removalTime.toString();
+    }
+
+    std::string toString() const
+    {
+        QJsonObject data;
+        write(data);
+
+        QJsonDocument doc(data);
+        return doc.toJson(QJsonDocument::Compact).toStdString();
     }
 };
 
