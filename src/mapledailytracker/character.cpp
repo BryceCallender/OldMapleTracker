@@ -136,11 +136,10 @@ bool Character::removeExpiredActions()
             if (currentTimeUtc.secsTo(removalTimeUtc) <= 0)
             {
                 removed = true;
-                return true;
             }
         }
 
-        return false;
+        return removed;
     };
 
     dailies.removeIf(pred);

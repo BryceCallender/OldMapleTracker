@@ -23,9 +23,9 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
     QJsonObject json;
     json["closedWelcome"] = FileManager::closedWelcome;
     json["lastOpened"] = QDateTime::currentDateTimeUtc().toString();
-    json["nextDailyReset"] = resetChecker.timeTillDailyReset().toString();
-    json["nextWedWeeklyReset"] = resetChecker.timeTillWeeklyReset().toString();
-    json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).toString();
+    json["nextDailyReset"] = resetChecker.timeTillDailyReset().date().toString();
+    json["nextWedWeeklyReset"] = resetChecker.timeTillWeeklyReset().date().toString();
+    json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).date().toString();
 
     QJsonArray charactersArray;
     int index = 1;
