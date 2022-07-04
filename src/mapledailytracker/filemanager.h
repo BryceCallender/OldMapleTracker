@@ -12,12 +12,14 @@
 #include "character.h"
 #include "resetchecker.h"
 #include "savedata.h"
+#include "logger.h"
 
 class FileManager
 {
 private:
     FileManager();
     static FileManager* instance;
+    std::shared_ptr<spdlog::logger> logger;
 public:
     static bool closedWelcome;
     static QString saveFile;

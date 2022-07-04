@@ -11,6 +11,7 @@
 #include "trackertabwidget.h"
 #include "progress.h"
 #include "preferences.h"
+#include "logger.h"
 
 namespace Ui {
 class MainWindow;
@@ -41,6 +42,8 @@ private:
     SaveData saveData;
     Progress* progress;
     TrackerTabWidget* trackerTabWidget;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // MAINWINDOW_H

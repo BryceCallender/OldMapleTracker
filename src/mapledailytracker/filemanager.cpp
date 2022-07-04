@@ -7,7 +7,7 @@ QString FileManager::autosaveFile = QString::fromUtf8("AutoSave.json");
 
 FileManager::FileManager()
 {
-
+    logger = Logger::getLogger();
 }
 
 bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters) const
@@ -16,7 +16,7 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
 
     if (!saveFile.open(QIODevice::WriteOnly))
     {
-        qWarning() << "Couldn't open save file.";
+        logger->critical("Couldn't open save file.");
         return false;
     }
 
@@ -57,7 +57,7 @@ SaveData FileManager::loadData(const QString &name)
 
     if (!loadFile.open(QIODevice::ReadOnly))
     {
-        qWarning("Couldn't open save file.");
+        logger->critical("Couldn't open save file.");
         return data;
     }
 

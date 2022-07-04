@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    logger = Logger::getLogger();
+
     QSettings settings;
     if (settings.contains("ui/geometry"))
     {
@@ -77,20 +79,24 @@ void MainWindow::resetChecking()
 
     for (Character* character: saveData.characters)
     {
+        std::string characterName = character->getName().toStdString();
         if (resetChecker.hasReset(dailyResetTime))
         {
+            logger->info("{}'s dailies has been reset", characterName);
             character->resetDailies();
             trackerTabWidget->actionsReset("Daily");
         }
 
         if (resetChecker.hasReset(weeklyResetTime))
         {
+            logger->info("{}'s wednesday weeklies has been reset", characterName);
             character->resetWedWeeklies();
             trackerTabWidget->actionsReset("WedWeekly");
         }
 
         if (resetChecker.hasReset(weeklyMondayResetTime))
         {
+            logger->info("{}'s monday weeklies has been reset", characterName);
             character->resetMonWeeklies();
             trackerTabWidget->actionsReset("MonWeekly");
         }
@@ -98,6 +104,7 @@ void MainWindow::resetChecking()
         // check incase they expire as the application is running
         if (character->removeExpiredActions())
         {
+            logger->info("{}'s expired actions have been removed", characterName);
             trackerTabWidget->reloadTabs();
         }
     }
@@ -118,22 +125,30 @@ void MainWindow::checkForExpiredResets(SaveData& saveData)
 {
     for (Character* character: saveData.characters)
     {
-        if (resetChecker.hasReset(saveData.nextDailyReset))
+        std::string characterName = character->getName().toStdString();
+
+        if (saveData.nextDailyReset.isValid() && resetChecker.hasReset(saveData.nextDailyReset))
         {
+            logger->info("{}'s dailies has been reset", characterName);
             character->resetDailies();
         }
 
-        if (resetChecker.hasReset(saveData.nextWedWeeklyReset))
+        if (saveData.nextWedWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextWedWeeklyReset))
         {
+            logger->info("{}'s wednesday weeklies has been reset", characterName);
             character->resetWedWeeklies();
         }
 
-        if (resetChecker.hasReset(saveData.nextMonWeeklyReset))
+        if (saveData.nextMonWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextMonWeeklyReset))
         {
+            logger->info("{}'s monday weeklies has been reset", characterName);
             character->resetMonWeeklies();
         }
 
-        character->removeExpiredActions();
+        if (character->removeExpiredActions())
+        {
+            logger->info("{}'s expired actions have been removed", characterName);
+        }
     }
 }
 
@@ -142,6 +157,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(event)
 
     FileManager* instance = FileManager::getInstance();
+    logger->info("Closing application and saving contents...");
     instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
     instance->clearAutoSave();
 
@@ -157,10 +173,12 @@ void MainWindow::loadContents()
     // Application crashed / closed without properly saving
     if (file.size() > 0)
     {
+        logger->info("Loading autosave...");
         saveData = instance->loadData(FileManager::autosaveFile);
     }
     else
     {
+        logger->info("Loading save file...");
         saveData = instance->loadData(FileManager::saveFile);
     }
 }

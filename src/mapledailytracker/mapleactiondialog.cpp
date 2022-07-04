@@ -7,6 +7,9 @@ MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, MapleAction*
     ui(new Ui::MapleActionDialog)
 {
     ui->setupUi(this);
+
+    logger = Logger::getLogger();
+
     ui->expirationDateTimeEdit->setMinimumDateTime(QDateTime::currentDateTime());
     ui->errorText->hide();
 
@@ -50,16 +53,22 @@ void MapleActionDialog::createAction()
     MapleAction action;
     action.name = ui->lineEdit->text();
     action.done = false;
+    action.order = 999;
     action.isTemporary = ui->checkBox->isChecked();
     action.removalTime = action.isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
+
+    logger->info("Created action: {}", logAction(action));
     emit actionConfirmed(action);
 }
 
 void MapleActionDialog::editAction()
 {
+    MapleAction actionBefore = *action;
     action->name = ui->lineEdit->text();
     action->isTemporary = ui->checkBox->isChecked();
     action->removalTime = action->isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
+
+    logger->info("Edited action {0} to {1}", logAction(actionBefore), logAction(*action));
 }
 
 void MapleActionDialog::checkForAction(const QString &name)
@@ -77,4 +86,13 @@ void MapleActionDialog::checkForAction(const QString &name)
 
     ui->errorText->hide();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(false);
+}
+
+std::string MapleActionDialog::logAction(const MapleAction& action)
+{
+    QJsonObject data;
+    action.write(data);
+
+    QJsonDocument doc(data);
+    return doc.toJson(QJsonDocument::Compact).toStdString();
 }

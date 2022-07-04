@@ -18,6 +18,7 @@ SOURCES += \
         character.cpp \
         characterdialog.cpp \
         filemanager.cpp \
+        logger.cpp \
         main.cpp \
         mainwindow.cpp \
         mapleactiondialog.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
     characterdialog.h \
+    logger.h \
     mapleaction.h \
     character.h \
     filemanager.h \

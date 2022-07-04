@@ -3,8 +3,10 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QJsonDocument>
 
 #include "mapleaction.h"
+#include "logger.h"
 
 namespace Ui {
 class MapleActionDialog;
@@ -19,6 +21,7 @@ public:
     void createAction();
     void editAction();
     void checkForAction(const QString& name);
+    std::string logAction(const MapleAction& action);
     ~MapleActionDialog();
 
 private slots:
@@ -30,6 +33,8 @@ private:
     QVector<MapleAction>& actions;
     MapleAction* action;
     Ui::MapleActionDialog* ui;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // MAPLEACTIONDIALOG_H

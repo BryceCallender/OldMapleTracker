@@ -11,6 +11,8 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
 {
     ui->setupUi(this);
 
+    logger = Logger::getLogger();
+
     this->progress = progress;
 
     unfinishedList = ui->unfinishedListWidget;
@@ -120,6 +122,7 @@ void TrackerWidget::listMode()
     }
 
     this->actions = actions;
+    logger->info("Action ordering: {}", actionsToList(actions).join(',').toStdString());
     reload();
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
@@ -155,6 +158,8 @@ void TrackerWidget::triggerDeleteAction()
         // Get curent item on selected row
         QListWidgetItem *item = unfinishedList->takeItem(unfinishedList->currentRow());
 
+        logger->info("Removing {}", item->text().toStdString());
+
         // And remove it
         this->actions.removeIf([&item](const MapleAction& action) {
             return item->text() == action.name;
@@ -171,6 +176,8 @@ void TrackerWidget::triggerDeleteAction()
     {
         // Get curent item on selected row
         QListWidgetItem *item = finishedList->takeItem(finishedList->currentRow());
+
+        logger->info("Removing {}", item->text().toStdString());
 
         // And remove it
         this->actions.removeIf([&item](const MapleAction& action) {
@@ -260,6 +267,18 @@ void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)
     }
 
     myMenu.exec(globalPos);
+}
+
+QStringList TrackerWidget::actionsToList(QVector<MapleAction> actions)
+{
+    QStringList list;
+
+    for (const MapleAction& action: actions)
+    {
+        list << action.name;
+    }
+
+    return list;
 }
 
 void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)

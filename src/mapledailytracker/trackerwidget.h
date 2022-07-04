@@ -13,6 +13,7 @@
 #include "progress.h"
 #include "mapleactionlistwidgetitem.h"
 #include "orderactionwidget.h"
+#include "logger.h"
 
 namespace Ui {
 class TrackerWidget;
@@ -32,6 +33,7 @@ public:
     void triggerEditAction();
     void triggerDeleteAction();
     void provideContextMenu(QListWidget* widget, const QPoint& point);
+    QStringList actionsToList(QVector<MapleAction> actions);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -57,6 +59,8 @@ private:
     QAction* addAction;
     QAction* deleteAction;
     QAction* editAction;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // TRACKERWIDGET_H
