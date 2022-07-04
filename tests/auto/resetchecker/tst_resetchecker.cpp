@@ -63,8 +63,8 @@ void Tst_ResetChecker::hasReset_data()
     QTest::newRow("too far before reset") << resetChecker.hasReset(rightBeforeReset.addSecs(-10), utcTime) << false;
     QTest::newRow("before reset") << resetChecker.hasReset(dailyResetTime, utcTime) << false;
     QTest::newRow("right before reset") << resetChecker.hasReset(rightBeforeReset, utcTime) << false;
-    QTest::newRow("delta before reset") << resetChecker.hasReset(deltaBeforeReset, currentCloseDateTime.addSecs(-1)) << true;
-    QTest::newRow("right at reset") << resetChecker.hasReset(rightOnReset, currentCloseDateTime) << true;
+    QTest::newRow("delta before reset") << resetChecker.hasReset(deltaBeforeReset, currentCloseDateTime.addSecs(-1)) << false;
+    QTest::newRow("right at reset") << resetChecker.hasReset(rightOnReset, currentCloseDateTime.addSecs(1)) << true;
     QTest::newRow("delta after reset") << resetChecker.hasReset(deltaAfterReset, currentCloseDateTime.addSecs(2)) << true;
     QTest::newRow("a bit after reset") << resetChecker.hasReset(rightAfterReset, utcTime) << false;
     QTest::newRow("too far after reset") << resetChecker.hasReset(rightAfterReset.addSecs(10), utcTime) << false;

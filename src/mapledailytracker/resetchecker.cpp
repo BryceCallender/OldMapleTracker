@@ -26,7 +26,7 @@ bool ResetChecker::hasReset(const QDateTime& timeTillReset, const QDateTime& cur
     resetTime.setTime(QTime(0,0,0));
 
     qint64 secs = currentDateTime.secsTo(resetTime);
-    return secs <= 3 && secs >= -3; // 10 second range -10 <= secs <= 10
+    return secs <= 0 && secs >= -5;
 }
 
 int ResetChecker::daysTillWeekly(int resetDay, const QDateTime& currentDateTime)
