@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
 
     timer = new QTimer(this);
-    timer->setInterval(1000 * 10);
+    timer->setInterval(1000);
     timer->callOnTimeout(this, &MainWindow::resetChecking);
     timer->start();
 
