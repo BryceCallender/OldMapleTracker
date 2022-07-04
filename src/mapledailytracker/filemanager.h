@@ -34,9 +34,10 @@ public:
         return instance;
     }
 
-    bool saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters) const;
+    bool saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters);
     void clearAutoSave();
     SaveData loadData(const QString& name);
+    QDateTime zeroOutTime(QDateTime dateTime);
 };
 
 #endif // FILEMANAGER_H

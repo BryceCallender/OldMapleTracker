@@ -10,7 +10,7 @@ FileManager::FileManager()
     logger = Logger::getLogger();
 }
 
-bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters) const
+bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVector<Character*> characters)
 {
     QFile saveFile(name);
 
@@ -23,9 +23,9 @@ bool FileManager::saveData(const QString& name, ResetChecker& resetChecker, QVec
     QJsonObject json;
     json["closedWelcome"] = FileManager::closedWelcome;
     json["lastOpened"] = QDateTime::currentDateTimeUtc().toString();
-    json["nextDailyReset"] = resetChecker.timeTillDailyReset().date().toString();
-    json["nextWedWeeklyReset"] = resetChecker.timeTillWeeklyReset().date().toString();
-    json["nextMonWeeklyReset"] = resetChecker.timeTillWeeklyReset(Qt::Monday).date().toString();
+    json["nextDailyReset"] = zeroOutTime(resetChecker.timeTillDailyReset()).toString();
+    json["nextWedWeeklyReset"] = zeroOutTime(resetChecker.timeTillWeeklyReset()).toString();
+    json["nextMonWeeklyReset"] = zeroOutTime(resetChecker.timeTillWeeklyReset(Qt::Monday)).toString();
 
     QJsonArray charactersArray;
     int index = 1;
@@ -112,4 +112,10 @@ SaveData FileManager::loadData(const QString &name)
     data.characters = characters;
 
     return data;
+}
+
+QDateTime FileManager::zeroOutTime(QDateTime dateTime)
+{
+    dateTime.setTime(QTime(0,0,0));
+    return dateTime;
 }
