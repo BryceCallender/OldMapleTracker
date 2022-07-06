@@ -24,16 +24,16 @@ class TrackerWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
+    explicit TrackerWidget(const QString& section, QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     void resetActions();
-    void reload();
-    void load();
+    void reload() const;
+    void load() const;
     void orderMode();
     void listMode();
     void triggerEditAction();
     void triggerDeleteAction();
     void provideContextMenu(QListWidget* widget, const QPoint& point);
-    QStringList actionsToList(QVector<MapleAction> actions);
+    std::string actionsToList(QVector<MapleAction>& actions);
     ~TrackerWidget();
 private slots:
     void addMapleAction();
@@ -43,12 +43,14 @@ private slots:
     void provideContextMenuFinished(const QPoint& point);
     void unselectUnfinished();
     void unselectFinished();
+    void rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
 signals:
-    void updateProgress();
+    void updateProgress() const;
 private:
-    void loadActionTo(QListWidget* widget, MapleAction& action);
+    void loadActionTo(QListWidget* widget, MapleAction& action) const;
     void triggerActionDialog(MapleAction* action = nullptr);
     QVector<MapleAction>& actions;
+    QString section;
 
     Ui::TrackerWidget *ui;
     Progress* progress;

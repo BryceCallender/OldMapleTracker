@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
+TrackerWidget::TrackerWidget(const QString& section, QVector<MapleAction>& actions, Progress* progress, QWidget *parent) :
     QWidget(parent),
     actions(actions),
     ui(new Ui::TrackerWidget)
@@ -13,6 +13,7 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
 
     logger = Logger::getLogger();
 
+    this->section = section;
     this->progress = progress;
 
     unfinishedList = ui->unfinishedListWidget;
@@ -49,6 +50,8 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
     connect(finishedList, &QListWidget::itemChanged, this, &TrackerWidget::moveItem);
     connect(finishedList, &QListWidget::itemSelectionChanged, this, &TrackerWidget::unselectUnfinished);
 
+    connect(ui->orderWidget->model(), &QAbstractItemModel::rowsMoved, this, &TrackerWidget::rowsMoved);
+
     connect(this, &TrackerWidget::updateProgress, progress, &Progress::updateProgress);
     connect(ui->orderButton, &QPushButton::clicked, this, &TrackerWidget::orderMode);
     connect(ui->finalizeButton, &QPushButton::clicked, this, &TrackerWidget::listMode);
@@ -56,27 +59,20 @@ TrackerWidget::TrackerWidget(QVector<MapleAction>& actions, Progress* progress, 
 
 void TrackerWidget::resetActions()
 {
-    for(int row = 0; row < finishedList->count(); row++)
-    {
-         QListWidgetItem* item = finishedList->takeItem(row);
-         item->setCheckState(Qt::Unchecked);
-         unfinishedList->addItem(item);
-    }
-
+    reload();
     emit updateProgress();
 }
 
-void TrackerWidget::reload()
+void TrackerWidget::reload() const
 {
     unfinishedList->clear();
     finishedList->clear();
 
     load();
-
     emit updateProgress();
 }
 
-void TrackerWidget::load()
+void TrackerWidget::load() const
 {
     for (MapleAction& action: actions)
     {
@@ -122,7 +118,7 @@ void TrackerWidget::listMode()
     }
 
     this->actions = actions;
-    logger->info("Action ordering: {}", actionsToList(actions).join(',').toStdString());
+    logger->info("{0}: Action ordering: {1}", section.toStdString(), actionsToList(actions));
     reload();
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
@@ -158,7 +154,7 @@ void TrackerWidget::triggerDeleteAction()
         // Get curent item on selected row
         QListWidgetItem *item = unfinishedList->takeItem(unfinishedList->currentRow());
 
-        logger->info("Removing {}", item->text().toStdString());
+        logger->info("{0}: Removing {1}", section.toStdString(), item->text().toStdString());
 
         // And remove it
         this->actions.removeIf([&item](const MapleAction& action) {
@@ -177,7 +173,7 @@ void TrackerWidget::triggerDeleteAction()
         // Get curent item on selected row
         QListWidgetItem *item = finishedList->takeItem(finishedList->currentRow());
 
-        logger->info("Removing {}", item->text().toStdString());
+        logger->info("{0}: Removing {1}", section.toStdString(), item->text().toStdString());
 
         // And remove it
         this->actions.removeIf([&item](const MapleAction& action) {
@@ -236,7 +232,7 @@ void TrackerWidget::provideContextMenuUnfinished(const QPoint& point)
     provideContextMenu(unfinishedList, point);
 }
 
-void TrackerWidget::provideContextMenuFinished(const QPoint &point)
+void TrackerWidget::provideContextMenuFinished(const QPoint& point)
 {
     provideContextMenu(finishedList, point);
 }
@@ -249,6 +245,17 @@ void TrackerWidget::unselectUnfinished()
 void TrackerWidget::unselectFinished()
 {
     finishedList->clearSelection();
+}
+
+void TrackerWidget::rowsMoved(const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
+{
+    Q_UNUSED(parent);
+    Q_UNUSED(end);
+    Q_UNUSED(destination);
+
+    actions.swapItemsAt(start, row);
+    MapleAction action = actions.at(row);
+    logger->info("{0}: Moved {1} from {2} to {3} ({4})", section.toStdString(), action.name.toStdString(), start, row, actionsToList(actions));
 }
 
 void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)
@@ -269,7 +276,7 @@ void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)
     myMenu.exec(globalPos);
 }
 
-QStringList TrackerWidget::actionsToList(QVector<MapleAction> actions)
+std::string TrackerWidget::actionsToList(QVector<MapleAction>& actions)
 {
     QStringList list;
 
@@ -278,10 +285,10 @@ QStringList TrackerWidget::actionsToList(QVector<MapleAction> actions)
         list << action.name;
     }
 
-    return list;
+    return list.join(',').toStdString();
 }
 
-void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
+void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action) const
 {
     QListWidgetItem* item = new MapleActionListWidgetItem(action, widget);
     item->setCheckState(action.done ? Qt::Checked : Qt::Unchecked);
@@ -291,7 +298,7 @@ void TrackerWidget::loadActionTo(QListWidget* widget, MapleAction& action)
 
 void TrackerWidget::triggerActionDialog(MapleAction *action)
 {
-    MapleActionDialog* dialog = new MapleActionDialog(actions, action, this);
+    MapleActionDialog* dialog = new MapleActionDialog(section, actions, action, this);
 
     if (action == nullptr)
     {
