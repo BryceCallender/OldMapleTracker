@@ -1,12 +1,17 @@
 #include "mapleactiondialog.h"
 #include "ui_mapleactiondialog.h"
 
-MapleActionDialog::MapleActionDialog(QVector<MapleAction>& actions, MapleAction* action, QWidget* parent) :
+MapleActionDialog::MapleActionDialog(const QString& section, QVector<MapleAction>& actions, MapleAction* action, QWidget* parent) :
     QDialog(parent),
     actions(actions),
     ui(new Ui::MapleActionDialog)
 {
     ui->setupUi(this);
+
+    logger = Logger::getLogger();
+
+    this->section = section;
+
     ui->expirationDateTimeEdit->setMinimumDateTime(QDateTime::currentDateTime());
     ui->errorText->hide();
 
@@ -50,19 +55,25 @@ void MapleActionDialog::createAction()
     MapleAction action;
     action.name = ui->lineEdit->text();
     action.done = false;
+    action.order = 999;
     action.isTemporary = ui->checkBox->isChecked();
     action.removalTime = action.isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
+
+    logger->info("{0}: Created action: {1}", section.toStdString(), action.toString());
     emit actionConfirmed(action);
 }
 
 void MapleActionDialog::editAction()
 {
+    MapleAction actionBefore = *action;
     action->name = ui->lineEdit->text();
     action->isTemporary = ui->checkBox->isChecked();
     action->removalTime = action->isTemporary ? ui->expirationDateTimeEdit->dateTime() : QDateTime();
+
+    logger->info("{0}: Edited action {1} to {2}", section.toStdString(), actionBefore.toString(), action->toString());
 }
 
-void MapleActionDialog::checkForAction(const QString &name)
+void MapleActionDialog::checkForAction(const QString& name)
 {
     for (const MapleAction& action: actions)
     {

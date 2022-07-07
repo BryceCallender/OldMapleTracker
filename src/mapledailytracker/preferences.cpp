@@ -28,7 +28,7 @@ Preferences::Preferences(QWidget *parent) :
 
     buttonBox = ui->buttonBox;
 
-    qDebug() << themes;
+
     ui->comboBox->addItems(themes);
     ui->comboBox->setCurrentText(theme);
 
@@ -80,6 +80,8 @@ void Preferences::saveSettings()
 {
     QSettings settings;
     settings.setValue("theme", ui->comboBox->currentText());
+
+    logger->info("Changing theme to: {}", ui->comboBox->currentText().toStdString());
 
     applySettings();
 }

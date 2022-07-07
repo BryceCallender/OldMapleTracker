@@ -18,6 +18,7 @@ SOURCES += \
         character.cpp \
         characterdialog.cpp \
         filemanager.cpp \
+        logger.cpp \
         main.cpp \
         mainwindow.cpp \
         mapleactiondialog.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
     characterdialog.h \
+    logger.h \
     mapleaction.h \
     character.h \
     filemanager.h \
@@ -45,10 +47,10 @@ HEADERS += \
     resetchecker.h \
     resetdata.h \
     savedata.h \
-        mainwindow.h \
+    mainwindow.h \
     trackertabcontent.h \
     trackertabwidget.h \
-    trackerwidget.h
+    trackerwidget.h \
 
 FORMS += \
         characterdialog.ui \
@@ -61,12 +63,15 @@ FORMS += \
         trackertabwidget.ui \
         trackerwidget.ui
 
+INCLUDEPATH += "../external/spdlog/include"
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES +=
+DISTFILES += \
+    vendor/spdlog/fmt/bundled/fmt.license.rst
 
 RESOURCES += \
     resources.qrc

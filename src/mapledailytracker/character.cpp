@@ -2,6 +2,7 @@
 
 Character::Character()
 {
+    logger = Logger::getLogger();
 }
 
 void Character::setName(const QString& name)
@@ -67,11 +68,7 @@ QJsonArray Character::actionsToJSONArray(QVector<MapleAction>& actions)
     for (const MapleAction& action : actions)
     {
         QJsonObject dailyAction;
-        dailyAction["name"] = action.name;
-        dailyAction["order"] = action.order;
-        dailyAction["done"] = action.done;
-        dailyAction["isTemporary"] = action.isTemporary;
-        dailyAction["removalTime"] = action.removalTime.toString();
+        action.write(dailyAction);
         characterActions.push_back(dailyAction);
     }
 
@@ -89,22 +86,7 @@ void Character::readActions(const QJsonObject& json, const QString& name, QVecto
         {
             QJsonObject actionObject = jsonArray[i].toObject();
             MapleAction action;
-
-            if (actionObject.contains("name") && actionObject["name"].isString())
-                action.name = actionObject["name"].toString();
-
-            if (actionObject.contains("order"))
-                action.order = actionObject["order"].toInt();
-
-            if (actionObject.contains("done") && actionObject["done"].isBool())
-                action.done = actionObject["done"].toBool();
-
-            if (actionObject.contains("isTemporary") && actionObject["isTemporary"].isBool())
-                action.isTemporary = actionObject["isTemporary"].toBool();
-
-            if (actionObject.contains("removalTime") && actionObject["removalTime"].isString())
-                action.removalTime = QDateTime::fromString(actionObject["removalTime"].toString());
-
+            action.read(actionObject);
             actions.push_back(action);
         }
     }
@@ -126,7 +108,7 @@ QVector<MapleAction>& Character::getMonWeeklies()
 bool Character::removeExpiredActions()
 {
     bool removed = false;
-    const auto pred = [&removed](const MapleAction& action)
+    const auto pred = [&removed, this](const MapleAction& action)
     {
         if (action.isTemporary)
         {
@@ -136,6 +118,7 @@ bool Character::removeExpiredActions()
             if (currentTimeUtc.secsTo(removalTimeUtc) <= 0)
             {
                 removed = true;
+                logger->info("Removed temporary action: {}", action.toString());
             }
         }
 
