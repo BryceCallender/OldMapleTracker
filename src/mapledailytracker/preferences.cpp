@@ -9,6 +9,8 @@ Preferences::Preferences(QWidget *parent) :
 
     setWindowTitle("Preferences");
 
+    logger = Logger::getLogger();
+
     QDirIterator it(":/styles", QDirIterator::Subdirectories);
     QStringList themes;
 
