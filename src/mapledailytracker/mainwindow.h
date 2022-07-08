@@ -28,12 +28,10 @@ public:
     void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
     void loadContents();
+    void saveContents();
+    void addCharacter();
     void openPreferences();
     ~MainWindow();
-
-private slots:
-    void on_actionAdd_Character_triggered();
-
 private:
     Ui::MainWindow *ui;
     ResetChecker resetChecker;

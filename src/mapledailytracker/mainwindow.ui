@@ -269,12 +269,12 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionAdd_Character"/>
+    <addaction name="addCharacter"/>
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionAdd_Character">
+  <action name="addCharacter">
    <property name="text">
     <string>Add Character</string>
    </property>

@@ -21,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     resetChecking();
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
 
+    // Actions
+    ui->addCharacter->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
+    QAction* saveAction = new QAction("Save", this);
+    saveAction->setShortcut(QKeySequence(QKeySequence::Save));
+
     timer = new QTimer(this);
     timer->setInterval(1000);
     timer->callOnTimeout(this, &MainWindow::resetChecking);
@@ -68,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent) :
        trackerTabWidget->setCurrentIndex(index);
     });
 
+    connect(ui->addCharacter, &QAction::triggered, this, &MainWindow::addCharacter);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::saveContents);
     connect(ui->actionSettings, &QAction::triggered, this, &MainWindow::openPreferences);
 }
 
@@ -156,13 +163,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event)
 
-    FileManager* instance = FileManager::getInstance();
-    logger->info("Closing application and saving contents...");
-    instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
-    instance->clearAutoSave();
-
-    QSettings settings;
-    settings.setValue("ui/geometry", this->geometry());
+    saveContents();
 }
 
 void MainWindow::loadContents()
@@ -183,18 +184,24 @@ void MainWindow::loadContents()
     }
 }
 
+void MainWindow::saveContents()
+{
+    FileManager* instance = FileManager::getInstance();
+    logger->info("Closing application and saving contents...");
+    instance->saveData(FileManager::saveFile, resetChecker, trackerTabWidget->getCharactersFromTabs());
+    instance->clearAutoSave();
+
+    QSettings settings;
+    settings.setValue("ui/geometry", this->geometry());
+}
+
 void MainWindow::openPreferences()
 {
     Preferences* preferencesDialog = new Preferences(this);
     preferencesDialog->exec();
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::on_actionAdd_Character_triggered()
+void MainWindow::addCharacter()
 {
     CharacterDialog* newCharDialog = new CharacterDialog(trackerTabWidget->getCharactersFromTabs(), this);
     connect(newCharDialog, &CharacterDialog::newCharacter, trackerTabWidget, &TrackerTabWidget::addCharacterTab);
@@ -202,3 +209,7 @@ void MainWindow::on_actionAdd_Character_triggered()
     newCharDialog->exec();
 }
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
