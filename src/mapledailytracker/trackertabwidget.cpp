@@ -1,11 +1,13 @@
 #include "trackertabwidget.h"
 #include "ui_trackertabwidget.h"
 
-TrackerTabWidget::TrackerTabWidget(QWidget *parent) :
+TrackerTabWidget::TrackerTabWidget(QWidget* parent) :
     QTabWidget(parent),
     ui(new Ui::TrackerTabWidget)
 {
     ui->setupUi(this);
+
+    logger = Logger::getLogger();
 
     setMovable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &TrackerTabWidget::tabCloseRequest);
@@ -55,6 +57,7 @@ void TrackerTabWidget::tabCloseRequest(int index)
 
         emit characterRemoved(index);
 
+        logger->info("Removed character: {}", tabs.at(index)->getCharacter()->getName().toStdString());
         tabs.removeAt(index);
     }
 
@@ -66,7 +69,7 @@ void TrackerTabWidget::tabMoved(int from, int to)
     std::swap(tabs[from], tabs[to]);
 }
 
-void TrackerTabWidget::actionsReset(const QString &type)
+void TrackerTabWidget::actionsReset(const QString& type)
 {
     for (TrackerTabContent* tabContent: tabs)
     {
@@ -74,7 +77,7 @@ void TrackerTabWidget::actionsReset(const QString &type)
     }
 }
 
-void TrackerTabWidget::addNewTab(Character *character, const QString &name)
+void TrackerTabWidget::addNewTab(Character* character, const QString& name)
 {
     TrackerTabContent* content = new TrackerTabContent(character, progress, this);
 
@@ -104,18 +107,20 @@ TrackerTabWidget::~TrackerTabWidget()
     delete ui;
 }
 
-void TrackerTabWidget::addCharacterTab(const QString &name)
+void TrackerTabWidget::addCharacterTab(const QString& name)
 {
     Character* character = new Character();
     character->setName(name);
 
+    logger->info("Creating new character: {}", name.toStdString());
     addNewTab(character, name);
 }
 
-void TrackerTabWidget::cloneCharacterTab(Character* clone, const QString &name)
+void TrackerTabWidget::cloneCharacterTab(Character* clone, const QString& name)
 {
     Character* character = clone->clone();
     character->setName(name);
 
+    logger->info("Creating new character: {0}, based on {1}", name.toStdString(), clone->getName().toStdString());
     addNewTab(character, name);
 }

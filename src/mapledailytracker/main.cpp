@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QSettings>
+#include "logger.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,8 +10,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("MapleTracker");
     QCoreApplication::setApplicationName("MapleDailyTracker");
 
+    Logger::init();
+    auto logger = Logger::getLogger();
+
     QSettings settings;
     QString theme = settings.value("theme", "teal").toString();
+    logger->info("Loading theme: {}", theme.toStdString());
 
     QFile styleFile(QString(":/styles/dark_%1.qss").arg(theme));
     styleFile.open(QFile::ReadOnly);

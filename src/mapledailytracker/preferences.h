@@ -8,6 +8,8 @@
 #include <QSettings>
 #include <QPushButton>
 
+#include "logger.h"
+
 namespace Ui {
 class Preferences;
 }
@@ -29,6 +31,8 @@ private:
     QDialogButtonBox* buttonBox;
     QString currentTheme;
     QString oldTheme;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // PREFERENCES_H

@@ -36,6 +36,7 @@
 
 QWidget {
   background-color: #31363b;
+  border-radius: 4px;
 }
 
 QFrame {
@@ -732,7 +733,7 @@ QToolBox::tab:hover {
 /*  QProgressBar  */
 
 QProgressBar {
-  border-radius: 0;
+  border-radius: 2px;
   background-color: #4f5b62;
   text-align: center;
   /*color: transparent;*/
@@ -740,10 +741,15 @@ QProgressBar {
 
 QProgressBar::chunk {
   background-color: #ab47bc;
+  border-radius: 2px;
 }
 
 /*  ------------------------------------------------------------------------  */
 /*  QScrollBar  */
+
+QScrollBar {
+  border-radius: 2px;
+}
 
 QScrollBar:horizontal {
   border: 0;
@@ -755,6 +761,10 @@ QScrollBar:vertical {
   border: 0;
   background: #232629;
   width: 8px;
+}
+
+QScrollBar::handle {
+  border-radius: 2px;
 }
 
 QScrollBar::handle:horizontal {
@@ -984,6 +994,7 @@ QListView::item:selected:focus {
   selection-background-color: rgba(171, 71, 188, 0.2);
   color: #ffffff;
   selection-color: #ffffff; /* For Windows */
+  border-radius: 2px;
 }
 
 QTableView {

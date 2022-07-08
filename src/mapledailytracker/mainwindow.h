@@ -11,6 +11,7 @@
 #include "trackertabwidget.h"
 #include "progress.h"
 #include "preferences.h"
+#include "logger.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,12 +28,10 @@ public:
     void checkForExpiredResets(SaveData &saveData);
     void closeEvent(QCloseEvent* event);
     void loadContents();
+    void saveContents();
+    void addCharacter();
     void openPreferences();
     ~MainWindow();
-
-private slots:
-    void on_actionAdd_Character_triggered();
-
 private:
     Ui::MainWindow *ui;
     ResetChecker resetChecker;
@@ -41,6 +40,8 @@ private:
     SaveData saveData;
     Progress* progress;
     TrackerTabWidget* trackerTabWidget;
+
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // MAINWINDOW_H

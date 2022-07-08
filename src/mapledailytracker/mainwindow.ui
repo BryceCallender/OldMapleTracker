@@ -70,10 +70,22 @@ p, li { white-space: pre-wrap; }
         <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>200</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>16777215</height>
+           </size>
           </property>
           <property name="title">
            <string>Timing</string>
@@ -84,6 +96,18 @@ p, li { white-space: pre-wrap; }
           <layout class="QFormLayout" name="formLayout">
            <item row="3" column="0">
             <widget class="QLabel" name="label">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="text">
               <string>Daily Reset</string>
              </property>
@@ -245,12 +269,12 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionAdd_Character"/>
+    <addaction name="addCharacter"/>
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionAdd_Character">
+  <action name="addCharacter">
    <property name="text">
     <string>Add Character</string>
    </property>

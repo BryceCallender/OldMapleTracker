@@ -10,6 +10,7 @@
 #include "trackertabcontent.h"
 #include "filemanager.h"
 #include "progress.h"
+#include "logger.h"
 
 namespace Ui {
 class TrackerTabWidget;
@@ -39,6 +40,7 @@ private:
     Ui::TrackerTabWidget *ui;
     Progress* progress;
     QVector<TrackerTabContent*> tabs;
+    std::shared_ptr<spdlog::logger> logger;
 };
 
 #endif // TRACKERTABWIDGET_H
