@@ -54,7 +54,7 @@ void QModernProgressBar::paintEvent(QPaintEvent *ev)
         QRect leftRect;
         QRect rect = pbar->rect;
         QColor textColor            = option->palette.text().color();
-        QColor alternateTextColor   = option->palette.window().color();
+        QColor alternateTextColor   = QColor(35, 38, 41);
 
         painter->save();
         bool vertical = false, inverted = false;
