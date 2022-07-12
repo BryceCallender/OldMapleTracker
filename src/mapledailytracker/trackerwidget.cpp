@@ -95,7 +95,9 @@ void TrackerWidget::orderMode()
 
     for (MapleAction& action: actions)
     {
-        ui->orderWidget->addItem(new MapleActionListWidgetItem(action, ui->orderWidget));
+        QListWidgetItem* item = new MapleActionListWidgetItem(action, ui->orderWidget);
+        item->setText(QString("%1. %2").arg(QString::number(action.order), action.name));
+        ui->orderWidget->addItem(item);
     }
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
@@ -253,9 +255,21 @@ void TrackerWidget::rowsMoved(const QModelIndex& parent, int start, int end, con
     Q_UNUSED(end);
     Q_UNUSED(destination);
 
-    actions.swapItemsAt(start, row);
-    MapleAction action = actions.at(row);
-    logger->info("{0}: Moved {1} from {2} to {3} ({4})", section.toStdString(), action.name.toStdString(), start, row, actionsToList(actions));
+    qDebug() << "(" << start << "," << end << ")" << " " << row;
+
+    //actions.swapItemsAt(start, row);
+    //MapleAction action = actions.at(row);
+    //logger->info("{0}: Moved {1} from {2} to {3} ({4})", section.toStdString(), action.name.toStdString(), start, row, actionsToList(actions));
+
+    for(int i = 0; i < ui->orderWidget->count(); ++i)
+    {
+        QListWidgetItem* item = ui->orderWidget->item(i);
+        MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(item);
+        if (actionItem)
+        {
+            item->setText(QString("%1. %2").arg(QString::number(i + 1), actionItem->getAction().name));
+        }
+    }
 }
 
 void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)

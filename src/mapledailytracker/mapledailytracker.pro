@@ -20,6 +20,7 @@ SOURCES += \
         filemanager.cpp \
         logger.cpp \
         main.cpp \
+        maintenancetool.cpp \
         mainwindow.cpp \
         mapleactiondialog.cpp \
         mapleactionlistwidgetitem.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 HEADERS += \
     characterdialog.h \
     logger.h \
+    maintenancetool.h \
     mapleaction.h \
     character.h \
     filemanager.h \
