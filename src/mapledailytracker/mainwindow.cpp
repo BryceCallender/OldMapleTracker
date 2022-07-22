@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
         setGeometry(settings.value("ui/geometry").toRect());
     }
 
-    resetChecking();
     ui->serverTime->setText(QDateTime::currentDateTimeUtc().toString("ddd MMMM d hh:mm:ss AP"));
 
     // Actions
@@ -43,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // AUTO SAVE FUNCTIONALITY
     loadContents();
+    resetChecking();
+    checkForExpiredResets();
 
     QTimer* autosaveTimer = new QTimer(this);
     autosaveTimer->setInterval(5000);
@@ -57,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     Progress* progress = ui->progressContents;
 
     trackerTabWidget->setProgressReference(progress);
-
-    checkForExpiredResets(saveData);
 
     if (!saveData.characters.isEmpty())
     {
@@ -128,25 +127,27 @@ void MainWindow::updateTimerLabels()
     ui->monWeeklyResetLabel->setText(ResetChecker::resetToLabel(weeklyMondayResetTime));
 }
 
-void MainWindow::checkForExpiredResets(SaveData& saveData)
+void MainWindow::checkForExpiredResets()
 {
+    QDateTime now = QDateTime::currentDateTimeUtc();
+
     for (Character* character: saveData.characters)
     {
         std::string characterName = character->getName().toStdString();
 
-        if (saveData.nextDailyReset.isValid() && resetChecker.hasReset(saveData.nextDailyReset))
+        if ((saveData.nextDailyReset.isValid() && resetChecker.hasReset(saveData.nextDailyReset)) || now > saveData.nextDailyReset)
         {
             logger->info("{}'s dailies has been reset", characterName);
             character->resetDailies();
         }
 
-        if (saveData.nextWedWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextWedWeeklyReset))
+        if ((saveData.nextWedWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextWedWeeklyReset)) || now > saveData.nextWedWeeklyReset)
         {
             logger->info("{}'s wednesday weeklies has been reset", characterName);
             character->resetWedWeeklies();
         }
 
-        if (saveData.nextMonWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextMonWeeklyReset))
+        if ((saveData.nextMonWeeklyReset.isValid() && resetChecker.hasReset(saveData.nextMonWeeklyReset)) || now > saveData.nextMonWeeklyReset)
         {
             logger->info("{}'s monday weeklies has been reset", characterName);
             character->resetMonWeeklies();

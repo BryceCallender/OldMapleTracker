@@ -25,7 +25,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void resetChecking();
     void updateTimerLabels();
-    void checkForExpiredResets(SaveData &saveData);
+    void checkForExpiredResets();
     void closeEvent(QCloseEvent* event);
     void loadContents();
     void saveContents();
