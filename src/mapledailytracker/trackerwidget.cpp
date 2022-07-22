@@ -95,7 +95,9 @@ void TrackerWidget::orderMode()
 
     for (MapleAction& action: actions)
     {
-        ui->orderWidget->addItem(new MapleActionListWidgetItem(action, ui->orderWidget));
+        QListWidgetItem* item = new MapleActionListWidgetItem(action, ui->orderWidget);
+        item->setText(QString("%1. %2").arg(QString::number(action.order), action.name));
+        ui->orderWidget->addItem(item);
     }
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
@@ -118,7 +120,7 @@ void TrackerWidget::listMode()
     }
 
     this->actions = actions;
-    logger->info("{0}: Action ordering: {1}", section.toStdString(), actionsToList(actions));
+    logger->info("{0}: Action ordering finalized: {1}", section.toStdString(), actionsToList(actions));
     reload();
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
@@ -250,12 +252,34 @@ void TrackerWidget::unselectFinished()
 void TrackerWidget::rowsMoved(const QModelIndex& parent, int start, int end, const QModelIndex& destination, int row)
 {
     Q_UNUSED(parent);
-    Q_UNUSED(end);
     Q_UNUSED(destination);
 
-    actions.swapItemsAt(start, row);
-    MapleAction action = actions.at(row);
-    logger->info("{0}: Moved {1} from {2} to {3} ({4})", section.toStdString(), action.name.toStdString(), start, row, actionsToList(actions));
+    int n = end - start;
+    if (start == end)
+    {
+        n = 1;
+    }
+
+    if (row >= actions.length())
+    {
+        row = actions.length() - 1;
+    }
+
+    QList<MapleAction> movingActions = actions.sliced(start, n);
+    QVector<MapleAction> actions;
+
+    for(int i = 0; i < ui->orderWidget->count(); ++i)
+    {
+        QListWidgetItem* item = ui->orderWidget->item(i);
+        MapleActionListWidgetItem* actionItem = dynamic_cast<MapleActionListWidgetItem*>(item);
+        if (actionItem)
+        {
+            item->setText(QString("%1. %2").arg(QString::number(i + 1), actionItem->getAction().name));
+            actions.push_back(actionItem->getAction());
+        }
+    }
+
+    logger->info("{0}: Moved [{1}] from {2} to {3}", section.toStdString(), actionsToList(movingActions), start, row);
 }
 
 void TrackerWidget::provideContextMenu(QListWidget *widget, const QPoint &point)
