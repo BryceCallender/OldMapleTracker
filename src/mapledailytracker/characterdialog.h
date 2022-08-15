@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QTreeWidget>
+#include <QVariant>
 
 #include "character.h"
 
@@ -18,18 +20,24 @@ public:
     explicit CharacterDialog(QVector<Character*> characters, QWidget *parent = nullptr);
     void hideCloneCharacter();
     void showCloneCharacter();
+    void parseTree();
     ~CharacterDialog();
 
 private slots:
     void characterConfirmed();
     void characterNameChanged(const QString &name);
+    void characterSelectionChanged(const int index);
 
 signals:
     void newCharacter(const QString& name);
     void cloneCharacter(Character* character, const QString& name);
 
 private:
+    void addWidgetItem(QTreeWidgetItem* parent, const MapleAction& action);
+    QVector<MapleAction> extractActions(QTreeWidgetItem* parent);
+
     QVector<Character*> characters;
+    Character* character;
     Ui::CharacterDialog *ui;
 };
 
