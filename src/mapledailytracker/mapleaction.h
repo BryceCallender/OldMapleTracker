@@ -6,9 +6,17 @@
 #include <QJsonObject>
 #include <QString>
 
+enum ActionType
+{
+    Daily,
+    WedWeekly,
+    MonWeekly
+};
+
 struct MapleAction
 {
     QString name;
+    ActionType type;
     int order;
     bool done;
 
@@ -52,5 +60,7 @@ struct MapleAction
         return doc.toJson(QJsonDocument::Compact).toStdString();
     }
 };
+
+Q_DECLARE_METATYPE(MapleAction)
 
 #endif // MAPLEACTION_H

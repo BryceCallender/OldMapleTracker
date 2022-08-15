@@ -1052,6 +1052,40 @@ QTreeView QHeaderView::section {
   border: none;
 }
 
+QTreeView::indicator:unchecked,
+QTreeView::indicator:unchecked:selected,
+QTreeView::indicator:unchecked:focus {
+  image: url(:icon/blue/primary/checkbox_unchecked.svg);
+}
+
+QTreeView::indicator:checked,
+QTreeView::indicator:checked:selected,
+QTreeView::indicator:checked:focus {
+  image: url(:icon/blue/primary/checkbox_checked.svg);
+}
+
+QTreeView::indicator:checked:selected:active {
+  image: url(:icon/blue/primary/checkbox_checked.svg);
+}
+
+QTreeView::indicator:checked:disabled {
+  image: url(:icon/disabled/checkbox_checked.svg);
+}
+
+QTreeView::indicator:indeterminate,
+QTreeView::indicator:indeterminate:selected,
+QTreeView::indicator:indeterminate:focus {
+  image: url(:icon/blue/primary/checkbox_indeterminate.svg);
+}
+
+QTreeView::indicator:indeterminate:selected:active {
+  image: url(:icon/blue/primary/checkbox_indeterminate_invert.svg);
+}
+
+QTreeView::indicator:indeterminate:disabled {
+  image: url(:icon/disabled/checkbox_indeterminate.svg);
+}
+
 
 /*  ------------------------------------------------------------------------  */
 /*  Custom buttons  */
