@@ -9,6 +9,7 @@
         <file>dark_purple.qss</file>
         <file>dark_red.qss</file>
         <file>dark_yellow.qss</file>
+        <file>dark_orange.qss</file>
     </qresource>
     <qresource prefix="/icon">
         <file>teal/primary/base.svg</file>
@@ -381,5 +382,42 @@
         <file>disabled/uparrow.svg</file>
         <file>disabled/uparrow2.svg</file>
         <file>disabled/vline.svg</file>
+        <file>orange/primary/base.svg</file>
+        <file>orange/primary/branch-closed.svg</file>
+        <file>orange/primary/branch-end.svg</file>
+        <file>orange/primary/branch-more.svg</file>
+        <file>orange/primary/branch-open.svg</file>
+        <file>orange/primary/checkbox_checked.svg</file>
+        <file>orange/primary/checkbox_checked_invert.svg</file>
+        <file>orange/primary/checkbox_indeterminate.svg</file>
+        <file>orange/primary/checkbox_indeterminate_invert.svg</file>
+        <file>orange/primary/checkbox_unchecked.svg</file>
+        <file>orange/primary/checkbox_unchecked_invert.svg</file>
+        <file>orange/primary/checklist.svg</file>
+        <file>orange/primary/checklist_indeterminate.svg</file>
+        <file>orange/primary/checklist_indeterminate_invert.svg</file>
+        <file>orange/primary/checklist_invert.svg</file>
+        <file>orange/primary/close.svg</file>
+        <file>orange/primary/downarrow.svg</file>
+        <file>orange/primary/downarrow2.svg</file>
+        <file>orange/primary/float.svg</file>
+        <file>orange/primary/leftarrow.svg</file>
+        <file>orange/primary/leftarrow2.svg</file>
+        <file>orange/primary/radiobutton_checked.svg</file>
+        <file>orange/primary/radiobutton_checked_invert.svg</file>
+        <file>orange/primary/radiobutton_unchecked.svg</file>
+        <file>orange/primary/radiobutton_unchecked_invert.svg</file>
+        <file>orange/primary/rightarrow.svg</file>
+        <file>orange/primary/rightarrow2.svg</file>
+        <file>orange/primary/sizegrip.svg</file>
+        <file>orange/primary/slider.svg</file>
+        <file>orange/primary/splitter-horizontal.svg</file>
+        <file>orange/primary/splitter-vertical.svg</file>
+        <file>orange/primary/tab_close.svg</file>
+        <file>orange/primary/toolbar-handle-horizontal.svg</file>
+        <file>orange/primary/toolbar-handle-vertical.svg</file>
+        <file>orange/primary/uparrow.svg</file>
+        <file>orange/primary/uparrow2.svg</file>
+        <file>orange/primary/vline.svg</file>
     </qresource>
 </RCC>
