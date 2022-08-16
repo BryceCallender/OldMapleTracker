@@ -6,12 +6,7 @@
 #include <QJsonObject>
 #include <QString>
 
-enum ActionType
-{
-    Daily,
-    WedWeekly,
-    MonWeekly
-};
+#include "actiontype.h"
 
 struct MapleAction
 {

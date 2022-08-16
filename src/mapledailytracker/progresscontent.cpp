@@ -16,11 +16,11 @@ ProgressContent::ProgressContent(Character* character, QWidget *parent) :
 
 void ProgressContent::loadProgressBars()
 {
-    QMap<QString, double> progressData = getProgressFromData();
+    QMap<ActionType, double> progressData = getProgressFromData();
 
-    ui->dailyBar->setValue(progressData["dailies"]);
-    ui->wedWeeklyBar->setValue(progressData["wedWeeklies"]);
-    ui->monWeeklyBar->setValue(progressData["monWeeklies"]);
+    animateProgress(ui->dailyBar, progressData[ActionType::Daily]);
+    animateProgress(ui->wedWeeklyBar, progressData[ActionType::WedWeekly]);
+    animateProgress(ui->monWeeklyBar, progressData[ActionType::MonWeekly]);
 }
 
 Character *ProgressContent::getCharacter()
@@ -28,13 +28,13 @@ Character *ProgressContent::getCharacter()
     return character;
 }
 
-QMap<QString, double> ProgressContent::getProgressFromData()
+QMap<ActionType, double> ProgressContent::getProgressFromData()
 {
-    QMap<QString, double> progressData;
+    QMap<ActionType, double> progressData;
 
-    progressData.insert("dailies", getProgressFromSet(character->getDailies()));
-    progressData.insert("wedWeeklies", getProgressFromSet(character->getWedWeeklies()));
-    progressData.insert("monWeeklies", getProgressFromSet(character->getMonWeeklies()));
+    progressData.insert(ActionType::Daily, getProgressFromSet(character->getDailies()));
+    progressData.insert(ActionType::WedWeekly, getProgressFromSet(character->getWedWeeklies()));
+    progressData.insert(ActionType::MonWeekly, getProgressFromSet(character->getMonWeeklies()));
 
     return progressData;
 }
@@ -58,6 +58,15 @@ double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)
     }
 
     return numberOfDone == 0 ? 0 : (numberOfDone / (double)set.size()) * 100;
+}
+
+void ProgressContent::animateProgress(QProgressBar *progressBar, double value)
+{
+    QPropertyAnimation* animation = new QPropertyAnimation(progressBar, "value");
+    animation->setDuration(500);
+    animation->setStartValue(progressBar->value());
+    animation->setEndValue(value);
+    animation->start();
 }
 
 ProgressContent::~ProgressContent()

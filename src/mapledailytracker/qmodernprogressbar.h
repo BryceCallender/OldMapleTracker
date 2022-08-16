@@ -11,15 +11,15 @@
 class QModernProgressBar : public QProgressBar
 {
     Q_OBJECT
-   public:
+public:
     explicit QModernProgressBar(QWidget *parent = nullptr);
-    ~QModernProgressBar() Q_DECL_OVERRIDE;
+    ~QModernProgressBar() override;
 
-   protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+protected:
+    void paintEvent(QPaintEvent *) override;
 
 public:
-    virtual QString text() const Q_DECL_OVERRIDE;
+    virtual QString text() const override;
 };
 
 #endif // QMODERNPROGRESSBAR_H

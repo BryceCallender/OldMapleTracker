@@ -27,7 +27,7 @@ public:
     void reloadTabs();
     void tabCloseRequest(int index);
     void tabMoved(int from, int to);
-    void actionsReset(const QString& type);
+    void actionsReset(ActionType type);
     void addNewTab(Character* character, const QString& name);
     QVector<Character*> getCharactersFromTabs();
     ~TrackerTabWidget();

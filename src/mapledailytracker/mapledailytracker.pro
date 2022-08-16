@@ -33,6 +33,7 @@ SOURCES += \
         trackerwidget.cpp
 
 HEADERS += \
+    actiontype.h \
     characterdialog.h \
     logger.h \
     mapleaction.h \

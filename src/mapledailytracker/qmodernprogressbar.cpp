@@ -20,7 +20,7 @@ QString QModernProgressBar::text() const
             return result;
         }
     }
-    else if ( minimum() == maximum() )
+    else if (minimum() == maximum())
     {
         return QString("");
     }
