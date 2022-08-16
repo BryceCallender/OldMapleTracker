@@ -45,7 +45,7 @@
    <item>
     <widget class="QModernProgressBar" name="dailyBar">
      <property name="value">
-      <number>24</number>
+      <number>0</number>
      </property>
      <property name="invertedAppearance">
       <bool>false</bool>
@@ -58,7 +58,7 @@
    <item>
     <widget class="QModernProgressBar" name="wedWeeklyBar">
      <property name="value">
-      <number>24</number>
+      <number>0</number>
      </property>
      <property name="format">
       <string>weeklies</string>
@@ -68,7 +68,7 @@
    <item>
     <widget class="QModernProgressBar" name="monWeeklyBar">
      <property name="value">
-      <number>24</number>
+      <number>0</number>
      </property>
      <property name="format">
       <string>monday weeklies</string>

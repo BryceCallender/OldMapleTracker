@@ -90,21 +90,21 @@ void MainWindow::resetChecking()
         {
             logger->info("{}'s dailies has been reset", characterName);
             character->resetDailies();
-            trackerTabWidget->actionsReset("Daily");
+            trackerTabWidget->actionsReset(ActionType::Daily);
         }
 
         if (resetChecker.hasReset(weeklyResetTime))
         {
             logger->info("{}'s wednesday weeklies has been reset", characterName);
             character->resetWedWeeklies();
-            trackerTabWidget->actionsReset("WedWeekly");
+            trackerTabWidget->actionsReset(ActionType::WedWeekly);
         }
 
         if (resetChecker.hasReset(weeklyMondayResetTime))
         {
             logger->info("{}'s monday weeklies has been reset", characterName);
             character->resetMonWeeklies();
-            trackerTabWidget->actionsReset("MonWeekly");
+            trackerTabWidget->actionsReset(ActionType::MonWeekly);
         }
 
         // check incase they expire as the application is running

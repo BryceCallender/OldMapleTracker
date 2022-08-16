@@ -69,7 +69,7 @@ void TrackerTabWidget::tabMoved(int from, int to)
     std::swap(tabs[from], tabs[to]);
 }
 
-void TrackerTabWidget::actionsReset(const QString& type)
+void TrackerTabWidget::actionsReset(ActionType type)
 {
     for (TrackerTabContent* tabContent: tabs)
     {
