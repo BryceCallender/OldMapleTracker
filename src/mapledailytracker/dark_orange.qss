@@ -8,7 +8,7 @@
   font-family: Roboto;
   line-height: ;
   font-size: ;
-  selection-background-color: #6effe8;
+  selection-background-color: #f8b484;
   selection-color: #000000;
 }
 
@@ -262,7 +262,7 @@ QPushButton:flat:hover {
 
 QPushButton:flat:pressed,
 QPushButton:flat:checked {
-  background-color: rgba(29, 233, 182, 0.1);
+  background-color: rgba(248, 180, 132, 0.1);
 }
 
 QPushButton:disabled,
@@ -629,7 +629,7 @@ QComboBox::item:selected,
 QCalendarWidget QMenu::item:selected,
 QMenu::item:selected {
   color: #000000;
-  background-color: #6effe8;
+  background-color: #f8b484;
   border-radius: 4px;
 }
 
@@ -716,7 +716,7 @@ QMenuBar::item {
 QMenuBar::item:selected,
 QMenuBar::item:pressed {
   color: #000000;
-  background-color: #6effe8;
+  background-color: #f8b484;
 }
 
 /*  ------------------------------------------------------------------------  */
@@ -1191,8 +1191,8 @@ QHeaderView::section {
 
 QLCDNumber {
   color: #f8b484;
-  background-color:rgba(29, 233, 182, 0.1);
-  border: 1px solid rgba(29, 233, 182, 0.3);
+  background-color:rgba(248, 180, 132, 0.1);
+  border: 1px solid rgba(248, 180, 132, 0.3);
   border-radius: 4px;
 }
 
