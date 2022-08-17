@@ -63,7 +63,7 @@ double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)
 void ProgressContent::animateProgress(QProgressBar *progressBar, double value)
 {
     QPropertyAnimation* animation = new QPropertyAnimation(progressBar, "value");
-    animation->setDuration(500);
+    animation->setDuration(250);
     animation->setStartValue(progressBar->value());
     animation->setEndValue(value);
     animation->start();

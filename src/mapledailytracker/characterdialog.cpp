@@ -14,7 +14,7 @@ CharacterDialog::CharacterDialog(QVector<Character*> characters, QWidget *parent
 
     if (characters.length() > 0)
     {
-        showCloneCharacter();
+        setCloneCharacterEditability(true);
         ui->charactersBox->addItem("None");
         for (const Character* character: characters)
         {
@@ -23,7 +23,7 @@ CharacterDialog::CharacterDialog(QVector<Character*> characters, QWidget *parent
     }
     else
     {
-        hideCloneCharacter();
+        setCloneCharacterEditability(false);
     }
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &CharacterDialog::characterConfirmed);
@@ -31,16 +31,16 @@ CharacterDialog::CharacterDialog(QVector<Character*> characters, QWidget *parent
     connect(ui->charactersBox, &QComboBox::currentIndexChanged, this, &CharacterDialog::characterSelectionChanged);
 }
 
-void CharacterDialog::hideCloneCharacter()
+void CharacterDialog::setCloneCharacterEditability(bool state)
 {
-    ui->inherit->hide();
-    ui->charactersBox->hide();
-}
+    ui->inherit->setDisabled(!state);
+    ui->treeWidget->setDisabled(!state);
+    ui->charactersBox->setDisabled(!state);
 
-void CharacterDialog::showCloneCharacter()
-{
-    ui->inherit->show();
-    ui->charactersBox->show();
+    if (!state)
+    {
+        ui->treeWidget->setHeaderLabel("");
+    }
 }
 
 void CharacterDialog::parseTree()

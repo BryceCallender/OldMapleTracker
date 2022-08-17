@@ -18,8 +18,7 @@ class CharacterDialog : public QDialog
 
 public:
     explicit CharacterDialog(QVector<Character*> characters, QWidget *parent = nullptr);
-    void hideCloneCharacter();
-    void showCloneCharacter();
+    void setCloneCharacterEditability(bool state);
     void parseTree();
     ~CharacterDialog();
 
