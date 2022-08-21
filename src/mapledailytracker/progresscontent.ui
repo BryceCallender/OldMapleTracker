@@ -44,6 +44,9 @@
    </item>
    <item>
     <widget class="QModernProgressBar" name="dailyBar">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="value">
       <number>0</number>
      </property>

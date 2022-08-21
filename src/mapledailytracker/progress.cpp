@@ -60,6 +60,11 @@ void Progress::progressContentClicked(Character* character)
     } while(!found);
 }
 
+void Progress::progressBarToggled(ActionType actionType, bool isVisible)
+{
+    progress[actionType]->toggleProgressBar(actionType, isVisible);
+}
+
 Progress::~Progress()
 {
     delete ui;

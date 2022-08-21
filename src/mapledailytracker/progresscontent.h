@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPropertyAnimation>
 #include <QProgressBar>
+#include <QGraphicsOpacityEffect>
 
 #include "character.h"
 #include "actiontype.h"
@@ -25,9 +26,13 @@ public:
     ~ProgressContent();
 signals:
     void clicked(Character* character);
+public slots:
+    void toggleProgressBar(ActionType actionType, bool isVisible);
 private:
     double getProgressFromSet(const QVector<MapleAction>& set);
     void animateProgress(QProgressBar* progressBar, double value);
+
+    QMap<ActionType, QProgressBar*> progressBars;
     Character* character;
     Ui::ProgressContent *ui;
 };

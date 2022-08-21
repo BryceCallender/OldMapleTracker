@@ -63,7 +63,7 @@ void TrackerWidget::resetActions()
     emit updateProgress();
 }
 
-void TrackerWidget::reload() const
+void TrackerWidget::reload()
 {
     unfinishedList->clear();
     finishedList->clear();
@@ -72,7 +72,7 @@ void TrackerWidget::reload() const
     emit updateProgress();
 }
 
-void TrackerWidget::load() const
+void TrackerWidget::load()
 {
     for (MapleAction& action: actions)
     {
@@ -186,6 +186,11 @@ void TrackerWidget::triggerDeleteAction()
 
         delete item;
     }
+}
+
+void TrackerWidget::toggleVisibility(bool isOn)
+{
+    ui->stackedWidget->setVisible(isOn);
 }
 
 TrackerWidget::~TrackerWidget()

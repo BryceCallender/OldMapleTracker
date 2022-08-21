@@ -22,8 +22,10 @@ public:
     Character* getCharacter();
     void actionsReset(ActionType type);
     void reloadTabs();
+    void toggleContent(TrackerWidget* widget, ActionType actionType, bool isVisible);
     ~TrackerTabContent();
-
+signals:
+    void toggleProgressBar(ActionType actionType, bool isVisible);
 private:
     Ui::TrackerTabContent *ui;
     Progress* progress;

@@ -65,6 +65,7 @@ FORMS += \
         trackerwidget.ui
 
 INCLUDEPATH += "../external/spdlog/include"
+include(../external/QtAwesome/QtAwesome.pri)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

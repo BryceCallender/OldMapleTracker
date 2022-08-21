@@ -23,6 +23,20 @@ TrackerTabContent::TrackerTabContent(Character* character, Progress* progress, Q
     ui->dailiesBox->layout()->addWidget(daily);
     ui->wedWeekliesBox->layout()->addWidget(wedWeekly);
     ui->monWeekliesBox->layout()->addWidget(monWeekly);
+
+    connect(ui->dailiesBox, &QGroupBox::toggled, this, [=](bool isVisible) {
+        toggleContent(daily, ActionType::Daily, isVisible);
+    });
+
+    connect(ui->wedWeekliesBox, &QGroupBox::toggled, this, [=](bool isVisible) {
+        toggleContent(wedWeekly, ActionType::WedWeekly, isVisible);
+    });
+
+    connect(ui->monWeekliesBox, &QGroupBox::toggled, this, [=](bool isVisible) {
+        toggleContent(monWeekly, ActionType::MonWeekly, isVisible);
+    });
+
+    connect(this, &TrackerTabContent::toggleProgressBar, progress, &Progress::progressBarToggled);
 }
 
 Character* TrackerTabContent::getCharacter()
@@ -37,10 +51,16 @@ void TrackerTabContent::actionsReset(ActionType type)
 
 void TrackerTabContent::reloadTabs()
 {
-    for (const TrackerWidget* tracker : trackers)
+    for (TrackerWidget* tracker : qAsConst(trackers))
     {
         tracker->reload();
     }
+}
+
+void TrackerTabContent::toggleContent(TrackerWidget* widget, ActionType actionType, bool isVisible)
+{
+    widget->toggleVisibility(isVisible);
+    emit toggleProgressBar(actionType, isVisible);
 }
 
 TrackerTabContent::~TrackerTabContent()

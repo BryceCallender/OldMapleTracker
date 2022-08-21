@@ -27,6 +27,7 @@ public slots:
     void scrollToProgress(int index);
     void updateProgress();
     void progressContentClicked(Character* character);
+    void progressBarToggled(ActionType actionType, bool isVisible);
 signals:
     void clicked(int index);
 private:

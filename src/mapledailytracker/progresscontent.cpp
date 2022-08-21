@@ -11,6 +11,10 @@ ProgressContent::ProgressContent(Character* character, QWidget *parent) :
 
     ui->label->setText(character->getName());
 
+    progressBars.insert(ActionType::Daily, ui->dailyBar);
+    progressBars.insert(ActionType::WedWeekly, ui->wedWeeklyBar);
+    progressBars.insert(ActionType::MonWeekly, ui->monWeeklyBar);
+
     loadProgressBars();
 }
 
@@ -18,9 +22,9 @@ void ProgressContent::loadProgressBars()
 {
     QMap<ActionType, double> progressData = getProgressFromData();
 
-    animateProgress(ui->dailyBar, progressData[ActionType::Daily]);
-    animateProgress(ui->wedWeeklyBar, progressData[ActionType::WedWeekly]);
-    animateProgress(ui->monWeeklyBar, progressData[ActionType::MonWeekly]);
+    animateProgress(progressBars[ActionType::Daily], progressData[ActionType::Daily]);
+    animateProgress(progressBars[ActionType::WedWeekly], progressData[ActionType::WedWeekly]);
+    animateProgress(progressBars[ActionType::MonWeekly], progressData[ActionType::MonWeekly]);
 }
 
 Character *ProgressContent::getCharacter()
@@ -62,14 +66,34 @@ double ProgressContent::getProgressFromSet(const QVector<MapleAction>& set)
 
 void ProgressContent::animateProgress(QProgressBar *progressBar, double value)
 {
-    QPropertyAnimation* animation = new QPropertyAnimation(progressBar, "value");
+    QPropertyAnimation* animation = new QPropertyAnimation(progressBar, "value", this);
     animation->setDuration(250);
     animation->setStartValue(progressBar->value());
     animation->setEndValue(value);
-    animation->start();
+    animation->start(QPropertyAnimation::DeleteWhenStopped);
 }
 
 ProgressContent::~ProgressContent()
 {
     delete ui;
+}
+
+void ProgressContent::toggleProgressBar(ActionType actionType, bool isVisible)
+{
+    QGraphicsOpacityEffect* fadeEffect = new QGraphicsOpacityEffect(this);
+    progressBars[actionType]->setGraphicsEffect(fadeEffect);
+    progressBars[actionType]->setVisible(true);
+
+    double startValue = 1.0 * !isVisible;
+    double endValue = !isVisible ? 0.01 : 1.0;
+
+    QPropertyAnimation* animation = new QPropertyAnimation(fadeEffect, "opacity");
+    animation->setDuration(1000);
+    animation->setStartValue(startValue);
+    animation->setEndValue(endValue);
+    animation->start(QPropertyAnimation::DeleteWhenStopped);
+
+    connect(animation, &QAbstractAnimation::finished, progressBars[actionType], [=]() {
+        progressBars[actionType]->setVisible(isVisible);
+    });
 }

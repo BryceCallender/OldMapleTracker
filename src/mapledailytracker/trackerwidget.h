@@ -26,12 +26,13 @@ class TrackerWidget : public QWidget
 public:
     explicit TrackerWidget(const QString& section, QVector<MapleAction>& actions, Progress* progress, QWidget *parent = nullptr);
     void resetActions();
-    void reload() const;
-    void load() const;
+    void reload();
+    void load();
     void orderMode();
     void listMode();
     void triggerEditAction();
     void triggerDeleteAction();
+    void toggleVisibility(bool isOn);
     void provideContextMenu(QListWidget* widget, const QPoint& point);
     std::string actionsToList(QVector<MapleAction>& actions);
     ~TrackerWidget();
@@ -45,7 +46,7 @@ private slots:
     void unselectFinished();
     void rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
 signals:
-    void updateProgress() const;
+    void updateProgress();
 private:
     void loadActionTo(QListWidget* widget, MapleAction& action) const;
     void triggerActionDialog(MapleAction* action = nullptr);

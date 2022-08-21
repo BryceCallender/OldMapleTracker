@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QSettings>
+#include <QtAwesome.h>
 #include "logger.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QtAwesome* awesome = new QtAwesome(qApp);
+    awesome->initFontAwesome();
 
     QCoreApplication::setOrganizationName("MapleTracker");
     QCoreApplication::setApplicationName("MapleDailyTracker");
